@@ -1,5 +1,6 @@
 "use client";
 
+import BackToTop from "@/components/BackToTop";
 import Footer from "@/components/Footer";
 import GalleryGrid from "@/components/GalleryGrid";
 import MixedMediaGrid from "@/components/MixedMediaGrid";
@@ -91,6 +92,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      <BackToTop />
     </div>
   );
 }

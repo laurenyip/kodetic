@@ -4,6 +4,8 @@ import InteractiveText from "@/components/InteractiveText";
 import type { PhotoRiverCategory } from "@/data/images";
 import { hoverTransition, panelTransition, revealTransition } from "@/lib/motion";
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export type ActiveImage = {
@@ -300,9 +302,21 @@ export default function NavBar({
 
         <div className="flex w-full flex-col items-start gap-2 md:w-auto md:items-end md:gap-3">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 md:gap-x-4">
-            <span className="px-2 text-[11px] uppercase tracking-[0.22em] text-white/80 md:text-[12px]">
-              EZRA GILLERA
-            </span>
+            <Link
+              href="/"
+              data-interactive="true"
+              className="tap-target inline-flex items-center px-2"
+              aria-label="Kodetic home"
+            >
+              <Image
+                src="/logo.png"
+                alt="Kodetic"
+                width={28}
+                height={28}
+                priority
+                className="h-5 w-5 object-contain md:h-6 md:w-6"
+              />
+            </Link>
 
             <button
               type="button"
