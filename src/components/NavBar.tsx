@@ -217,11 +217,14 @@ export default function NavBar({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={hoverTransition}
-                className="flex min-h-[3.25rem] items-center md:min-h-[3.5rem]"
+                className="flex min-h-[3.25rem] flex-col justify-center gap-1 md:min-h-[3.5rem]"
               >
-                <span className="text-[11px] tracking-[0.22em] text-white/35 md:text-[12px]">
-                  <span className="animate-pulse">—</span>
-                </span>
+                <p className="text-[11px] uppercase tracking-[0.22em] text-white md:text-[12px]">
+                  EZRA GILLERA
+                </p>
+                <p className="text-[11px] tracking-[0.08em] text-white/55 md:text-[12px]">
+                  Photography & mixed media
+                </p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -306,7 +309,7 @@ export default function NavBar({
             <Link
               href="/"
               data-interactive="true"
-              className="tap-target inline-flex items-center px-2"
+              className="tap-target inline-flex items-center gap-2 px-2"
               aria-label="Kodetic home"
             >
               <Image
@@ -317,6 +320,9 @@ export default function NavBar({
                 priority
                 className="h-5 w-5 object-contain md:h-6 md:w-6"
               />
+              <span className="text-[11px] uppercase tracking-[0.22em] text-white/80 md:text-[12px]">
+                EZRA GILLERA
+              </span>
             </Link>
 
             <button
