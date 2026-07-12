@@ -3,7 +3,7 @@ const repo = "kodetic";
 const isGithubPages = process.env.GITHUB_PAGES === "true";
 
 const nextConfig = {
-  output: "export",
+  ...(isGithubPages ? { output: "export" } : {}),
   basePath: isGithubPages ? `/${repo}` : "",
   assetPrefix: isGithubPages ? `/${repo}/` : undefined,
   env: {

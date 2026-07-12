@@ -6,6 +6,7 @@ import {
   type GalleryHighlight,
 } from "@/lib/gallery-highlight";
 import { withBasePath } from "@/lib/base-path";
+import { useInView } from "@/lib/use-in-view";
 import { hoverTransition, panelTransition } from "@/lib/motion";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -54,6 +55,13 @@ function getExpandedDimensions(
   return { lockWidth: false, width: Math.round(h * imgAspect), height: h };
 }
 
+function readNaturalSize(element: HTMLElement | null) {
+  const img = element?.querySelector("img");
+  if (!img?.naturalWidth || !img.naturalHeight) return null;
+
+  return { w: img.naturalWidth, h: img.naturalHeight };
+}
+
 export default function GalleryExpandableCell({
   image,
   index,
@@ -69,11 +77,15 @@ export default function GalleryExpandableCell({
   onCollapse,
 }: GalleryExpandableCellProps) {
   const figureRef = useRef<HTMLElement | null>(null);
+  const inView = useInView(figureRef);
   const [collapsedSize, setCollapsedSize] = useState({ w: 0, h: 0 });
   const [naturalSize, setNaturalSize] = useState<{
     w: number;
     h: number;
   } | null>(null);
+
+  const shouldLoadImage = inView || isExpanded || isHovered;
+  const imageSrc = isExpanded && image.fullSrc ? image.fullSrc : image.src;
 
   const expandedDimensions = useMemo(
     () =>
@@ -85,6 +97,11 @@ export default function GalleryExpandableCell({
     if (!isExpanded || !figureRef.current) return;
     figureRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
   }, [isExpanded, expandedDimensions]);
+
+  useEffect(() => {
+    if (!isExpanded) return;
+    setNaturalSize(readNaturalSize(figureRef.current));
+  }, [isExpanded, imageSrc]);
 
   const riverStyles = hasRiverFocus
     ? GALLERY_HIGHLIGHT_STYLES[highlight]
@@ -108,6 +125,7 @@ export default function GalleryExpandableCell({
         w: figureRef.current.offsetWidth,
         h: figureRef.current.offsetHeight,
       });
+      setNaturalSize(readNaturalSize(figureRef.current));
     }
     onExpand();
   };
@@ -120,6 +138,8 @@ export default function GalleryExpandableCell({
   const motionState =
     fadeWhileSiblingExpanded ?? subtleHover ?? riverStyles;
 
+  const animateEntrance = index < 18 && !hasRiverFocus && !hasExpandedSibling;
+
   return (
     <motion.figure
       layout
@@ -127,14 +147,14 @@ export default function GalleryExpandableCell({
         figureRef.current = element;
         setItemRef(image.id, element);
       }}
-      initial={{ opacity: 0, y: 12 }}
+      initial={animateEntrance ? { opacity: 0, y: 12 } : false}
       animate={motionState}
       transition={{
         layout: panelTransition,
         opacity: panelTransition,
         filter: panelTransition,
         scale: isHovered && !isExpanded ? hoverTransition : panelTransition,
-        delay: hasRiverFocus || hasExpandedSibling ? 0 : Math.min(index * 0.02, 0.3),
+        delay: animateEntrance ? Math.min(index * 0.01, 0.12) : 0,
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -159,27 +179,30 @@ export default function GalleryExpandableCell({
         highlight === "primary" && hasRiverFocus && !isExpanded ? "z-10" : ""
       }`}
     >
-      <Image
-        src={withBasePath(image.src)}
-        alt={image.name}
-        fill
-        sizes={
-          isExpanded && expandedDimensions
-            ? `${expandedDimensions.width}px`
-            : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-        }
-        onLoadingComplete={(img) => {
-          setNaturalSize({
-            w: img.naturalWidth,
-            h: img.naturalHeight,
-          });
-        }}
-        className={`transition-transform duration-hover ease-editorial ${
-          isExpanded
-            ? "object-contain"
-            : "object-cover"
-        }`}
-      />
+      {shouldLoadImage ? (
+        <Image
+          src={withBasePath(imageSrc)}
+          alt={image.name}
+          fill
+          loading="lazy"
+          sizes={
+            isExpanded && expandedDimensions
+              ? `${expandedDimensions.width}px`
+              : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          }
+          onLoad={(event) => {
+            if (!isExpanded) return;
+            const img = event.currentTarget;
+            setNaturalSize({
+              w: img.naturalWidth,
+              h: img.naturalHeight,
+            });
+          }}
+          className={`transition-transform duration-hover ease-editorial ${
+            isExpanded ? "object-contain" : "object-cover"
+          }`}
+        />
+      ) : null}
 
       {isExpanded && (
         <button
