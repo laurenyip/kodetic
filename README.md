@@ -26,8 +26,14 @@ Static output is written to `out/`. Pushes to `main` deploy to the `gh-pages` br
 
 ### One-time GitHub Pages setup
 
+Pushes to `main` deploy to `gh-pages` and the workflow tries to enable Pages automatically.
+
+If the site still shows a GitHub 404:
+
 1. Open [repository Pages settings](https://github.com/laurenyip/kodetic/settings/pages)
-2. Under **Build and deployment**, set **Source** to **Deploy from a branch**
-3. Choose branch **`gh-pages`** and folder **`/ (root)`**
-4. Save, then wait for the latest workflow run to finish
+2. Set **Source** to **Deploy from a branch**
+3. Branch **`gh-pages`**, folder **`/ (root)`**, then **Save**
+4. Confirm the repository is **Public** (private repos need GitHub Pro for Pages)
+
+Live URL: https://laurenyip.github.io/kodetic/
 

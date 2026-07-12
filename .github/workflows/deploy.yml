@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pages: write
 
 concurrency:
   group: pages
@@ -39,3 +40,21 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
+
+      - name: Enable GitHub Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          REPO="${{ github.repository }}"
+          BODY='{"build_type":"legacy","source":{"branch":"gh-pages","path":"/"}}'
+
+          if gh api "repos/${REPO}/pages" >/dev/null 2>&1; then
+            echo "Updating Pages configuration..."
+            gh api "repos/${REPO}/pages" --method PUT --input - <<<"$BODY"
+          else
+            echo "Creating Pages site..."
+            gh api "repos/${REPO}/pages" --method POST --input - <<<"$BODY"
+          fi
+
+          gh api "repos/${REPO}/pages" --jq '"Pages URL: " + .html_url + " (status: " + .status + ")"'
