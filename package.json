@@ -9,6 +9,7 @@
     "lint": "next lint",
     "import-media": "node scripts/import-media-kit.mjs",
     "river-thumbs": "node scripts/generate-river-thumbnails.mjs",
+    "compress-images": "node scripts/compress-images.mjs",
     "sync-river": "node scripts/sync-river-groups.mjs"
   },
   "dependencies": {

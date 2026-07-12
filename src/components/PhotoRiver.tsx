@@ -73,8 +73,8 @@ function RiverFrame({
         width={160}
         height={120}
         decoding="async"
-        fetchPriority={index < 8 ? "high" : "low"}
-        loading={index < 8 ? "eager" : "lazy"}
+        fetchPriority={index < 4 ? "high" : "low"}
+        loading={index < 4 ? "eager" : "lazy"}
         onLoad={() => setLoaded(true)}
         className={`block h-full w-full object-cover transition-opacity duration-300 ease-out ${
           loaded ? "opacity-100" : "opacity-0"

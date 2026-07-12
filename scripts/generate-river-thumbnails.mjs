@@ -7,8 +7,8 @@ const RIVER_DIR = path.join(ROOT, "public/images/river");
 const SOURCES_FILE = path.join(ROOT, "scripts/river-sources.json");
 const IMAGES_TS = path.join(ROOT, "src/data/images.ts");
 
-const WIDTH = 160;
-const QUALITY = 48;
+const WIDTH = 112;
+const QUALITY = 38;
 
 function getRiverSources() {
   if (!fs.existsSync(SOURCES_FILE)) {
