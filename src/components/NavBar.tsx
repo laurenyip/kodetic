@@ -1,5 +1,6 @@
 "use client";
 
+import { withBasePath } from "@/lib/base-path";
 import InteractiveText from "@/components/InteractiveText";
 import type { PhotoRiverCategory } from "@/data/images";
 import { hoverTransition, panelTransition, revealTransition } from "@/lib/motion";
@@ -309,7 +310,7 @@ export default function NavBar({
               aria-label="Kodetic home"
             >
               <Image
-                src="/logo.png"
+                src={withBasePath("/logo.png")}
                 alt="Kodetic"
                 width={28}
                 height={28}

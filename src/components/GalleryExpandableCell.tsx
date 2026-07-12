@@ -5,6 +5,7 @@ import {
   GALLERY_HIGHLIGHT_STYLES,
   type GalleryHighlight,
 } from "@/lib/gallery-highlight";
+import { withBasePath } from "@/lib/base-path";
 import { hoverTransition, panelTransition } from "@/lib/motion";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -159,7 +160,7 @@ export default function GalleryExpandableCell({
       }`}
     >
       <Image
-        src={image.src}
+        src={withBasePath(image.src)}
         alt={image.name}
         fill
         sizes={

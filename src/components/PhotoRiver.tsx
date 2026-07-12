@@ -4,6 +4,7 @@ import {
   photoRiverImages,
   type PhotoRiverImage,
 } from "@/data/images";
+import { withBasePath } from "@/lib/base-path";
 import {
   motion,
   useAnimationFrame,
@@ -67,7 +68,7 @@ function RiverFrame({
 
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={image.src}
+        src={withBasePath(image.src)}
         alt={image.name}
         width={160}
         height={120}

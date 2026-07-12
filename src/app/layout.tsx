@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque } from "next/font/google";
 import SiteChrome from "@/components/SiteChrome";
+import { withBasePath } from "@/lib/base-path";
 import "./globals.css";
 
 const bricolageGrotesque = Bricolage_Grotesque({
@@ -14,8 +15,8 @@ export const metadata: Metadata = {
   title: "Kodetic",
   description: "Ezra Gillera — editorial photography and mixed media.",
   icons: {
-    icon: [{ url: "/logo.png", type: "image/png" }],
-    apple: [{ url: "/logo.png", type: "image/png" }],
+    icon: [{ url: withBasePath("/logo.png"), type: "image/png" }],
+    apple: [{ url: withBasePath("/logo.png"), type: "image/png" }],
   },
 };
 
