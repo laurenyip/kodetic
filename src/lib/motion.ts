@@ -11,6 +11,6 @@ export const panelTransition = {
 };
 
 export const revealTransition = {
-  duration: 0.35,
+  duration: 0.45,
   ease: EASE_EDITORIAL,
 };

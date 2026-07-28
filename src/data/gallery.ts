@@ -8,6 +8,8 @@ export type GalleryImage = {
   fullSrc?: string;
   name: string;
   description: string;
+  /** Longer hover/expand note — filled later by Ezra; blank for now */
+  note?: string;
   category: GalleryCategory;
 };
 

@@ -10,7 +10,7 @@ import { useInView } from "@/lib/use-in-view";
 import { hoverTransition, panelTransition } from "@/lib/motion";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type GalleryExpandableCellProps = {
   image: GalleryImage;
@@ -26,41 +26,6 @@ type GalleryExpandableCellProps = {
   onExpand: () => void;
   onCollapse: () => void;
 };
-
-function getExpandedDimensions(
-  collapsed: { w: number; h: number },
-  natural: { w: number; h: number } | null,
-) {
-  const { w, h } = collapsed;
-  if (!w || !h) return null;
-
-  const nw = natural?.w ?? 4;
-  const nh = natural?.h ?? 3;
-  const imgAspect = nw / nh;
-
-  if (w >= h) {
-    const expandedWidth = Math.round(h * imgAspect);
-    if (expandedWidth >= w) {
-      return { lockWidth: false, width: expandedWidth, height: h };
-    }
-
-    return { lockWidth: true, width: w, height: Math.round(w / imgAspect) };
-  }
-
-  const expandedHeight = Math.round(w / imgAspect);
-  if (expandedHeight >= h) {
-    return { lockWidth: true, width: w, height: expandedHeight };
-  }
-
-  return { lockWidth: false, width: Math.round(h * imgAspect), height: h };
-}
-
-function readNaturalSize(element: HTMLElement | null) {
-  const img = element?.querySelector("img");
-  if (!img?.naturalWidth || !img.naturalHeight) return null;
-
-  return { w: img.naturalWidth, h: img.naturalHeight };
-}
 
 export default function GalleryExpandableCell({
   image,
@@ -78,30 +43,16 @@ export default function GalleryExpandableCell({
 }: GalleryExpandableCellProps) {
   const figureRef = useRef<HTMLElement | null>(null);
   const inView = useInView(figureRef);
-  const [collapsedSize, setCollapsedSize] = useState({ w: 0, h: 0 });
-  const [naturalSize, setNaturalSize] = useState<{
-    w: number;
-    h: number;
-  } | null>(null);
+  const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
 
   const shouldLoadImage = inView || isExpanded || isHovered;
   const imageSrc = isExpanded && image.fullSrc ? image.fullSrc : image.src;
-
-  const expandedDimensions = useMemo(
-    () =>
-      isExpanded ? getExpandedDimensions(collapsedSize, naturalSize) : null,
-    [isExpanded, collapsedSize, naturalSize],
-  );
+  const aspect = natural ? natural.w / natural.h : 4 / 5;
 
   useEffect(() => {
     if (!isExpanded || !figureRef.current) return;
     figureRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, [isExpanded, expandedDimensions]);
-
-  useEffect(() => {
-    if (!isExpanded) return;
-    setNaturalSize(readNaturalSize(figureRef.current));
-  }, [isExpanded, imageSrc]);
+  }, [isExpanded]);
 
   const riverStyles = hasRiverFocus
     ? GALLERY_HIGHLIGHT_STYLES[highlight]
@@ -109,24 +60,16 @@ export default function GalleryExpandableCell({
 
   const fadeWhileSiblingExpanded =
     hasExpandedSibling && !isExpanded
-      ? { opacity: 0.05, filter: "brightness(0.3) saturate(0.1)", scale: 0.99 }
+      ? { opacity: 0.08, filter: "brightness(0.35) saturate(0.15)", scale: 0.98 }
       : null;
 
   const subtleHover =
     isHovered && !isExpanded && !hasExpandedSibling
-      ? { ...riverStyles, scale: 1.01 }
+      ? { ...riverStyles, y: -4, scale: 1.01 }
       : null;
 
   const handleClick = () => {
     if (isExpanded) return;
-
-    if (figureRef.current) {
-      setCollapsedSize({
-        w: figureRef.current.offsetWidth,
-        h: figureRef.current.offsetHeight,
-      });
-      setNaturalSize(readNaturalSize(figureRef.current));
-    }
     onExpand();
   };
 
@@ -139,99 +82,84 @@ export default function GalleryExpandableCell({
     fadeWhileSiblingExpanded ?? subtleHover ?? riverStyles;
 
   const animateEntrance = index < 18 && !hasRiverFocus && !hasExpandedSibling;
+  const note = image.note?.trim() ?? "";
 
   return (
     <motion.figure
-      layout
       ref={(element) => {
         figureRef.current = element;
         setItemRef(image.id, element);
       }}
-      initial={animateEntrance ? { opacity: 0, y: 12 } : false}
+      initial={animateEntrance ? { opacity: 0, y: 16 } : false}
       animate={motionState}
       transition={{
-        layout: panelTransition,
         opacity: panelTransition,
         filter: panelTransition,
         scale: isHovered && !isExpanded ? hoverTransition : panelTransition,
-        delay: animateEntrance ? Math.min(index * 0.01, 0.12) : 0,
+        y: hoverTransition,
+        delay: animateEntrance ? Math.min(index * 0.02, 0.2) : 0,
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={handleClick}
-      style={
-        isExpanded && expandedDimensions
-          ? {
-              width: expandedDimensions.width,
-              height: expandedDimensions.height,
-            }
-          : undefined
-      }
-      className={`group relative scroll-mt-28 cursor-crosshair overflow-hidden bg-black ${
+      style={{
+        aspectRatio: `${aspect}`,
+        width: isExpanded
+          ? `min(92vw, ${Math.round(Math.min(920, natural?.w ?? 920))}px)`
+          : undefined,
+      }}
+      className={`group relative scroll-mt-32 cursor-crosshair bg-transparent ${
         isExpanded
-          ? expandedDimensions?.lockWidth
-            ? "z-50 w-fit max-w-full justify-self-start"
-            : "z-50 col-span-full w-fit max-w-full justify-self-start"
-          : "col-span-1 aspect-[4/3]"
-      } ${
-        isHovered && !isExpanded ? "z-[5]" : ""
-      } ${
+          ? "z-50 max-h-[85vh] w-full max-w-[min(92vw,56rem)] justify-self-center"
+          : "z-0 w-[min(100%,22rem)] sm:w-[min(100%,18rem)] md:w-[min(100%,20rem)] lg:w-[min(100%,22rem)]"
+      } ${isHovered && !isExpanded ? "z-[5]" : ""} ${
         highlight === "primary" && hasRiverFocus && !isExpanded ? "z-10" : ""
       }`}
     >
-      {shouldLoadImage ? (
-        <Image
-          src={withBasePath(imageSrc)}
-          alt={image.name}
-          fill
-          loading="lazy"
-          sizes={
-            isExpanded && expandedDimensions
-              ? `${expandedDimensions.width}px`
-              : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          }
-          onLoad={(event) => {
-            if (!isExpanded) return;
-            const img = event.currentTarget;
-            setNaturalSize({
-              w: img.naturalWidth,
-              h: img.naturalHeight,
-            });
-          }}
-          className={`transition-transform duration-hover ease-editorial ${
-            isExpanded ? "object-contain" : "object-cover"
-          }`}
-        />
-      ) : null}
+      <div className="relative h-full w-full overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.55),0_0_40px_rgba(40,24,60,0.18)]">
+        {shouldLoadImage ? (
+          <Image
+            src={withBasePath(imageSrc)}
+            alt={image.name}
+            fill
+            loading="lazy"
+            sizes={
+              isExpanded
+                ? "min(92vw, 900px)"
+                : "(max-width: 640px) 90vw, (max-width: 1024px) 40vw, 22rem"
+            }
+            onLoad={(event) => {
+              const img = event.currentTarget;
+              if (img.naturalWidth && img.naturalHeight) {
+                setNatural({ w: img.naturalWidth, h: img.naturalHeight });
+              }
+            }}
+            className="object-contain object-center"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-white/[0.03]" />
+        )}
 
-      {isExpanded && (
-        <button
-          type="button"
-          data-interactive="true"
-          aria-label="Close image"
-          onClick={handleCloseClick}
-          className="tap-target absolute right-2 top-2 z-40 flex h-9 w-9 items-center justify-center bg-black/70 text-[11px] uppercase tracking-[0.22em] text-white/75 transition-colors duration-hover ease-editorial hover:text-red md:right-3 md:top-3"
-        >
-          X
-        </button>
-      )}
+        {isExpanded && (
+          <button
+            type="button"
+            data-interactive="true"
+            aria-label="Close image"
+            onClick={handleCloseClick}
+            className="tap-target absolute right-2 top-2 z-40 flex h-10 w-10 items-center justify-center bg-black/75 font-display text-sm tracking-[0.18em] text-white/80 transition-colors duration-hover ease-editorial hover:text-red md:right-3 md:top-3 md:text-base"
+          >
+            X
+          </button>
+        )}
+      </div>
 
       <figcaption
-        className={`pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent px-4 py-5 transition-opacity duration-hover ease-editorial ${
-          isExpanded
-            ? "opacity-100"
-            : isHovered
-              ? "opacity-70"
-              : highlight === "recede"
-                ? "opacity-0"
-                : "opacity-0"
+        className={`mt-3 max-w-[22rem] transition-opacity duration-hover ease-editorial ${
+          isExpanded || isHovered ? "opacity-100" : "opacity-0"
         }`}
       >
-        <p className="text-[11px] uppercase tracking-[0.18em] text-white md:text-[12px]">
-          {image.name}
-        </p>
-        <p className="mt-1 text-[11px] tracking-[0.06em] text-white/60 md:text-[12px]">
-          {image.description}
+        <p className="min-h-[1.25rem] font-sans text-sm font-light leading-relaxed tracking-[0.02em] text-white/55 md:text-[15px]">
+          {note || "\u00A0"}
         </p>
       </figcaption>
     </motion.figure>

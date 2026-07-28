@@ -11,11 +11,11 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export type PhotoRiverImageInfo = Pick<
   PhotoRiverImage,
-  "name" | "description" | "category"
+  "name" | "description" | "category" | "fullSrc"
 >;
 
 type PhotoRiverProps = {
@@ -25,9 +25,8 @@ type PhotoRiverProps = {
 
 const SCROLL_VELOCITY = 18;
 
-function RiverFrame({
+const RiverFrame = memo(function RiverFrame({
   image,
-  index,
   isHovered,
   isSelected,
   onHoverStart,
@@ -35,20 +34,17 @@ function RiverFrame({
   onSelect,
 }: {
   image: PhotoRiverImage;
-  index: number;
   isHovered: boolean;
   isSelected: boolean;
   onHoverStart: () => void;
   onHoverEnd: () => void;
   onSelect: () => void;
 }) {
-  const [loaded, setLoaded] = useState(false);
-
   return (
     <button
       type="button"
       data-interactive="true"
-      className={`relative aspect-[4/3] h-full w-auto shrink-0 origin-center overflow-hidden border-0 bg-black p-0 transition-transform duration-hover ease-editorial ${
+      className={`relative aspect-[4/3] h-full w-auto shrink-0 origin-center overflow-hidden border-0 bg-transparent p-0 transition-transform duration-hover ease-editorial ${
         isHovered ? "z-10 scale-[1.06] brightness-110" : "scale-100"
       }`}
       onMouseEnter={onHoverStart}
@@ -60,30 +56,20 @@ function RiverFrame({
       aria-label={image.name}
       aria-pressed={isSelected}
     >
-      {!loaded && (
-        <span className="absolute inset-0 bg-white/[0.04]">
-          <span className="river-shimmer absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        </span>
-      )}
-
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={withBasePath(image.src)}
-        alt={image.name}
-        width={160}
-        height={120}
+        alt=""
+        width={112}
+        height={84}
         decoding="async"
-        fetchPriority={index < 4 ? "high" : "low"}
-        loading={index < 4 ? "eager" : "lazy"}
-        onLoad={() => setLoaded(true)}
-        className={`block h-full w-full object-cover transition-opacity duration-300 ease-out ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}
+        loading="eager"
         draggable={false}
+        className="pointer-events-none block h-full w-full object-cover"
       />
     </button>
   );
-}
+});
 
 export default function PhotoRiver({
   onImageHover,
@@ -103,7 +89,20 @@ export default function PhotoRiver({
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const duplicatedImages = [...photoRiverImages, ...photoRiverImages];
+  // Two copies for a seamless loop — same URLs, browser cache serves the second set.
+  const duplicatedImages = useMemo(
+    () => [...photoRiverImages, ...photoRiverImages],
+    [],
+  );
+
+  // Warm the tiny thumbs once so the rotating strip never "loads" mid-scroll.
+  useEffect(() => {
+    for (const image of photoRiverImages) {
+      const preload = new window.Image();
+      preload.src = withBasePath(image.src);
+      preload.decode?.().catch(() => {});
+    }
+  }, []);
 
   const measureLoop = useCallback(() => {
     if (!trackRef.current) return;
@@ -130,35 +129,45 @@ export default function PhotoRiver({
     x.set(next);
   });
 
-  const toInfo = (image: PhotoRiverImage): PhotoRiverImageInfo => ({
-    name: image.name,
-    description: image.description,
-    category: image.category,
-  });
+  const toInfo = useCallback(
+    (image: PhotoRiverImage): PhotoRiverImageInfo => ({
+      name: image.name,
+      description: image.description,
+      category: image.category,
+      fullSrc: image.fullSrc,
+    }),
+    [],
+  );
 
-  const handleHoverStart = (image: PhotoRiverImage, key: string) => {
-    setHoveredKey(key);
-    setIsPaused(true);
-    onImageHover?.(toInfo(image));
-  };
+  const handleHoverStart = useCallback(
+    (image: PhotoRiverImage, key: string) => {
+      setHoveredKey(key);
+      setIsPaused(true);
+      onImageHover?.(toInfo(image));
+    },
+    [onImageHover, toInfo],
+  );
 
-  const handleHoverEnd = () => {
+  const handleHoverEnd = useCallback(() => {
     setHoveredKey(null);
     setIsPaused(false);
     onImageHover?.(null);
-  };
+  }, [onImageHover]);
 
-  const handleSelect = (image: PhotoRiverImage) => {
-    setSelectedId(image.id);
-    onImageSelect?.(toInfo(image));
-  };
+  const handleSelect = useCallback(
+    (image: PhotoRiverImage) => {
+      setSelectedId(image.id);
+      onImageSelect?.(toInfo(image));
+    },
+    [onImageSelect, toInfo],
+  );
 
   return (
-    <section className="w-full overflow-x-clip overflow-y-visible bg-black">
-      <div className="h-[1cm] w-full touch-pan-x overflow-x-clip overflow-y-visible">
+    <section className="w-full overflow-x-clip overflow-y-visible bg-transparent">
+      <div className="h-[1.05cm] w-full touch-pan-x overflow-x-clip overflow-y-visible md:h-[1.2cm]">
         <motion.div
           ref={trackRef}
-          className="flex h-full w-max items-stretch bg-black"
+          className="flex h-full w-max items-stretch bg-transparent"
           style={{ x: combinedX }}
           drag="x"
           dragElastic={0.05}
@@ -183,7 +192,6 @@ export default function PhotoRiver({
               <RiverFrame
                 key={key}
                 image={image}
-                index={index}
                 isHovered={hoveredKey === key}
                 isSelected={selectedId === image.id}
                 onHoverStart={() => handleHoverStart(image, key)}

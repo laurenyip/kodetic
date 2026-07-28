@@ -9,16 +9,17 @@ import {
   type ActiveImageContext,
 } from "@/lib/gallery-highlight";
 import { useGalleryExpand } from "@/lib/use-gallery-expand";
-import { motion } from "framer-motion";
 
 type MixedMediaGridProps = {
   images: GalleryImage[];
   activeImage?: ActiveImageContext | null;
+  focusNonce?: number;
 };
 
 export default function MixedMediaGrid({
   images,
   activeImage = null,
+  focusNonce = 0,
 }: MixedMediaGridProps) {
   const {
     hoveredId,
@@ -29,30 +30,28 @@ export default function MixedMediaGrid({
     isExpanded,
   } = useGalleryExpand();
   const hasRiverFocus = activeImage !== null;
-  const setItemRef = useScrollToGalleryMatch(activeImage, images);
+  const setItemRef = useScrollToGalleryMatch(activeImage, images, focusNonce);
 
   return (
-    <section className="w-full bg-black">
+    <section className="relative w-full">
       <GalleryExpandBackdrop open={isExpanded} onClose={collapse} />
-      <div className="px-4 py-5 md:px-6 md:py-6">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-white/45 md:text-[12px]">
-          Mixed Media
+
+      <div className="px-5 py-6 md:px-8 md:py-8 lg:px-12">
+        <p className="font-display text-[10px] uppercase tracking-[0.24em] text-white/40 md:text-[11px]">
+          Gallery
         </p>
-        <h2 className="mt-2 text-sm font-bold uppercase tracking-[0.12em] text-white md:text-base">
-          COLLAGE & DIGITAL
+        <h2 className="mt-2 font-display text-lg uppercase tracking-[0.12em] text-white md:text-xl md:tracking-[0.14em]">
+          MIXED MEDIA
         </h2>
-        <p className="mt-1 text-[11px] tracking-[0.06em] text-white/50 md:text-[12px]">
-          {images.length} works
+        <p className="mt-1.5 font-sans text-xs font-light tracking-[0.04em] text-white/45 md:text-sm">
+          {images.length} work{images.length === 1 ? "" : "s"}
           {hasRiverFocus && activeImage
             ? ` · ${activeImage.name.toLowerCase()}`
             : ""}
         </p>
       </div>
 
-      <motion.div
-        layout
-        className="grid grid-cols-1 bg-black sm:grid-cols-2 lg:grid-cols-3"
-      >
+      <div className="flex flex-wrap items-start justify-center gap-x-8 gap-y-12 px-4 pb-16 sm:gap-x-10 sm:gap-y-14 md:gap-x-14 md:gap-y-16 md:px-8 md:pb-24 lg:justify-start lg:px-12">
         {images.map((image, index) => {
           const highlight = hasRiverFocus
             ? getGalleryHighlight(image, activeImage)
@@ -78,7 +77,7 @@ export default function MixedMediaGrid({
             />
           );
         })}
-      </motion.div>
+      </div>
     </section>
   );
 }

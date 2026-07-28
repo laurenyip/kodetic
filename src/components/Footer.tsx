@@ -60,7 +60,7 @@ function SocialIcon({
   icon: (typeof SOCIAL_LINKS)[number]["icon"];
 }) {
   const iconClassName =
-    "h-4 w-4 transition-colors duration-hover ease-editorial group-hover:text-red md:h-[18px] md:w-[18px]";
+    "h-5 w-5 transition-colors duration-hover ease-editorial group-hover:text-red md:h-6 md:w-6";
 
   return (
     <a
@@ -69,7 +69,7 @@ function SocialIcon({
       rel="noopener noreferrer"
       aria-label={label}
       data-interactive="true"
-      className="tap-target group inline-flex text-black transition-transform duration-hover ease-editorial hover:scale-110"
+      className="tap-target group inline-flex text-black/70 transition-transform duration-hover ease-editorial hover:scale-110"
     >
       {icon === "instagram" && <InstagramIcon className={iconClassName} />}
       {icon === "x" && <XIcon className={iconClassName} />}
@@ -82,30 +82,47 @@ function SocialIcon({
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 w-full bg-white text-black">
-      <div className="flex min-h-[12rem] flex-col justify-between gap-8 px-5 py-10 sm:gap-10 md:min-h-[18vh] md:gap-12 md:px-8 md:py-14 lg:px-10">
-        <p className="max-w-[18ch] text-left text-base font-bold uppercase leading-tight tracking-[0.06em] sm:text-lg md:max-w-none md:text-2xl md:tracking-[0.08em] lg:text-[1.75rem]">
+    <footer className="footer-canvas relative z-10 w-full text-black">
+      <div className="relative flex min-h-[14rem] flex-col justify-between gap-10 px-5 py-12 sm:gap-12 md:min-h-[22vh] md:gap-14 md:px-8 md:py-16 lg:px-12">
+        <p className="max-w-[16ch] text-left font-display text-xl uppercase leading-tight tracking-[0.08em] sm:text-2xl md:max-w-none md:text-3xl md:tracking-[0.1em] lg:text-[2rem]">
           HUMANS ARE BORN TO CREATE
         </p>
 
-        <div className="flex w-full flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-end sm:gap-8">
-          <a
-            href="mailto:hello@ezragillera.com"
-            data-interactive="true"
-            className="tap-target relative px-1 text-[11px] uppercase tracking-[0.18em] text-black transition-all duration-hover ease-editorial after:absolute after:bottom-2 after:left-1 after:right-1 after:h-px after:origin-left after:scale-x-0 after:bg-red after:transition-transform after:duration-hover after:ease-editorial hover:tracking-[0.24em] hover:after:scale-x-100 md:text-[12px]"
-          >
-            hello@ezragillera.com
-          </a>
+        <div className="flex w-full flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
+          <div className="max-w-xl space-y-3 font-sans text-sm font-light leading-relaxed tracking-[0.02em] text-black/55 md:text-base">
+            <p>© 2026 Ezra Gillera. All rights reserved.</p>
+            <p>
+              All artwork and photography on this site is original work. Do not
+              reproduce, distribute, or use without written permission.
+            </p>
+            <a
+              href="mailto:hello@ezragillera.com?subject=Licensing%20%26%20Usage"
+              data-interactive="true"
+              className="inline-flex items-center gap-2 pt-1 font-display text-sm uppercase tracking-[0.18em] text-black/80 transition-colors duration-hover ease-editorial hover:text-red md:text-base"
+            >
+              Licensing &amp; Usage →
+            </a>
+          </div>
 
-          <div className="flex items-center gap-1 md:gap-2">
-            {SOCIAL_LINKS.map((link) => (
-              <SocialIcon
-                key={link.label}
-                href={link.href}
-                label={link.label}
-                icon={link.icon}
-              />
-            ))}
+          <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8 md:items-end md:flex-col md:gap-6 lg:flex-row lg:items-center">
+            <a
+              href="mailto:hello@ezragillera.com"
+              data-interactive="true"
+              className="tap-target relative px-1 font-sans text-sm uppercase tracking-[0.16em] text-black/80 transition-all duration-hover ease-editorial after:absolute after:bottom-1 after:left-1 after:right-1 after:h-px after:origin-left after:scale-x-0 after:bg-red after:transition-transform after:duration-hover after:ease-editorial hover:tracking-[0.2em] hover:after:scale-x-100 md:text-base"
+            >
+              hello@ezragillera.com
+            </a>
+
+            <div className="flex items-center gap-2 md:gap-3">
+              {SOCIAL_LINKS.map((link) => (
+                <SocialIcon
+                  key={link.label}
+                  href={link.href}
+                  label={link.label}
+                  icon={link.icon}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

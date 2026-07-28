@@ -19,9 +19,9 @@ export default function InteractiveText({
   ...aria
 }: InteractiveTextProps) {
   const classes = cn(
-    "inline-block uppercase text-[11px] tracking-[0.2em] text-white transition-all duration-hover ease-editorial md:text-[12px]",
-    "hover:text-red hover:tracking-[0.28em]",
-    as === "button" && "bg-transparent border-0 p-0",
+    "inline-block uppercase transition-all duration-hover ease-editorial",
+    "hover:text-red",
+    as === "button" && "border-0 bg-transparent p-0",
     className,
   );
 
@@ -42,7 +42,7 @@ export default function InteractiveText({
   }
 
   return (
-    <span className={classes} onClick={onClick} {...aria}>
+    <span className={classes} {...aria}>
       {children}
     </span>
   );

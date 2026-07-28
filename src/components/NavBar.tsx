@@ -7,85 +7,78 @@ import { hoverTransition, panelTransition, revealTransition } from "@/lib/motion
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export type ActiveImage = {
   name: string;
   description: string;
 } | null;
 
-export type ContentView = "photography" | "mixed-media";
+export type ContentView = PhotoRiverCategory;
 
 type NavBarProps = {
   activeImage: ActiveImage;
   activeView: ContentView;
-  activeFilter?: PhotoRiverCategory | null;
-  onFilterSelect?: (category: PhotoRiverCategory) => void;
-  onMixedMediaSelect?: () => void;
+  onCategorySelect?: (category: PhotoRiverCategory) => void;
 };
 
-const PHOTOGRAPHY_CATEGORIES: Array<{
+const TOP_CATEGORIES: Array<{
   label: string;
   value: PhotoRiverCategory;
 }> = [
-  { label: "COMMERCIAL", value: "commercial" },
+  { label: "MIXED MEDIA", value: "mixed-media" },
+  { label: "CLIENT WORK", value: "commercial" },
   { label: "EDITORIAL", value: "editorial" },
   { label: "ART", value: "art" },
   { label: "COSPLAY", value: "cosplay" },
 ];
 
 const ABOUT_BIO =
-  "Ezra Gillera is a photographer and mixed-media artist working across editorial, commercial, art, and cosplay — blending precision lighting with techwear-inflected urban landscapes. Based between Tokyo and Los Angeles, his practice treats every frame as a study in contrast: structure and chaos, garment and body, analog grain and digital finish.";
+  "Ezra Gillera is a photographer and mixed-media artist working across editorial, client work, art, and cosplay — blending precision lighting with techwear-inflected urban landscapes. Based between Tokyo and Los Angeles, his practice treats every frame as a study in contrast: structure and chaos, garment and body, analog grain and digital finish.";
 
-function NavSurrealFrame({ show }: { show: boolean }) {
+function NavSurrealMarks() {
   return (
     <svg
-      className={`pointer-events-none absolute inset-0 h-full w-full transition-all duration-hover ease-editorial ${
-        show
-          ? "scale-100 opacity-100"
-          : "scale-[0.97] opacity-0 group-hover:scale-100 group-hover:opacity-100"
-      }`}
-      viewBox="0 0 200 44"
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      viewBox="0 0 1200 64"
       preserveAspectRatio="none"
-      fill="none"
       aria-hidden
     >
       <path
-        d="M11 31 C 24 39, 41 17, 63 23 S 104 35, 131 21 S 168 31, 189 19 L 187 11 C 162 5, 139 9, 111 7 S 54 3, 31 11 S 9 13, 11 31 Z"
-        stroke="#E8281A"
+        d="M40 48 C 120 8, 200 56, 280 28 S 420 60, 520 22 S 700 54, 820 30 S 980 58, 1120 24"
+        fill="none"
+        stroke="rgba(70,40,90,0.14)"
         strokeWidth="1.2"
-        vectorEffect="non-scaling-stroke"
-        strokeLinejoin="round"
       />
       <path
-        d="M17 27 C 36 33, 52 21, 76 25 S 121 29, 149 23 S 176 21, 182 17"
-        stroke="#E8281A"
-        strokeWidth="0.75"
-        opacity="0.55"
-        vectorEffect="non-scaling-stroke"
-        strokeLinecap="round"
+        d="M0 18 C 160 40, 240 6, 400 32 S 640 8, 800 36 S 1000 10, 1200 28"
+        fill="none"
+        stroke="rgba(20,16,28,0.1)"
+        strokeWidth="0.9"
+      />
+      <circle cx="180" cy="22" r="11" fill="rgba(90,50,120,0.05)" />
+      <circle cx="760" cy="44" r="18" fill="rgba(0,0,0,0.035)" />
+      <path
+        d="M940 8 L 955 28 L 930 34 Z"
+        fill="rgba(80,40,110,0.06)"
       />
       <path
-        d="M14 14 C 42 8, 68 12, 98 10 S 154 6, 184 14"
-        stroke="#E8281A"
-        strokeWidth="0.5"
-        opacity="0.35"
-        vectorEffect="non-scaling-stroke"
-        strokeLinecap="round"
+        d="M560 50 C 575 35, 595 55, 610 40"
+        fill="none"
+        stroke="rgba(40,30,55,0.12)"
+        strokeWidth="1"
       />
     </svg>
   );
 }
 
-function NavHeading({
+function NavLink({
   children,
   onClick,
-  ariaExpanded,
   isActive = false,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
-  ariaExpanded?: boolean;
   isActive?: boolean;
 }) {
   return (
@@ -93,14 +86,20 @@ function NavHeading({
       type="button"
       data-interactive="true"
       onClick={onClick}
-      aria-expanded={ariaExpanded}
       aria-current={isActive ? "page" : undefined}
-      className="tap-target group relative -mx-1 bg-transparent px-3 py-2"
+      className="tap-target-sm group relative bg-transparent px-1.5 py-1 md:px-2"
     >
-      <NavSurrealFrame show={isActive} />
+      <span
+        aria-hidden
+        className={`pointer-events-none absolute inset-x-1 bottom-0.5 h-px bg-red transition-opacity duration-hover ease-editorial ${
+          isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60"
+        }`}
+      />
       <InteractiveText
         as="span"
-        className={`relative z-[1] ${isActive ? "text-white" : "text-white/55"}`}
+        className={`relative z-[1] font-display text-[10px] uppercase tracking-[0.14em] text-black md:text-[11px] md:tracking-[0.16em] ${
+          isActive ? "opacity-100" : "opacity-45"
+        }`}
       >
         {children}
       </InteractiveText>
@@ -108,258 +107,92 @@ function NavHeading({
   );
 }
 
-function useOutsideClick(
-  ref: React.RefObject<HTMLElement | null>,
-  handler: () => void,
-  enabled: boolean,
-) {
-  useEffect(() => {
-    if (!enabled) return;
-
-    const onPointerDown = (event: MouseEvent | TouchEvent) => {
-      if (!ref.current?.contains(event.target as Node)) {
-        handler();
-      }
-    };
-
-    document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("touchstart", onPointerDown);
-    return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("touchstart", onPointerDown);
-    };
-  }, [ref, handler, enabled]);
-}
-
 export default function NavBar({
   activeImage,
   activeView,
-  activeFilter = null,
-  onFilterSelect,
-  onMixedMediaSelect,
+  onCategorySelect,
 }: NavBarProps) {
-  const [photoMenuOpen, setPhotoMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  const photoMenuRef = useRef<HTMLDivElement>(null);
-  const closePhotoTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null,
-  );
 
   useEffect(() => {
-    const media = window.matchMedia("(max-width: 767px)");
-    const update = () => setIsMobile(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-
-  const clearPhotoCloseTimeout = useCallback(() => {
-    if (closePhotoTimeoutRef.current) {
-      clearTimeout(closePhotoTimeoutRef.current);
-      closePhotoTimeoutRef.current = null;
-    }
-  }, []);
-
-  const schedulePhotoMenuClose = useCallback(() => {
-    clearPhotoCloseTimeout();
-    closePhotoTimeoutRef.current = setTimeout(() => {
-      setPhotoMenuOpen(false);
-    }, 180);
-  }, [clearPhotoCloseTimeout]);
-
-  const openPhotoMenu = useCallback(() => {
-    clearPhotoCloseTimeout();
-    setPhotoMenuOpen(true);
-  }, [clearPhotoCloseTimeout]);
-
-  const togglePhotoMenu = useCallback(() => {
-    setPhotoMenuOpen((open) => !open);
-  }, []);
-
-  useOutsideClick(photoMenuRef, () => setPhotoMenuOpen(false), isMobile);
-
-  useEffect(() => {
-    return () => clearPhotoCloseTimeout();
-  }, [clearPhotoCloseTimeout]);
+    if (!aboutOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setAboutOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [aboutOpen]);
 
   return (
     <motion.header
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ ...revealTransition, delay: 0.42 }}
-      className="relative z-30 w-full bg-black text-white"
+      transition={{ ...revealTransition, delay: 0.35 }}
+      className="nav-canvas relative z-30 w-full text-black"
     >
-      <div className="flex flex-col gap-4 px-4 py-4 sm:gap-5 md:flex-row md:items-start md:justify-between md:gap-8 md:px-6 md:py-5">
-        <div className="flex min-h-[3.25rem] w-full items-start md:max-w-[34%] md:min-h-[3.5rem] md:flex-1">
+      <NavSurrealMarks />
+
+      <div className="relative z-[1] flex items-center gap-2 px-3 py-2 md:gap-3 md:px-5 md:py-2.5">
+        <div className="flex min-w-0 shrink-0 items-center gap-2">
+          <Link
+            href="/"
+            data-interactive="true"
+            className="tap-target-sm inline-flex items-center gap-1.5"
+            aria-label="Kodetic home"
+          >
+            <Image
+              src={withBasePath("/logo.png")}
+              alt="Kodetic"
+              width={22}
+              height={22}
+              priority
+              className="h-4 w-4 object-contain md:h-[18px] md:w-[18px]"
+            />
+            <span className="font-display text-[11px] uppercase tracking-[0.18em] text-black md:text-xs md:tracking-[0.2em]">
+              KODETIC
+            </span>
+          </Link>
+
           <AnimatePresence mode="wait">
             {activeImage ? (
-              <motion.div
-                key={`${activeImage.name}-${activeImage.description}`}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={hoverTransition}
-                className="flex min-h-[3.25rem] flex-col justify-center gap-1 md:min-h-[3.5rem]"
-              >
-                <p className="text-[11px] uppercase tracking-[0.22em] text-white md:text-[12px]">
-                  {activeImage.name}
-                </p>
-                <p className="text-[11px] tracking-[0.08em] text-white/55 md:text-[12px]">
-                  {activeImage.description}
-                </p>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="idle"
+              <motion.p
+                key="active-desc"
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={hoverTransition}
-                className="flex min-h-[3.25rem] flex-col justify-center gap-1 md:min-h-[3.5rem]"
+                className="hidden max-w-[14rem] truncate font-sans text-[11px] font-light tracking-[0.02em] text-black/45 sm:block md:max-w-[18rem] md:text-xs"
               >
-                <p className="text-[11px] uppercase tracking-[0.22em] text-white md:text-[12px]">
-                  EZRA GILLERA
-                </p>
-                <p className="text-[11px] tracking-[0.08em] text-white/55 md:text-[12px]">
-                  Photography & mixed media
-                </p>
-              </motion.div>
-            )}
+                {activeImage.description || activeImage.name}
+              </motion.p>
+            ) : null}
           </AnimatePresence>
         </div>
 
         <nav
-          className="flex w-full flex-wrap items-center gap-x-2 gap-y-1 md:w-auto md:justify-center md:gap-x-4"
+          className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-x-0.5 gap-y-0"
           aria-label="Primary"
         >
-          <NavHeading
-            onClick={onMixedMediaSelect}
-            isActive={activeView === "mixed-media"}
-          >
-            MIXED MEDIA
-          </NavHeading>
-
-          <div
-            ref={photoMenuRef}
-            className="relative"
-            onMouseEnter={!isMobile ? openPhotoMenu : undefined}
-            onMouseLeave={!isMobile ? schedulePhotoMenuClose : undefined}
-          >
-            <NavHeading
-              onClick={isMobile ? togglePhotoMenu : undefined}
-              ariaExpanded={photoMenuOpen}
-              isActive={activeView === "photography"}
+          {TOP_CATEGORIES.map((item) => (
+            <NavLink
+              key={item.value}
+              onClick={() => onCategorySelect?.(item.value)}
+              isActive={activeView === item.value}
             >
-              PHOTOGRAPHY
-            </NavHeading>
-
-            <AnimatePresence>
-              {photoMenuOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={panelTransition}
-                  className="absolute left-0 top-full z-50 mt-1 flex min-w-[12rem] flex-col bg-black py-1 md:left-1/2 md:mt-2 md:-translate-x-1/2"
-                  onMouseEnter={!isMobile ? openPhotoMenu : undefined}
-                  onMouseLeave={!isMobile ? schedulePhotoMenuClose : undefined}
-                >
-                  {PHOTOGRAPHY_CATEGORIES.map((item) => (
-                    <button
-                      key={item.value}
-                      type="button"
-                      data-interactive="true"
-                      onClick={() => {
-                        onFilterSelect?.(item.value);
-                        setPhotoMenuOpen(false);
-                      }}
-                      className="group flex min-h-11 w-full items-center gap-2 bg-transparent px-2 text-left"
-                    >
-                      <span
-                        className={`w-2 text-red transition-opacity duration-hover ease-editorial ${
-                          activeFilter === item.value
-                            ? "opacity-100"
-                            : "opacity-0 group-hover:opacity-100"
-                        }`}
-                      >
-                        —
-                      </span>
-                      <InteractiveText
-                        as="span"
-                        className={
-                          activeFilter === item.value
-                            ? "text-white"
-                            : "text-white group-hover:text-red"
-                        }
-                      >
-                        {item.label}
-                      </InteractiveText>
-                    </button>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+              {item.label}
+            </NavLink>
+          ))}
         </nav>
 
-        <div className="flex w-full flex-col items-start gap-2 md:w-auto md:items-end md:gap-3">
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 md:gap-x-4">
-            <Link
-              href="/"
-              data-interactive="true"
-              className="tap-target inline-flex items-center gap-2 px-2"
-              aria-label="Kodetic home"
-            >
-              <Image
-                src={withBasePath("/logo.png")}
-                alt="Kodetic"
-                width={28}
-                height={28}
-                priority
-                className="h-5 w-5 object-contain md:h-6 md:w-6"
-              />
-              <span className="text-[11px] uppercase tracking-[0.22em] text-white/80 md:text-[12px]">
-                EZRA GILLERA
-              </span>
-            </Link>
-
-            <button
-              type="button"
-              data-interactive="true"
-              onClick={() => setAboutOpen((open) => !open)}
-              className="tap-target relative min-w-[4.5rem] bg-transparent px-2"
-              aria-expanded={aboutOpen}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {aboutOpen ? (
-                  <motion.span
-                    key="close"
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    transition={hoverTransition}
-                    className="inline-block"
-                  >
-                    <InteractiveText as="span">CLOSE</InteractiveText>
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="about"
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    transition={hoverTransition}
-                    className="inline-block"
-                  >
-                    <InteractiveText as="span">ABOUT</InteractiveText>
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </button>
-          </div>
-        </div>
+        <button
+          type="button"
+          data-interactive="true"
+          onClick={() => setAboutOpen((open) => !open)}
+          className="tap-target-sm shrink-0 border border-red/70 bg-red/5 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.16em] text-black transition-colors duration-hover ease-editorial hover:bg-red/15 md:px-3 md:text-[11px]"
+          aria-expanded={aboutOpen}
+        >
+          {aboutOpen ? "X" : "ABOUT"}
+        </button>
       </div>
 
       <AnimatePresence>
@@ -369,10 +202,22 @@ export default function NavBar({
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={panelTransition}
-            className="overflow-hidden"
+            className="relative z-[1] overflow-hidden border-t border-black/10"
           >
-            <div className="px-4 py-4 md:px-6 md:py-5">
-              <p className="max-w-2xl text-[11px] leading-relaxed tracking-[0.06em] text-white/70 md:ml-auto md:text-right md:text-[12px]">
+            <div className="relative px-4 py-5 md:px-6 md:py-6">
+              <button
+                type="button"
+                data-interactive="true"
+                aria-label="Close about"
+                onClick={() => setAboutOpen(false)}
+                className="tap-target-sm absolute right-3 top-3 font-display text-xs text-black/50 transition-colors duration-hover ease-editorial hover:text-red md:right-5 md:top-4"
+              >
+                X
+              </button>
+              <p className="font-display text-[10px] uppercase tracking-[0.22em] text-red md:text-[11px]">
+                About
+              </p>
+              <p className="mt-2 max-w-2xl font-sans text-xs font-light leading-relaxed tracking-[0.02em] text-black/70 md:text-sm">
                 {ABOUT_BIO}
               </p>
             </div>

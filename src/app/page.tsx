@@ -20,59 +20,58 @@ export default function Home() {
   );
   const [selectedImage, setSelectedImage] =
     useState<PhotoRiverImageInfo | null>(null);
-  const [activeView, setActiveView] = useState<ContentView>("photography");
-  const [activeFilter, setActiveFilter] = useState<PhotoRiverCategory | null>(
-    null,
-  );
+  const [focusNonce, setFocusNonce] = useState(0);
+  const [activeView, setActiveView] = useState<ContentView>("editorial");
 
-  const activeGalleryImage: ActiveImageContext | null = selectedImage;
-  const activeImage: ActiveImage = hoveredImage ?? selectedImage;
+  const activeGalleryImage: ActiveImageContext | null = selectedImage
+    ? {
+        name: selectedImage.name,
+        description: selectedImage.description,
+        category: selectedImage.category,
+        fullSrc: selectedImage.fullSrc,
+      }
+    : null;
 
-  const focusFromRiver = useCallback((info: PhotoRiverImageInfo) => {
-    setActiveFilter(null);
-    setActiveView(
-      info.category === "mixed-media" ? "mixed-media" : "photography",
-    );
-  }, []);
+  const activeImage: ActiveImage = hoveredImage
+    ? {
+        name: hoveredImage.name,
+        // Prefer blank note-style description in the header for now
+        description: "",
+      }
+    : selectedImage
+      ? { name: selectedImage.name, description: "" }
+      : null;
 
   const handleImageHover = useCallback((info: PhotoRiverImageInfo | null) => {
     setHoveredImage(info);
   }, []);
 
-  const handleImageSelect = useCallback(
-    (info: PhotoRiverImageInfo) => {
-      setSelectedImage(info);
-      focusFromRiver(info);
-    },
-    [focusFromRiver],
-  );
-
-  const handleFilterSelect = useCallback((category: PhotoRiverCategory) => {
-    setHoveredImage(null);
-    setActiveView("photography");
-    setActiveFilter(category);
+  const handleImageSelect = useCallback((info: PhotoRiverImageInfo) => {
+    setSelectedImage(info);
+    setFocusNonce((value) => value + 1);
+    setActiveView(info.category);
   }, []);
 
-  const handleMixedMediaSelect = useCallback(() => {
+  const handleCategorySelect = useCallback((category: PhotoRiverCategory) => {
     setHoveredImage(null);
-    setActiveView("mixed-media");
-    setActiveFilter(null);
+    setSelectedImage(null);
+    setActiveView(category);
   }, []);
 
   return (
-    <div className="flex min-h-screen w-full flex-col overflow-x-clip">
-      <header className="sticky top-0 z-40 w-full bg-black">
-        <PhotoRiver
-          onImageHover={handleImageHover}
-          onImageSelect={handleImageSelect}
-        />
+    <div className="relative z-10 flex min-h-screen w-full flex-col overflow-x-clip">
+      <header className="sticky top-0 z-40 w-full bg-transparent">
+        <div className="bg-black/20 backdrop-blur-[1px]">
+          <PhotoRiver
+            onImageHover={handleImageHover}
+            onImageSelect={handleImageSelect}
+          />
+        </div>
 
         <NavBar
           activeImage={activeImage}
           activeView={activeView}
-          activeFilter={activeFilter}
-          onFilterSelect={handleFilterSelect}
-          onMixedMediaSelect={handleMixedMediaSelect}
+          onCategorySelect={handleCategorySelect}
         />
       </header>
 
@@ -81,12 +80,14 @@ export default function Home() {
           <MixedMediaGrid
             images={mixedMediaImages}
             activeImage={activeGalleryImage}
+            focusNonce={focusNonce}
           />
         ) : (
           <GalleryGrid
             images={galleryImages}
-            filter={activeFilter}
+            category={activeView}
             activeImage={activeGalleryImage}
+            focusNonce={focusNonce}
           />
         )}
       </main>
