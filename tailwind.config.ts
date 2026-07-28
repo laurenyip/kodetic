@@ -12,11 +12,23 @@ const config: Config = {
         black: "#000000",
         white: "#FFFFFF",
         red: "#E8281A",
+        ash: "#1a181c",
+        mist: "#2a262e",
+        violet: {
+          shadow: "#1c1424",
+          glow: "#3a2a4a",
+        },
       },
       fontFamily: {
+        display: [
+          "Ufficio Display",
+          "var(--font-display)",
+          "Syne",
+          "Helvetica Neue",
+          "sans-serif",
+        ],
         sans: [
           "var(--font-sans)",
-          "Neue Haas Grotesk",
           "Helvetica Neue",
           "Helvetica",
           "Arial",
@@ -29,6 +41,10 @@ const config: Config = {
       },
       transitionTimingFunction: {
         editorial: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+      },
+      backgroundImage: {
+        canvas:
+          "radial-gradient(ellipse at 20% 0%, rgba(58,42,74,0.35), transparent 55%), radial-gradient(ellipse at 80% 100%, rgba(28,20,36,0.55), transparent 50%), linear-gradient(180deg, #050505 0%, #0a090c 40%, #08070a 100%)",
       },
     },
   },
