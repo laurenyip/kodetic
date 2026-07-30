@@ -50,7 +50,6 @@ function FloatingRow({
   expand,
   collapse,
   setItemRef,
-  focusNonce,
   riverTargetId,
   startIndex = 0,
 }: {
@@ -63,7 +62,6 @@ function FloatingRow({
   expand: (id: string) => void;
   collapse: () => void;
   setItemRef: (id: string, element: HTMLElement | null) => void;
-  focusNonce: number;
   riverTargetId: string | null;
   startIndex?: number;
 }) {
@@ -190,7 +188,6 @@ export default function GalleryGrid({
                     expand={expand}
                     collapse={collapse}
                     setItemRef={setItemRef}
-                    focusNonce={focusNonce}
                     riverTargetId={riverTargetId}
                     startIndex={sectionIndex * 12}
                   />
@@ -208,7 +205,6 @@ export default function GalleryGrid({
               expand={expand}
               collapse={collapse}
               setItemRef={setItemRef}
-              focusNonce={focusNonce}
               riverTargetId={riverTargetId}
             />
           )}
