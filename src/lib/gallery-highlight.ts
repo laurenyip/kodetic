@@ -52,7 +52,7 @@ export const GALLERY_HIGHLIGHT_STYLES = {
   },
 } as const;
 
-function findMatch(
+export function findGalleryMatch(
   images: GalleryImage[],
   active: ActiveImageContext,
 ): GalleryImage | undefined {
@@ -98,7 +98,7 @@ export function useScrollToGalleryMatch(
     const key = targetKeyFor(activeImage, focusNonce);
     if (lastTargetRef.current === key) return;
 
-    const match = findMatch(images, activeImage);
+    const match = findGalleryMatch(images, activeImage);
     if (!match) {
       pendingIdRef.current = null;
       return;

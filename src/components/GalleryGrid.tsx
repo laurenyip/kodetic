@@ -6,14 +6,13 @@ import GalleryExpandableCell from "@/components/GalleryExpandableCell";
 import type { GalleryImage } from "@/data/gallery";
 import type { PhotoRiverCategory } from "@/data/images";
 import {
+  findGalleryMatch,
   getGalleryHighlight,
   useScrollToGalleryMatch,
   type ActiveImageContext,
 } from "@/lib/gallery-highlight";
 import { useGalleryExpand } from "@/lib/use-gallery-expand";
-import { panelTransition } from "@/lib/motion";
-import { AnimatePresence, motion } from "framer-motion";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 type GalleryGridProps = {
   images: GalleryImage[];
@@ -51,6 +50,8 @@ function FloatingRow({
   expand,
   collapse,
   setItemRef,
+  focusNonce,
+  riverTargetId,
   startIndex = 0,
 }: {
   images: GalleryImage[];
@@ -62,14 +63,21 @@ function FloatingRow({
   expand: (id: string) => void;
   collapse: () => void;
   setItemRef: (id: string, element: HTMLElement | null) => void;
+  focusNonce: number;
+  riverTargetId: string | null;
   startIndex?: number;
 }) {
   return (
     <div className="flex flex-wrap items-start justify-center gap-x-8 gap-y-12 px-4 py-6 sm:gap-x-10 sm:gap-y-14 md:gap-x-14 md:gap-y-16 md:px-8 lg:justify-start lg:px-12">
       {images.map((image, index) => {
-        const highlight = hasRiverFocus
-          ? getGalleryHighlight(image, activeImage)
-          : "primary";
+        const highlight =
+          hasRiverFocus && riverTargetId
+            ? image.id === riverTargetId
+              ? "primary"
+              : "recede"
+            : hasRiverFocus
+              ? getGalleryHighlight(image, activeImage)
+              : "primary";
 
         return (
           <GalleryExpandableCell
@@ -119,11 +127,24 @@ export default function GalleryGrid({
   );
 
   const hasRiverFocus = activeImage !== null;
+  const riverTargetId = useMemo(
+    () =>
+      activeImage
+        ? (findGalleryMatch(visibleImages, activeImage)?.id ?? null)
+        : null,
+    [activeImage, visibleImages],
+  );
   const setItemRef = useScrollToGalleryMatch(
     activeImage,
     visibleImages,
     focusNonce,
   );
+
+  useEffect(() => {
+    if (!riverTargetId || focusNonce === 0) return;
+    const timeout = window.setTimeout(() => expand(riverTargetId), 100);
+    return () => window.clearTimeout(timeout);
+  }, [riverTargetId, focusNonce, expand]);
 
   return (
     <section className="relative w-full">
@@ -146,15 +167,7 @@ export default function GalleryGrid({
 
       {category === "commercial" && <ClientsCarousel />}
 
-      <AnimatePresence initial={false}>
-        <motion.div
-          key={category}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={panelTransition}
-          className="pb-16 md:pb-24"
-        >
+      <div key={category} className="pb-16 md:pb-24">
           {clientSections ? (
             <div className="flex flex-col gap-16 md:gap-24">
               {clientSections.map((section, sectionIndex) => (
@@ -177,6 +190,8 @@ export default function GalleryGrid({
                     expand={expand}
                     collapse={collapse}
                     setItemRef={setItemRef}
+                    focusNonce={focusNonce}
+                    riverTargetId={riverTargetId}
                     startIndex={sectionIndex * 12}
                   />
                 </section>
@@ -193,10 +208,11 @@ export default function GalleryGrid({
               expand={expand}
               collapse={collapse}
               setItemRef={setItemRef}
+              focusNonce={focusNonce}
+              riverTargetId={riverTargetId}
             />
           )}
-        </motion.div>
-      </AnimatePresence>
+      </div>
     </section>
   );
 }

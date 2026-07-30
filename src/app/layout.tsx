@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
-import { Source_Sans_3, Syne } from "next/font/google";
-import FontFaces from "@/components/FontFaces";
+import localFont from "next/font/local";
+import { Source_Sans_3 } from "next/font/google";
 import SiteChrome from "@/components/SiteChrome";
 import { withBasePath } from "@/lib/base-path";
 import "./globals.css";
 
-/** Geometric display fallback until Ufficio Display .woff2 files are added. */
-const syne = Syne({
-  subsets: ["latin"],
+/** Ufficio trial — typographic family name is "Ufficio" */
+const ufficio = localFont({
+  src: [
+    { path: "../../public/fonts/Ufficio-300.ttf", weight: "300", style: "normal" },
+    { path: "../../public/fonts/Ufficio-400.ttf", weight: "400", style: "normal" },
+    { path: "../../public/fonts/Ufficio-500.ttf", weight: "500", style: "normal" },
+    { path: "../../public/fonts/Ufficio-600.ttf", weight: "600", style: "normal" },
+    { path: "../../public/fonts/Ufficio-700.ttf", weight: "700", style: "normal" },
+    { path: "../../public/fonts/Ufficio-800.ttf", weight: "800", style: "normal" },
+    { path: "../../public/fonts/Ufficio-900.ttf", weight: "900", style: "normal" },
+  ],
   variable: "--font-display",
   display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
 });
 
 /** Simple body / description font */
@@ -36,9 +43,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${sourceSans.variable}`}>
+    <html lang="en" className={`${ufficio.variable} ${sourceSans.variable}`}>
       <body className="canvas-surface">
-        <FontFaces />
         <SiteChrome />
         {children}
       </body>

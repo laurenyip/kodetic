@@ -2,6 +2,7 @@
 
 import { withBasePath } from "@/lib/base-path";
 import InteractiveText from "@/components/InteractiveText";
+import LinenSheen from "@/components/LinenSheen";
 import type { PhotoRiverCategory } from "@/data/images";
 import { hoverTransition, panelTransition, revealTransition } from "@/lib/motion";
 import { AnimatePresence, motion } from "framer-motion";
@@ -36,42 +37,6 @@ const TOP_CATEGORIES: Array<{
 const ABOUT_BIO =
   "Ezra Gillera is a photographer and mixed-media artist working across editorial, client work, art, and cosplay — blending precision lighting with techwear-inflected urban landscapes. Based between Tokyo and Los Angeles, his practice treats every frame as a study in contrast: structure and chaos, garment and body, analog grain and digital finish.";
 
-function NavSurrealMarks() {
-  return (
-    <svg
-      className="pointer-events-none absolute inset-0 h-full w-full"
-      viewBox="0 0 1200 64"
-      preserveAspectRatio="none"
-      aria-hidden
-    >
-      <path
-        d="M40 48 C 120 8, 200 56, 280 28 S 420 60, 520 22 S 700 54, 820 30 S 980 58, 1120 24"
-        fill="none"
-        stroke="rgba(70,40,90,0.14)"
-        strokeWidth="1.2"
-      />
-      <path
-        d="M0 18 C 160 40, 240 6, 400 32 S 640 8, 800 36 S 1000 10, 1200 28"
-        fill="none"
-        stroke="rgba(20,16,28,0.1)"
-        strokeWidth="0.9"
-      />
-      <circle cx="180" cy="22" r="11" fill="rgba(90,50,120,0.05)" />
-      <circle cx="760" cy="44" r="18" fill="rgba(0,0,0,0.035)" />
-      <path
-        d="M940 8 L 955 28 L 930 34 Z"
-        fill="rgba(80,40,110,0.06)"
-      />
-      <path
-        d="M560 50 C 575 35, 595 55, 610 40"
-        fill="none"
-        stroke="rgba(40,30,55,0.12)"
-        strokeWidth="1"
-      />
-    </svg>
-  );
-}
-
 function NavLink({
   children,
   onClick,
@@ -97,8 +62,8 @@ function NavLink({
       />
       <InteractiveText
         as="span"
-        className={`relative z-[1] font-display text-[10px] uppercase tracking-[0.14em] text-black md:text-[11px] md:tracking-[0.16em] ${
-          isActive ? "opacity-100" : "opacity-45"
+        className={`relative z-[1] font-display text-[10px] font-medium uppercase tracking-[0.14em] text-black md:text-[11px] md:tracking-[0.16em] ${
+          isActive ? "opacity-100" : "opacity-70"
         }`}
       >
         {children}
@@ -130,7 +95,7 @@ export default function NavBar({
       transition={{ ...revealTransition, delay: 0.35 }}
       className="nav-canvas relative z-30 w-full text-black"
     >
-      <NavSurrealMarks />
+      <LinenSheen />
 
       <div className="relative z-[1] flex items-center gap-2 px-3 py-2 md:gap-3 md:px-5 md:py-2.5">
         <div className="flex min-w-0 shrink-0 items-center gap-2">
@@ -148,7 +113,7 @@ export default function NavBar({
               priority
               className="h-4 w-4 object-contain md:h-[18px] md:w-[18px]"
             />
-            <span className="font-display text-[11px] uppercase tracking-[0.18em] text-black md:text-xs md:tracking-[0.2em]">
+            <span className="font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-black md:text-xs md:tracking-[0.2em]">
               KODETIC
             </span>
           </Link>
@@ -161,7 +126,7 @@ export default function NavBar({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={hoverTransition}
-                className="hidden max-w-[14rem] truncate font-sans text-[11px] font-light tracking-[0.02em] text-black/45 sm:block md:max-w-[18rem] md:text-xs"
+                className="hidden max-w-[14rem] truncate font-sans text-[11px] font-normal tracking-[0.02em] text-black/70 sm:block md:max-w-[18rem] md:text-xs"
               >
                 {activeImage.description || activeImage.name}
               </motion.p>
@@ -188,7 +153,7 @@ export default function NavBar({
           type="button"
           data-interactive="true"
           onClick={() => setAboutOpen((open) => !open)}
-          className="tap-target-sm shrink-0 border border-red/70 bg-red/5 px-2.5 py-1 font-display text-[10px] uppercase tracking-[0.16em] text-black transition-colors duration-hover ease-editorial hover:bg-red/15 md:px-3 md:text-[11px]"
+          className="tap-target-sm shrink-0 border border-red bg-white/55 px-2.5 py-1 font-display text-[10px] font-semibold uppercase tracking-[0.16em] text-black transition-colors duration-hover ease-editorial hover:bg-red/15 md:px-3 md:text-[11px]"
           aria-expanded={aboutOpen}
         >
           {aboutOpen ? "X" : "ABOUT"}
@@ -205,19 +170,10 @@ export default function NavBar({
             className="relative z-[1] overflow-hidden border-t border-black/10"
           >
             <div className="relative px-4 py-5 md:px-6 md:py-6">
-              <button
-                type="button"
-                data-interactive="true"
-                aria-label="Close about"
-                onClick={() => setAboutOpen(false)}
-                className="tap-target-sm absolute right-3 top-3 font-display text-xs text-black/50 transition-colors duration-hover ease-editorial hover:text-red md:right-5 md:top-4"
-              >
-                X
-              </button>
               <p className="font-display text-[10px] uppercase tracking-[0.22em] text-red md:text-[11px]">
                 About
               </p>
-              <p className="mt-2 max-w-2xl font-sans text-xs font-light leading-relaxed tracking-[0.02em] text-black/70 md:text-sm">
+              <p className="mt-2 max-w-2xl font-sans text-xs font-normal leading-relaxed tracking-[0.02em] text-black/85 md:text-sm">
                 {ABOUT_BIO}
               </p>
             </div>

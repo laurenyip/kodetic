@@ -60,7 +60,10 @@ export default function Home() {
 
   return (
     <div className="relative z-10 flex min-h-screen w-full flex-col overflow-x-clip">
-      <header className="sticky top-0 z-40 w-full bg-transparent">
+      <header
+        data-site-header
+        className="sticky top-0 z-40 w-full bg-transparent"
+      >
         <div className="bg-black/20 backdrop-blur-[1px]">
           <PhotoRiver
             onImageHover={handleImageHover}

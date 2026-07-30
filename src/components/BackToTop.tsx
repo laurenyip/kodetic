@@ -2,16 +2,8 @@
 
 import { hoverTransition } from "@/lib/motion";
 import { AnimatePresence, motion } from "framer-motion";
+import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
-
-function TopSolidFrame() {
-  return (
-    <span
-      aria-hidden
-      className="pointer-events-none absolute inset-0 border border-red bg-black/20 shadow-[inset_0_1px_3px_rgba(0,0,0,0.45)]"
-    />
-  );
-}
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
@@ -42,9 +34,12 @@ export default function BackToTop() {
           onClick={scrollToTop}
           data-interactive="true"
           aria-label="Back to top"
-          className="tap-target group fixed bottom-5 right-5 z-30 bg-transparent px-4 py-2.5 text-[11px] uppercase tracking-[0.22em] text-white/80 transition-colors duration-hover ease-editorial hover:text-red md:bottom-6 md:right-6 md:px-5 md:py-3 md:text-[12px]"
+          className="top-button tap-target group fixed bottom-5 right-5 z-30 gap-2 px-3.5 py-2 font-display text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors duration-hover ease-editorial md:bottom-6 md:right-6 md:px-4 md:py-2.5 md:text-[11px]"
         >
-          <TopSolidFrame />
+          <ArrowUp
+            aria-hidden
+            className="relative z-[1] h-3.5 w-3.5 stroke-[1.8] transition-transform duration-hover ease-editorial group-hover:-translate-y-0.5 md:h-4 md:w-4"
+          />
           <span className="relative z-[1]">Top</span>
         </motion.button>
       )}

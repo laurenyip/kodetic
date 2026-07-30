@@ -21,9 +21,8 @@ const config: Config = {
       },
       fontFamily: {
         display: [
-          "Ufficio Display",
           "var(--font-display)",
-          "Syne",
+          "Ufficio",
           "Helvetica Neue",
           "sans-serif",
         ],

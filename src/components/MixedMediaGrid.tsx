@@ -4,11 +4,13 @@ import GalleryExpandBackdrop from "@/components/GalleryExpandBackdrop";
 import GalleryExpandableCell from "@/components/GalleryExpandableCell";
 import type { GalleryImage } from "@/data/gallery";
 import {
+  findGalleryMatch,
   getGalleryHighlight,
   useScrollToGalleryMatch,
   type ActiveImageContext,
 } from "@/lib/gallery-highlight";
 import { useGalleryExpand } from "@/lib/use-gallery-expand";
+import { useEffect, useMemo } from "react";
 
 type MixedMediaGridProps = {
   images: GalleryImage[];
@@ -30,7 +32,20 @@ export default function MixedMediaGrid({
     isExpanded,
   } = useGalleryExpand();
   const hasRiverFocus = activeImage !== null;
+  const riverTargetId = useMemo(
+    () =>
+      activeImage
+        ? (findGalleryMatch(images, activeImage)?.id ?? null)
+        : null,
+    [activeImage, images],
+  );
   const setItemRef = useScrollToGalleryMatch(activeImage, images, focusNonce);
+
+  useEffect(() => {
+    if (!riverTargetId || focusNonce === 0) return;
+    const timeout = window.setTimeout(() => expand(riverTargetId), 100);
+    return () => window.clearTimeout(timeout);
+  }, [riverTargetId, focusNonce, expand]);
 
   return (
     <section className="relative w-full">
@@ -53,9 +68,14 @@ export default function MixedMediaGrid({
 
       <div className="flex flex-wrap items-start justify-center gap-x-8 gap-y-12 px-4 pb-16 sm:gap-x-10 sm:gap-y-14 md:gap-x-14 md:gap-y-16 md:px-8 md:pb-24 lg:justify-start lg:px-12">
         {images.map((image, index) => {
-          const highlight = hasRiverFocus
-            ? getGalleryHighlight(image, activeImage)
-            : "primary";
+          const highlight =
+            hasRiverFocus && riverTargetId
+              ? image.id === riverTargetId
+                ? "primary"
+                : "recede"
+              : hasRiverFocus
+                ? getGalleryHighlight(image, activeImage)
+                : "primary";
 
           return (
             <GalleryExpandableCell

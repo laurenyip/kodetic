@@ -1,4 +1,5 @@
 import CustomCursor from "@/components/CustomCursor";
+import YellowLightTrails from "@/components/YellowLightTrails";
 import { withBasePath } from "@/lib/base-path";
 
 export default function SiteChrome() {
@@ -17,17 +18,15 @@ export default function SiteChrome() {
 `,
         }}
       />
-      {/* Black canvas — native size, tiled (no stretch) */}
       <div
         aria-hidden
-        className="pointer-events-none fixed inset-0 z-0 bg-black"
-        style={{
-          backgroundImage: `var(--texture-black-canvas)`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "auto",
-          backgroundPosition: "top left",
-        }}
-      />
+        className="black-canvas-world pointer-events-none fixed inset-0 z-0"
+      >
+        <div className="canvas-weave" />
+        <div className="canvas-flow" />
+        <div className="canvas-sand" />
+        <YellowLightTrails />
+      </div>
       <div
         aria-hidden
         className="grain-overlay pointer-events-none fixed inset-0 z-[9998]"

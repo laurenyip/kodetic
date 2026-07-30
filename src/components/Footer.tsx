@@ -1,3 +1,4 @@
+import LinenSheen from "@/components/LinenSheen";
 import { Globe } from "lucide-react";
 import type { SVGProps } from "react";
 
@@ -69,7 +70,7 @@ function SocialIcon({
       rel="noopener noreferrer"
       aria-label={label}
       data-interactive="true"
-      className="tap-target group inline-flex text-black/70 transition-transform duration-hover ease-editorial hover:scale-110"
+      className="tap-target group inline-flex text-black transition-transform duration-hover ease-editorial hover:scale-110"
     >
       {icon === "instagram" && <InstagramIcon className={iconClassName} />}
       {icon === "x" && <XIcon className={iconClassName} />}
@@ -83,22 +84,23 @@ function SocialIcon({
 export default function Footer() {
   return (
     <footer className="footer-canvas relative z-10 w-full text-black">
-      <div className="relative flex min-h-[14rem] flex-col justify-between gap-10 px-5 py-12 sm:gap-12 md:min-h-[22vh] md:gap-14 md:px-8 md:py-16 lg:px-12">
-        <p className="max-w-[16ch] text-left font-display text-xl uppercase leading-tight tracking-[0.08em] sm:text-2xl md:max-w-none md:text-3xl md:tracking-[0.1em] lg:text-[2rem]">
+      <LinenSheen />
+      <div className="relative z-[1] flex min-h-[14rem] flex-col justify-between gap-10 px-5 py-12 sm:gap-12 md:min-h-[22vh] md:gap-14 md:px-8 md:py-16 lg:px-12">
+        <p className="max-w-[16ch] text-left font-display text-xl font-semibold uppercase leading-tight tracking-[0.08em] text-black sm:text-2xl md:max-w-none md:text-3xl md:tracking-[0.1em] lg:text-[2rem]">
           HUMANS ARE BORN TO CREATE
         </p>
 
         <div className="flex w-full flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
-          <div className="max-w-xl space-y-3 font-sans text-sm font-light leading-relaxed tracking-[0.02em] text-black/55 md:text-base">
+          <div className="max-w-xl space-y-3 font-sans text-sm font-normal leading-relaxed tracking-[0.02em] text-black md:text-base">
             <p>© 2026 Ezra Gillera. All rights reserved.</p>
-            <p>
+            <p className="text-black/90">
               All artwork and photography on this site is original work. Do not
               reproduce, distribute, or use without written permission.
             </p>
             <a
               href="mailto:hello@ezragillera.com?subject=Licensing%20%26%20Usage"
               data-interactive="true"
-              className="inline-flex items-center gap-2 pt-1 font-display text-sm uppercase tracking-[0.18em] text-black/80 transition-colors duration-hover ease-editorial hover:text-red md:text-base"
+              className="inline-flex items-center gap-2 pt-1 font-display text-sm font-medium uppercase tracking-[0.18em] text-black transition-colors duration-hover ease-editorial hover:text-red md:text-base"
             >
               Licensing &amp; Usage →
             </a>
@@ -108,7 +110,7 @@ export default function Footer() {
             <a
               href="mailto:hello@ezragillera.com"
               data-interactive="true"
-              className="tap-target relative px-1 font-sans text-sm uppercase tracking-[0.16em] text-black/80 transition-all duration-hover ease-editorial after:absolute after:bottom-1 after:left-1 after:right-1 after:h-px after:origin-left after:scale-x-0 after:bg-red after:transition-transform after:duration-hover after:ease-editorial hover:tracking-[0.2em] hover:after:scale-x-100 md:text-base"
+              className="tap-target relative px-1 font-sans text-sm font-medium uppercase tracking-[0.16em] text-black transition-all duration-hover ease-editorial after:absolute after:bottom-1 after:left-1 after:right-1 after:h-px after:origin-left after:scale-x-0 after:bg-red after:transition-transform after:duration-hover after:ease-editorial hover:tracking-[0.2em] hover:after:scale-x-100 md:text-base"
             >
               hello@ezragillera.com
             </a>
