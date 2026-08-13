@@ -5,7 +5,13 @@ import sharp from "sharp";
 
 const ROOT = path.resolve(".");
 const IMAGE_ROOT = path.join(ROOT, "public/images");
-const CATEGORIES = ["commercial", "editorial", "cosplay", "mixed-media"];
+const CATEGORIES = [
+  "landing",
+  "commercial",
+  "creative",
+  "miscellaneous",
+  "mixed-media",
+];
 const DATA_FILES = [
   path.join(ROOT, "src/data/gallery.ts"),
   path.join(ROOT, "src/data/images.ts"),

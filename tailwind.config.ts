@@ -12,6 +12,7 @@ const config: Config = {
         black: "#000000",
         white: "#FFFFFF",
         red: "#E8281A",
+        purple: "#6B3FA0",
         ash: "#1a181c",
         mist: "#2a262e",
         violet: {
@@ -22,12 +23,13 @@ const config: Config = {
       fontFamily: {
         display: [
           "var(--font-display)",
-          "Ufficio",
-          "Helvetica Neue",
-          "sans-serif",
+          "Zodiak",
+          "Georgia",
+          "serif",
         ],
         sans: [
           "var(--font-sans)",
+          "Red Hat Display",
           "Helvetica Neue",
           "Helvetica",
           "Arial",

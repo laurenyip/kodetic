@@ -20,7 +20,7 @@ export default function InteractiveText({
 }: InteractiveTextProps) {
   const classes = cn(
     "inline-block uppercase transition-all duration-hover ease-editorial",
-    "hover:text-red",
+    "hover:text-purple",
     as === "button" && "border-0 bg-transparent p-0",
     className,
   );

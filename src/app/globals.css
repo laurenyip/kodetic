@@ -646,14 +646,14 @@
     pointer-events: none;
     background:
       linear-gradient(115deg, transparent 20%, rgba(191, 150, 50, 0.22) 48%, transparent 72%),
-      linear-gradient(#e8281a, #e8281a) left top / 100% 2px no-repeat;
+      linear-gradient(#6b3fa0, #6b3fa0) left top / 100% 2px no-repeat;
     transition: opacity var(--duration-hover) var(--ease-editorial);
     opacity: 0.75;
   }
 
   .top-button:hover {
-    border-color: #e8281a;
-    color: #e8281a;
+    border-color: #6b3fa0;
+    color: #6b3fa0;
   }
 
   .top-button:hover::before {

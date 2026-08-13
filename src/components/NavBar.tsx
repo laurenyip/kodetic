@@ -1,83 +1,69 @@
 "use client";
 
-import { withBasePath } from "@/lib/base-path";
 import InteractiveText from "@/components/InteractiveText";
 import LinenSheen from "@/components/LinenSheen";
-import type { PhotoRiverCategory } from "@/data/images";
-import { hoverTransition, panelTransition, revealTransition } from "@/lib/motion";
+import { panelTransition, revealTransition } from "@/lib/motion";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export type ActiveImage = {
-  name: string;
-  description: string;
-} | null;
-
-export type ContentView = PhotoRiverCategory;
-
-type NavBarProps = {
-  activeImage: ActiveImage;
-  activeView: ContentView;
-  onCategorySelect?: (category: PhotoRiverCategory) => void;
-};
-
-const TOP_CATEGORIES: Array<{
-  label: string;
-  value: PhotoRiverCategory;
-}> = [
-  { label: "MIXED MEDIA", value: "mixed-media" },
-  { label: "CLIENT WORK", value: "commercial" },
-  { label: "EDITORIAL", value: "editorial" },
-  { label: "ART", value: "art" },
-  { label: "COSPLAY", value: "cosplay" },
-];
+const TOP_CATEGORIES = [
+  { label: "MIXED MEDIA", href: "/mixed-media/" },
+  { label: "CLIENT WORK", href: "/client-work/" },
+  { label: "CREATIVE", href: "/creative/" },
+  { label: "MISCELLANEOUS", href: "/miscellaneous/" },
+] as const;
 
 const ABOUT_BIO =
-  "Ezra Gillera is a photographer and mixed-media artist working across editorial, client work, art, and cosplay — blending precision lighting with techwear-inflected urban landscapes. Based between Tokyo and Los Angeles, his practice treats every frame as a study in contrast: structure and chaos, garment and body, analog grain and digital finish.";
+  "Ezra Gillera is a photographer and mixed-media artist working across client work, creative portraiture, and experimental collage — blending precision lighting with techwear-inflected urban landscapes. Based between Tokyo and Los Angeles, his practice treats every frame as a study in contrast: structure and chaos, garment and body, analog grain and digital finish.";
+
+function pathMatches(pathname: string, href: string) {
+  const normalized = pathname.endsWith("/") ? pathname : `${pathname}/`;
+  return normalized === href || normalized.startsWith(href);
+}
 
 function NavLink({
+  href,
   children,
-  onClick,
   isActive = false,
 }: {
+  href: string;
   children: React.ReactNode;
-  onClick?: () => void;
   isActive?: boolean;
 }) {
   return (
-    <button
-      type="button"
+    <Link
+      href={href}
       data-interactive="true"
-      onClick={onClick}
       aria-current={isActive ? "page" : undefined}
-      className="tap-target-sm group relative bg-transparent px-1.5 py-1 md:px-2"
+      className="tap-target-sm group relative bg-transparent px-2 py-1.5 md:px-3 md:py-2"
     >
       <span
         aria-hidden
-        className={`pointer-events-none absolute inset-x-1 bottom-0.5 h-px bg-red transition-opacity duration-hover ease-editorial ${
+        className={`pointer-events-none absolute inset-x-1 bottom-0.5 h-px bg-purple transition-opacity duration-hover ease-editorial ${
           isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60"
         }`}
       />
       <InteractiveText
         as="span"
-        className={`relative z-[1] font-display text-[10px] font-medium uppercase tracking-[0.14em] text-black md:text-[11px] md:tracking-[0.16em] ${
+        className={`relative z-[1] font-display text-xs font-semibold uppercase tracking-[0.14em] text-black md:text-sm md:tracking-[0.16em] ${
           isActive ? "opacity-100" : "opacity-70"
         }`}
       >
         {children}
       </InteractiveText>
-    </button>
+    </Link>
   );
 }
 
-export default function NavBar({
-  activeImage,
-  activeView,
-  onCategorySelect,
-}: NavBarProps) {
+export default function NavBar() {
+  const pathname = usePathname() ?? "/";
   const [aboutOpen, setAboutOpen] = useState(false);
+  const isHome =
+    pathname === "/" ||
+    pathname === "" ||
+    pathname.replace(/\/$/, "") === "";
 
   useEffect(() => {
     if (!aboutOpen) return;
@@ -92,57 +78,21 @@ export default function NavBar({
     <motion.header
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ ...revealTransition, delay: 0.35 }}
+      transition={{ ...revealTransition, delay: 0.2 }}
       className="nav-canvas relative z-30 w-full text-black"
     >
       <LinenSheen />
 
-      <div className="relative z-[1] flex items-center gap-2 px-3 py-2 md:gap-3 md:px-5 md:py-2.5">
-        <div className="flex min-w-0 shrink-0 items-center gap-2">
-          <Link
-            href="/"
-            data-interactive="true"
-            className="tap-target-sm inline-flex items-center gap-1.5"
-            aria-label="Kodetic home"
-          >
-            <Image
-              src={withBasePath("/logo.png")}
-              alt="Kodetic"
-              width={22}
-              height={22}
-              priority
-              className="h-4 w-4 object-contain md:h-[18px] md:w-[18px]"
-            />
-            <span className="font-display text-[11px] font-semibold uppercase tracking-[0.18em] text-black md:text-xs md:tracking-[0.2em]">
-              KODETIC
-            </span>
-          </Link>
-
-          <AnimatePresence mode="wait">
-            {activeImage ? (
-              <motion.p
-                key="active-desc"
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={hoverTransition}
-                className="hidden max-w-[14rem] truncate font-sans text-[11px] font-normal tracking-[0.02em] text-black/70 sm:block md:max-w-[18rem] md:text-xs"
-              >
-                {activeImage.description || activeImage.name}
-              </motion.p>
-            ) : null}
-          </AnimatePresence>
-        </div>
-
+      <div className="relative z-[1] flex items-center gap-3 px-4 py-4 md:gap-4 md:px-6 md:py-5 lg:px-8">
         <nav
-          className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-x-0.5 gap-y-0"
+          className="flex min-w-0 flex-1 flex-wrap items-center justify-start gap-x-0.5 gap-y-1"
           aria-label="Primary"
         >
           {TOP_CATEGORIES.map((item) => (
             <NavLink
-              key={item.value}
-              onClick={() => onCategorySelect?.(item.value)}
-              isActive={activeView === item.value}
+              key={item.href}
+              href={item.href}
+              isActive={pathMatches(pathname, item.href)}
             >
               {item.label}
             </NavLink>
@@ -153,11 +103,23 @@ export default function NavBar({
           type="button"
           data-interactive="true"
           onClick={() => setAboutOpen((open) => !open)}
-          className="tap-target-sm shrink-0 border border-red bg-white/55 px-2.5 py-1 font-display text-[10px] font-semibold uppercase tracking-[0.16em] text-black transition-colors duration-hover ease-editorial hover:bg-red/15 md:px-3 md:text-[11px]"
+          className="tap-target-sm shrink-0 border border-purple bg-white/55 px-3 py-1.5 font-display text-xs font-bold uppercase tracking-[0.16em] text-black transition-colors duration-hover ease-editorial hover:bg-purple/15 md:px-4 md:py-2 md:text-sm"
           aria-expanded={aboutOpen}
         >
           {aboutOpen ? "X" : "ABOUT"}
         </button>
+
+        <Link
+          href="/"
+          data-interactive="true"
+          className="tap-target-sm inline-flex shrink-0 items-center"
+          aria-label="Kodetic home"
+          aria-current={isHome ? "page" : undefined}
+        >
+          <span className="font-display text-sm font-bold uppercase tracking-[0.18em] text-black md:text-base md:tracking-[0.2em]">
+            KODETIC
+          </span>
+        </Link>
       </div>
 
       <AnimatePresence>
@@ -169,11 +131,11 @@ export default function NavBar({
             transition={panelTransition}
             className="relative z-[1] overflow-hidden border-t border-black/10"
           >
-            <div className="relative px-4 py-5 md:px-6 md:py-6">
-              <p className="font-display text-[10px] uppercase tracking-[0.22em] text-red md:text-[11px]">
+            <div className="relative px-4 py-6 md:px-8 md:py-8">
+              <p className="font-display text-xs uppercase tracking-[0.22em] text-purple md:text-sm">
                 About
               </p>
-              <p className="mt-2 max-w-2xl font-sans text-xs font-normal leading-relaxed tracking-[0.02em] text-black/85 md:text-sm">
+              <p className="mt-3 max-w-2xl font-sans text-sm font-normal leading-relaxed tracking-[0.02em] text-black/85 md:text-base">
                 {ABOUT_BIO}
               </p>
             </div>

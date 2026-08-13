@@ -3,7 +3,13 @@ import path from "node:path";
 import sharp from "sharp";
 
 const ROOT = path.resolve(".");
-const CATEGORIES = ["commercial", "editorial", "cosplay", "mixed-media"];
+const CATEGORIES = [
+  "landing",
+  "commercial",
+  "creative",
+  "miscellaneous",
+  "mixed-media",
+];
 const GALLERY_TS = path.join(ROOT, "src/data/gallery.ts");
 
 const GRID_MAX = 720;

@@ -11,7 +11,8 @@
     "river-thumbs": "node scripts/generate-river-thumbnails.mjs",
     "compress-images": "node scripts/compress-images.mjs",
     "grid-thumbs": "node scripts/generate-grid-thumbnails.mjs",
-    "sync-river": "node scripts/sync-river-groups.mjs"
+    "sync-river": "node scripts/sync-river-groups.mjs",
+    "import-updated-media": "node scripts/import-updated-media-kit.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",

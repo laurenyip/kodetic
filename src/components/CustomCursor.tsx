@@ -83,24 +83,24 @@ export default function CustomCursor() {
       <div className="relative -translate-x-1/2 -translate-y-1/2">
         <span
           className={`absolute left-1/2 top-1/2 block h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border transition-colors duration-hover ease-editorial ${
-            isInteractive ? "border-red" : "border-white"
+            isInteractive ? "border-purple" : "border-white"
           }`}
         />
         <span
           className={`absolute left-1/2 top-1/2 block h-px w-3 transition-colors duration-hover ease-editorial ${
-            isInteractive ? "bg-red" : "bg-white"
+            isInteractive ? "bg-purple" : "bg-white"
           }`}
           style={{ transform: "translate(-50%, -50%)" }}
         />
         <span
           className={`absolute left-1/2 top-1/2 block h-3 w-px transition-colors duration-hover ease-editorial ${
-            isInteractive ? "bg-red" : "bg-white"
+            isInteractive ? "bg-purple" : "bg-white"
           }`}
           style={{ transform: "translate(-50%, -50%)" }}
         />
         <span
           className={`absolute left-1/2 top-1/2 block h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full transition-colors duration-hover ease-editorial ${
-            isInteractive ? "bg-red" : "bg-white"
+            isInteractive ? "bg-purple" : "bg-white"
           }`}
         />
       </div>

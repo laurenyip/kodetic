@@ -61,7 +61,7 @@ function SocialIcon({
   icon: (typeof SOCIAL_LINKS)[number]["icon"];
 }) {
   const iconClassName =
-    "h-5 w-5 transition-colors duration-hover ease-editorial group-hover:text-red md:h-6 md:w-6";
+    "h-5 w-5 transition-colors duration-hover ease-editorial group-hover:text-purple md:h-6 md:w-6";
 
   return (
     <a
@@ -100,7 +100,7 @@ export default function Footer() {
             <a
               href="mailto:hello@ezragillera.com?subject=Licensing%20%26%20Usage"
               data-interactive="true"
-              className="inline-flex items-center gap-2 pt-1 font-display text-sm font-medium uppercase tracking-[0.18em] text-black transition-colors duration-hover ease-editorial hover:text-red md:text-base"
+              className="inline-flex items-center gap-2 pt-1 font-display text-sm font-medium uppercase tracking-[0.18em] text-black transition-colors duration-hover ease-editorial hover:text-purple md:text-base"
             >
               Licensing &amp; Usage →
             </a>
@@ -110,7 +110,7 @@ export default function Footer() {
             <a
               href="mailto:hello@ezragillera.com"
               data-interactive="true"
-              className="tap-target relative px-1 font-sans text-sm font-medium uppercase tracking-[0.16em] text-black transition-all duration-hover ease-editorial after:absolute after:bottom-1 after:left-1 after:right-1 after:h-px after:origin-left after:scale-x-0 after:bg-red after:transition-transform after:duration-hover after:ease-editorial hover:tracking-[0.2em] hover:after:scale-x-100 md:text-base"
+              className="tap-target relative px-1 font-sans text-sm font-medium uppercase tracking-[0.16em] text-black transition-all duration-hover ease-editorial after:absolute after:bottom-1 after:left-1 after:right-1 after:h-px after:origin-left after:scale-x-0 after:bg-purple after:transition-transform after:duration-hover after:ease-editorial hover:tracking-[0.2em] hover:after:scale-x-100 md:text-base"
             >
               hello@ezragillera.com
             </a>

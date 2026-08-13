@@ -1,6 +1,9 @@
-import type { PhotoRiverCategory } from "@/data/images";
-
-export type GalleryCategory = PhotoRiverCategory;
+export type GalleryCategory =
+  | "home"
+  | "commercial"
+  | "creative"
+  | "miscellaneous"
+  | "mixed-media";
 
 export type GalleryImage = {
   id: string;
@@ -11,1010 +14,1065 @@ export type GalleryImage = {
   /** Longer hover/expand note — filled later by Ezra; blank for now */
   note?: string;
   category: GalleryCategory;
+  /** Empty grid slot reserved for a missing PDF frame */
+  placeholder?: boolean;
+  /** Mixed-media board layout: full-width, or N images across one row */
+  row?: "full" | number;
+  /** Start a new row group even if column count matches the previous row */
+  rowStart?: boolean;
+  /** Width / height — used for equal-height rows */
+  aspect?: number;
 };
+
+export const landingImages: GalleryImage[] = [
+  {
+    "id": "home-landing-page-photos-1",
+    "src": "/images/grid/landing/landing-page-photos-1.webp",
+    "fullSrc": "/images/landing/landing-page-photos-1.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-2",
+    "src": "/images/grid/landing/landing-page-photos-2.webp",
+    "fullSrc": "/images/landing/landing-page-photos-2.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-3",
+    "src": "/images/grid/landing/landing-page-photos-3.webp",
+    "fullSrc": "/images/landing/landing-page-photos-3.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-5",
+    "src": "/images/grid/landing/landing-page-photos-5.webp",
+    "fullSrc": "/images/landing/landing-page-photos-5.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-4",
+    "src": "/images/grid/landing/landing-page-photos-4.webp",
+    "fullSrc": "/images/landing/landing-page-photos-4.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-11",
+    "src": "/images/grid/landing/landing-page-photos-11.webp",
+    "fullSrc": "/images/landing/landing-page-photos-11.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-12",
+    "src": "/images/grid/landing/landing-page-photos-12.webp",
+    "fullSrc": "/images/landing/landing-page-photos-12.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-8",
+    "src": "/images/grid/landing/landing-page-photos-8.webp",
+    "fullSrc": "/images/landing/landing-page-photos-8.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-10",
+    "src": "/images/grid/landing/landing-page-photos-10.webp",
+    "fullSrc": "/images/landing/landing-page-photos-10.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-9",
+    "src": "/images/grid/landing/landing-page-photos-9.webp",
+    "fullSrc": "/images/landing/landing-page-photos-9.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-14",
+    "src": "/images/grid/landing/landing-page-photos-14.webp",
+    "fullSrc": "/images/landing/landing-page-photos-14.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-star",
+    "src": "/images/grid/landing/landing-page-photos-star.webp",
+    "fullSrc": "/images/landing/landing-page-photos-star.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-6",
+    "src": "/images/grid/landing/landing-page-photos-6.webp",
+    "fullSrc": "/images/landing/landing-page-photos-6.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-7",
+    "src": "/images/grid/landing/landing-page-photos-7.webp",
+    "fullSrc": "/images/landing/landing-page-photos-7.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-page-photos-13",
+    "src": "/images/grid/landing/landing-page-photos-13.webp",
+    "fullSrc": "/images/landing/landing-page-photos-13.webp",
+    "name": "LANDING",
+    "description": "Home selection",
+    "category": "home"
+  },
+  {
+    "id": "home-landing-margiela-spread",
+    "src": "/images/grid/landing/landing-margiela-spread.webp",
+    "fullSrc": "/images/landing/landing-margiela-spread.webp",
+    "name": "MAISON MARGIELA",
+    "description": "Landing spread",
+    "category": "home"
+  }
+];
 
 export const galleryImages: GalleryImage[] = [
   {
-    "id": "commercial-kodetic-mec-shoot-2",
-    "src": "/images/grid/commercial/kodetic-mec-shoot-2.webp",
-    "fullSrc": "/images/commercial/kodetic-mec-shoot-2.webp",
-    "name": "MEC / COMMERCIAL",
-    "description": "Commercial campaign",
+    "id": "commercial-client-work-photos-mec-1",
+    "src": "/images/grid/commercial/client-work-photos-mec-1.webp",
+    "fullSrc": "/images/commercial/client-work-photos-mec-1.webp",
+    "name": "MEC",
+    "description": "Client work",
+    "category": "commercial",
+    "aspect": 0.6678
+  },
+  {
+    "id": "commercial-client-work-photos-mec-3",
+    "src": "/images/grid/commercial/client-work-photos-mec-3.webp",
+    "fullSrc": "/images/commercial/client-work-photos-mec-3.webp",
+    "name": "MEC",
+    "description": "Client work",
+    "category": "commercial",
+    "aspect": 1.3081
+  },
+  {
+    "id": "commercial-client-work-photos-mec-2",
+    "src": "/images/grid/commercial/client-work-photos-mec-2.webp",
+    "fullSrc": "/images/commercial/client-work-photos-mec-2.webp",
+    "name": "MEC",
+    "description": "Client work",
+    "category": "commercial",
+    "aspect": 0.6678
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-1",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-1.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-1.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
     "category": "commercial"
   },
   {
-    "id": "commercial-kodetic-mec-shoot-31",
-    "src": "/images/grid/commercial/kodetic-mec-shoot-31.webp",
-    "fullSrc": "/images/commercial/kodetic-mec-shoot-31.webp",
-    "name": "MEC / COMMERCIAL",
-    "description": "Commercial campaign",
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-2",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-2.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-2.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
     "category": "commercial"
   },
   {
-    "id": "commercial-kodetic-mec-shoot-32",
-    "src": "/images/grid/commercial/kodetic-mec-shoot-32.webp",
-    "fullSrc": "/images/commercial/kodetic-mec-shoot-32.webp",
-    "name": "MEC / COMMERCIAL",
-    "description": "Commercial campaign",
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-3",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-3.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-3.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
     "category": "commercial"
   },
   {
-    "id": "cosplay-alien-eu-series-119-of-257",
-    "src": "/images/grid/cosplay/alien-eu-series-119-of-257.webp",
-    "fullSrc": "/images/cosplay/alien-eu-series-119-of-257.webp",
-    "name": "ALIEN EU SERIES",
-    "description": "Cosplay editorial",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-alien-eu-series-158-of-257",
-    "src": "/images/grid/cosplay/alien-eu-series-158-of-257.webp",
-    "fullSrc": "/images/cosplay/alien-eu-series-158-of-257.webp",
-    "name": "ALIEN EU SERIES",
-    "description": "Cosplay editorial",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-alien-eu-series-17-of-257",
-    "src": "/images/grid/cosplay/alien-eu-series-17-of-257.webp",
-    "fullSrc": "/images/cosplay/alien-eu-series-17-of-257.webp",
-    "name": "ALIEN EU SERIES",
-    "description": "Cosplay editorial",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-alien-eu-series-23-of-257",
-    "src": "/images/grid/cosplay/alien-eu-series-23-of-257.webp",
-    "fullSrc": "/images/cosplay/alien-eu-series-23-of-257.webp",
-    "name": "ALIEN EU SERIES",
-    "description": "Cosplay editorial",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-alien-eu-series-84-of-257",
-    "src": "/images/grid/cosplay/alien-eu-series-84-of-257.webp",
-    "fullSrc": "/images/cosplay/alien-eu-series-84-of-257.webp",
-    "name": "ALIEN EU SERIES",
-    "description": "Cosplay editorial",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-alien-eu-series-97-of-257",
-    "src": "/images/grid/cosplay/alien-eu-series-97-of-257.webp",
-    "fullSrc": "/images/cosplay/alien-eu-series-97-of-257.webp",
-    "name": "ALIEN EU SERIES",
-    "description": "Cosplay editorial",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-kodetic-harper-57",
-    "src": "/images/grid/cosplay/kodetic-harper-57.webp",
-    "fullSrc": "/images/cosplay/kodetic-harper-57.webp",
-    "name": "HARPER",
-    "description": "Cosplay portrait",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-kodetic-harper-59",
-    "src": "/images/grid/cosplay/kodetic-harper-59.webp",
-    "fullSrc": "/images/cosplay/kodetic-harper-59.webp",
-    "name": "HARPER",
-    "description": "Cosplay portrait",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-kodetic-harper-8",
-    "src": "/images/grid/cosplay/kodetic-harper-8.webp",
-    "fullSrc": "/images/cosplay/kodetic-harper-8.webp",
-    "name": "HARPER",
-    "description": "Cosplay portrait",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-moon-and-friends-edited-13-of-108",
-    "src": "/images/grid/cosplay/moon-and-friends-edited-13-of-108.webp",
-    "fullSrc": "/images/cosplay/moon-and-friends-edited-13-of-108.webp",
-    "name": "MOON & FRIENDS",
-    "description": "Group cosplay",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-moon-and-friends-edited-20-of-108",
-    "src": "/images/grid/cosplay/moon-and-friends-edited-20-of-108.webp",
-    "fullSrc": "/images/cosplay/moon-and-friends-edited-20-of-108.webp",
-    "name": "MOON & FRIENDS",
-    "description": "Group cosplay",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-moon-and-friends-edited-25-of-108",
-    "src": "/images/grid/cosplay/moon-and-friends-edited-25-of-108.webp",
-    "fullSrc": "/images/cosplay/moon-and-friends-edited-25-of-108.webp",
-    "name": "MOON & FRIENDS",
-    "description": "Group cosplay",
-    "category": "cosplay"
-  },
-  {
-    "id": "cosplay-moon-and-friends-edited-3-of-108",
-    "src": "/images/grid/cosplay/moon-and-friends-edited-3-of-108.webp",
-    "fullSrc": "/images/cosplay/moon-and-friends-edited-3-of-108.webp",
-    "name": "MOON & FRIENDS",
-    "description": "Group cosplay",
-    "category": "cosplay"
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-4",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-4.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-4.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-5",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-5.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-5.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-6",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-6.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-6.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-7",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-7.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-7.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-8",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-8.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-8.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-9",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-9.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-9.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-10",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-10.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-10.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-11",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-11.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-11.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-12",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-12.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-12.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-13",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-13.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-13.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-14",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-14.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-14.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-15",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-15.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-15.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
+  },
+  {
+    "id": "commercial-client-work-photos-get-thrifty-fashion-show-16",
+    "src": "/images/grid/commercial/client-work-photos-get-thrifty-fashion-show-16.webp",
+    "fullSrc": "/images/commercial/client-work-photos-get-thrifty-fashion-show-16.webp",
+    "name": "GET THRIFTY FASHION SHOW 2026",
+    "description": "Client work",
+    "category": "commercial"
   },
   {
-    "id": "cosplay-moon-and-friends-edited-35-of-108",
-    "src": "/images/grid/cosplay/moon-and-friends-edited-35-of-108.webp",
-    "fullSrc": "/images/cosplay/moon-and-friends-edited-35-of-108.webp",
-    "name": "MOON & FRIENDS",
-    "description": "Group cosplay",
-    "category": "cosplay"
+    "id": "creative-creative-work-photos-12",
+    "src": "/images/grid/creative/creative-work-photos-12.webp",
+    "fullSrc": "/images/creative/creative-work-photos-12.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "cosplay-moon-and-friends-edited-40-of-108",
-    "src": "/images/grid/cosplay/moon-and-friends-edited-40-of-108.webp",
-    "fullSrc": "/images/cosplay/moon-and-friends-edited-40-of-108.webp",
-    "name": "MOON & FRIENDS",
-    "description": "Group cosplay",
-    "category": "cosplay"
+    "id": "creative-creative-work-photos-6",
+    "src": "/images/grid/creative/creative-work-photos-6.webp",
+    "fullSrc": "/images/creative/creative-work-photos-6.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "cosplay-moon-and-friends-edited-46-of-108",
-    "src": "/images/grid/cosplay/moon-and-friends-edited-46-of-108.webp",
-    "fullSrc": "/images/cosplay/moon-and-friends-edited-46-of-108.webp",
-    "name": "MOON & FRIENDS",
-    "description": "Group cosplay",
-    "category": "cosplay"
+    "id": "creative-creative-work-photos-8",
+    "src": "/images/grid/creative/creative-work-photos-8.webp",
+    "fullSrc": "/images/creative/creative-work-photos-8.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "cosplay-moon-and-kei-1-of-248",
-    "src": "/images/grid/cosplay/moon-and-kei-1-of-248.webp",
-    "fullSrc": "/images/cosplay/moon-and-kei-1-of-248.webp",
-    "name": "MOON & KEI",
-    "description": "Cosplay duo",
-    "category": "cosplay"
+    "id": "creative-creative-work-photos-10",
+    "src": "/images/grid/creative/creative-work-photos-10.webp",
+    "fullSrc": "/images/creative/creative-work-photos-10.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "cosplay-moon-and-kei-112-of-248",
-    "src": "/images/grid/cosplay/moon-and-kei-112-of-248.webp",
-    "fullSrc": "/images/cosplay/moon-and-kei-112-of-248.webp",
-    "name": "MOON & KEI",
-    "description": "Cosplay duo",
-    "category": "cosplay"
+    "id": "creative-creative-work-photos-14",
+    "src": "/images/grid/creative/creative-work-photos-14.webp",
+    "fullSrc": "/images/creative/creative-work-photos-14.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "cosplay-moon-and-kei-22-of-248",
-    "src": "/images/grid/cosplay/moon-and-kei-22-of-248.webp",
-    "fullSrc": "/images/cosplay/moon-and-kei-22-of-248.webp",
-    "name": "MOON & KEI",
-    "description": "Cosplay duo",
-    "category": "cosplay"
+    "id": "creative-creative-work-photos-11",
+    "src": "/images/grid/creative/creative-work-photos-11.webp",
+    "fullSrc": "/images/creative/creative-work-photos-11.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "cosplay-moon-and-kei-28-of-248",
-    "src": "/images/grid/cosplay/moon-and-kei-28-of-248.webp",
-    "fullSrc": "/images/cosplay/moon-and-kei-28-of-248.webp",
-    "name": "MOON & KEI",
-    "description": "Cosplay duo",
-    "category": "cosplay"
+    "id": "creative-creative-work-photos-15",
+    "src": "/images/grid/creative/creative-work-photos-15.webp",
+    "fullSrc": "/images/creative/creative-work-photos-15.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-ava-portraits-final-109-of-110",
-    "src": "/images/grid/editorial/ava-portraits-final-109-of-110.webp",
-    "fullSrc": "/images/editorial/ava-portraits-final-109-of-110.webp",
-    "name": "AVA / PORTRAITS",
-    "description": "Portrait series",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-9",
+    "src": "/images/grid/creative/creative-work-photos-9.webp",
+    "fullSrc": "/images/creative/creative-work-photos-9.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-ava-portraits-final-34-of-110",
-    "src": "/images/grid/editorial/ava-portraits-final-34-of-110.webp",
-    "fullSrc": "/images/editorial/ava-portraits-final-34-of-110.webp",
-    "name": "AVA / PORTRAITS",
-    "description": "Portrait series",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-7",
+    "src": "/images/grid/creative/creative-work-photos-7.webp",
+    "fullSrc": "/images/creative/creative-work-photos-7.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-ava-portraits-final-42-of-110",
-    "src": "/images/grid/editorial/ava-portraits-final-42-of-110.webp",
-    "fullSrc": "/images/editorial/ava-portraits-final-42-of-110.webp",
-    "name": "AVA / PORTRAITS",
-    "description": "Portrait series",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-13",
+    "src": "/images/grid/creative/creative-work-photos-13.webp",
+    "fullSrc": "/images/creative/creative-work-photos-13.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "art-bandana-shoot-edited-2-of-34",
-    "src": "/images/grid/editorial/bandana-shoot-edited-2-of-34.webp",
-    "fullSrc": "/images/editorial/bandana-shoot-edited-2-of-34.webp",
-    "name": "BANDANA SHOOT EDITED",
-    "description": "Portrait & editorial",
-    "category": "art"
+    "id": "creative-creative-work-photos-2",
+    "src": "/images/grid/creative/creative-work-photos-2.webp",
+    "fullSrc": "/images/creative/creative-work-photos-2.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-coco-family-management-19",
-    "src": "/images/grid/editorial/coco-family-management-19.webp",
-    "fullSrc": "/images/editorial/coco-family-management-19.webp",
-    "name": "COCO",
-    "description": "Talent portrait",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-3",
+    "src": "/images/grid/creative/creative-work-photos-3.webp",
+    "fullSrc": "/images/creative/creative-work-photos-3.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "art-evenscore-45-of-76",
-    "src": "/images/grid/editorial/evenscore-45-of-76.webp",
-    "fullSrc": "/images/editorial/evenscore-45-of-76.webp",
-    "name": "EVENSCORE",
-    "description": "Portrait & editorial",
-    "category": "art"
+    "id": "creative-creative-work-photos-4",
+    "src": "/images/grid/creative/creative-work-photos-4.webp",
+    "fullSrc": "/images/creative/creative-work-photos-4.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-ezragillera-fashion-editorial-5",
-    "src": "/images/grid/editorial/ezragillera-fashion-editorial-5.webp",
-    "fullSrc": "/images/editorial/ezragillera-fashion-editorial-5.webp",
-    "name": "EZRA GILLERA",
-    "description": "Fashion editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-30",
+    "src": "/images/grid/creative/creative-work-photos-30.webp",
+    "fullSrc": "/images/creative/creative-work-photos-30.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-1-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-1-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-1-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-45",
+    "src": "/images/grid/creative/creative-work-photos-45.webp",
+    "fullSrc": "/images/creative/creative-work-photos-45.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-12-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-12-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-12-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-27",
+    "src": "/images/grid/creative/creative-work-photos-27.webp",
+    "fullSrc": "/images/creative/creative-work-photos-27.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-13-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-13-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-13-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-26",
+    "src": "/images/grid/creative/creative-work-photos-26.webp",
+    "fullSrc": "/images/creative/creative-work-photos-26.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-15-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-15-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-15-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-29",
+    "src": "/images/grid/creative/creative-work-photos-29.webp",
+    "fullSrc": "/images/creative/creative-work-photos-29.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-16-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-16-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-16-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-32",
+    "src": "/images/grid/creative/creative-work-photos-32.webp",
+    "fullSrc": "/images/creative/creative-work-photos-32.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-17-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-17-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-17-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-37",
+    "src": "/images/grid/creative/creative-work-photos-37.webp",
+    "fullSrc": "/images/creative/creative-work-photos-37.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-18-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-18-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-18-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-33",
+    "src": "/images/grid/creative/creative-work-photos-33.webp",
+    "fullSrc": "/images/creative/creative-work-photos-33.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-3-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-3-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-3-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-34",
+    "src": "/images/grid/creative/creative-work-photos-34.webp",
+    "fullSrc": "/images/creative/creative-work-photos-34.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-4-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-4-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-4-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-35",
+    "src": "/images/grid/creative/creative-work-photos-35.webp",
+    "fullSrc": "/images/creative/creative-work-photos-35.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-5-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-5-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-5-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-36",
+    "src": "/images/grid/creative/creative-work-photos-36.webp",
+    "fullSrc": "/images/creative/creative-work-photos-36.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-6-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-6-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-6-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-24",
+    "src": "/images/grid/creative/creative-work-photos-24.webp",
+    "fullSrc": "/images/creative/creative-work-photos-24.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-7-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-7-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-7-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-19",
+    "src": "/images/grid/creative/creative-work-photos-19.webp",
+    "fullSrc": "/images/creative/creative-work-photos-19.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-8-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-8-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-8-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-20",
+    "src": "/images/grid/creative/creative-work-photos-20.webp",
+    "fullSrc": "/images/creative/creative-work-photos-20.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-gt-fashion-show-2026-ezra-s-edits-9-of-18",
-    "src": "/images/grid/editorial/gt-fashion-show-2026-ezra-s-edits-9-of-18.webp",
-    "fullSrc": "/images/editorial/gt-fashion-show-2026-ezra-s-edits-9-of-18.webp",
-    "name": "GT FASHION SHOW 2026",
-    "description": "Runway editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-21",
+    "src": "/images/grid/creative/creative-work-photos-21.webp",
+    "fullSrc": "/images/creative/creative-work-photos-21.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-isaiah-family-management-1",
-    "src": "/images/grid/editorial/isaiah-family-management-1.webp",
-    "fullSrc": "/images/editorial/isaiah-family-management-1.webp",
-    "name": "ISAIAH",
-    "description": "Talent portrait",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-22",
+    "src": "/images/grid/creative/creative-work-photos-22.webp",
+    "fullSrc": "/images/creative/creative-work-photos-22.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-jasmy-edited-10-of-25",
-    "src": "/images/grid/editorial/jasmy-edited-10-of-25.webp",
-    "fullSrc": "/images/editorial/jasmy-edited-10-of-25.webp",
-    "name": "JASMY",
-    "description": "Editorial portrait",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-23",
+    "src": "/images/grid/creative/creative-work-photos-23.webp",
+    "fullSrc": "/images/creative/creative-work-photos-23.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-jasmy-edited-11-of-25",
-    "src": "/images/grid/editorial/jasmy-edited-11-of-25.webp",
-    "fullSrc": "/images/editorial/jasmy-edited-11-of-25.webp",
-    "name": "JASMY",
-    "description": "Editorial portrait",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-38",
+    "src": "/images/grid/creative/creative-work-photos-38.webp",
+    "fullSrc": "/images/creative/creative-work-photos-38.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-jasmy-edited-13-of-25",
-    "src": "/images/grid/editorial/jasmy-edited-13-of-25.webp",
-    "fullSrc": "/images/editorial/jasmy-edited-13-of-25.webp",
-    "name": "JASMY",
-    "description": "Editorial portrait",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-5",
+    "src": "/images/grid/creative/creative-work-photos-5.webp",
+    "fullSrc": "/images/creative/creative-work-photos-5.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-jasmy-edited-14-of-25",
-    "src": "/images/grid/editorial/jasmy-edited-14-of-25.webp",
-    "fullSrc": "/images/editorial/jasmy-edited-14-of-25.webp",
-    "name": "JASMY",
-    "description": "Editorial portrait",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-40",
+    "src": "/images/grid/creative/creative-work-photos-40.webp",
+    "fullSrc": "/images/creative/creative-work-photos-40.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-jasmy-edited-17-of-25",
-    "src": "/images/grid/editorial/jasmy-edited-17-of-25.webp",
-    "fullSrc": "/images/editorial/jasmy-edited-17-of-25.webp",
-    "name": "JASMY",
-    "description": "Editorial portrait",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-42",
+    "src": "/images/grid/creative/creative-work-photos-42.webp",
+    "fullSrc": "/images/creative/creative-work-photos-42.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-jasmy-edited-20-of-25",
-    "src": "/images/grid/editorial/jasmy-edited-20-of-25.webp",
-    "fullSrc": "/images/editorial/jasmy-edited-20-of-25.webp",
-    "name": "JASMY",
-    "description": "Editorial portrait",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-39",
+    "src": "/images/grid/creative/creative-work-photos-39.webp",
+    "fullSrc": "/images/creative/creative-work-photos-39.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-jing-12",
-    "src": "/images/grid/editorial/jing-12.webp",
-    "fullSrc": "/images/editorial/jing-12.webp",
-    "name": "JING",
-    "description": "Portrait",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-1",
+    "src": "/images/grid/creative/creative-work-photos-1.webp",
+    "fullSrc": "/images/creative/creative-work-photos-1.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-kelly-final-32",
-    "src": "/images/grid/editorial/kelly-final-32.webp",
-    "fullSrc": "/images/editorial/kelly-final-32.webp",
-    "name": "KELLY",
-    "description": "Portrait",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-31",
+    "src": "/images/grid/creative/creative-work-photos-31.webp",
+    "fullSrc": "/images/creative/creative-work-photos-31.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-avgn-arina-13",
-    "src": "/images/grid/editorial/kodetic-avgn-arina-13.webp",
-    "fullSrc": "/images/editorial/kodetic-avgn-arina-13.webp",
-    "name": "AVGN - ARINA",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-41",
+    "src": "/images/grid/creative/creative-work-photos-41.webp",
+    "fullSrc": "/images/creative/creative-work-photos-41.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-avgn-avery-4",
-    "src": "/images/grid/editorial/kodetic-avgn-avery-4.webp",
-    "fullSrc": "/images/editorial/kodetic-avgn-avery-4.webp",
-    "name": "AVGN - AVERY",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-16",
+    "src": "/images/grid/creative/creative-work-photos-16.webp",
+    "fullSrc": "/images/creative/creative-work-photos-16.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-avgn-brie-1",
-    "src": "/images/grid/editorial/kodetic-avgn-brie-1.webp",
-    "fullSrc": "/images/editorial/kodetic-avgn-brie-1.webp",
-    "name": "AVGN - BRIE",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-17",
+    "src": "/images/grid/creative/creative-work-photos-17.webp",
+    "fullSrc": "/images/creative/creative-work-photos-17.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-avgn-ocean-8",
-    "src": "/images/grid/editorial/kodetic-avgn-ocean-8.webp",
-    "fullSrc": "/images/editorial/kodetic-avgn-ocean-8.webp",
-    "name": "AVGN - OCEAN",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-18",
+    "src": "/images/grid/creative/creative-work-photos-18.webp",
+    "fullSrc": "/images/creative/creative-work-photos-18.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-avgn-shannon-108",
-    "src": "/images/grid/editorial/kodetic-avgn-shannon-108.webp",
-    "fullSrc": "/images/editorial/kodetic-avgn-shannon-108.webp",
-    "name": "AVGN - SHANNON",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-25",
+    "src": "/images/grid/creative/creative-work-photos-25.webp",
+    "fullSrc": "/images/creative/creative-work-photos-25.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-brie-film-final-18-v2",
-    "src": "/images/grid/editorial/kodetic-brie-film-final-18-v2.webp",
-    "fullSrc": "/images/editorial/kodetic-brie-film-final-18-v2.webp",
-    "name": "BRIE FILM - FINAL",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-43",
+    "src": "/images/grid/creative/creative-work-photos-43.webp",
+    "fullSrc": "/images/creative/creative-work-photos-43.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "art-kodetic-chiffon-166",
-    "src": "/images/grid/editorial/kodetic-chiffon-166.webp",
-    "fullSrc": "/images/editorial/kodetic-chiffon-166.webp",
-    "name": "CHIFFON #166",
-    "description": "Editorial",
-    "category": "art"
+    "id": "creative-creative-work-photos-28",
+    "src": "/images/grid/creative/creative-work-photos-28.webp",
+    "fullSrc": "/images/creative/creative-work-photos-28.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-ellie-2-of-72",
-    "src": "/images/grid/editorial/kodetic-ellie-2-of-72.webp",
-    "fullSrc": "/images/editorial/kodetic-ellie-2-of-72.webp",
-    "name": "ELLIE",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-creative-work-photos-44",
+    "src": "/images/grid/creative/creative-work-photos-44.webp",
+    "fullSrc": "/images/creative/creative-work-photos-44.webp",
+    "name": "CREATIVE WORK",
+    "description": "Creative work",
+    "category": "creative"
   },
   {
-    "id": "art-kodetic-funky-83",
-    "src": "/images/grid/editorial/kodetic-funky-83.webp",
-    "fullSrc": "/images/editorial/kodetic-funky-83.webp",
-    "name": "FUNKY #83",
-    "description": "Editorial",
-    "category": "art"
+    "id": "creative-cosplay-photos-15",
+    "src": "/images/grid/creative/cosplay-photos-15.webp",
+    "fullSrc": "/images/creative/cosplay-photos-15.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-geni-5",
-    "src": "/images/grid/editorial/kodetic-geni-5.webp",
-    "fullSrc": "/images/editorial/kodetic-geni-5.webp",
-    "name": "GENI",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-cosplay-photos-13",
+    "src": "/images/grid/creative/cosplay-photos-13.webp",
+    "fullSrc": "/images/creative/cosplay-photos-13.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-geni-91",
-    "src": "/images/grid/editorial/kodetic-geni-91.webp",
-    "fullSrc": "/images/editorial/kodetic-geni-91.webp",
-    "name": "GENI",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-cosplay-photos-2",
+    "src": "/images/grid/creative/cosplay-photos-2.webp",
+    "fullSrc": "/images/creative/cosplay-photos-2.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-gt-shoot-18-of-24-final-edit",
-    "src": "/images/grid/editorial/kodetic-gt-shoot-18-of-24-final-edit.webp",
-    "fullSrc": "/images/editorial/kodetic-gt-shoot-18-of-24-final-edit.webp",
-    "name": "GT SHOOT",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-cosplay-photos-1",
+    "src": "/images/grid/creative/cosplay-photos-1.webp",
+    "fullSrc": "/images/creative/cosplay-photos-1.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-gt-shoot-19-of-24-final-edit",
-    "src": "/images/grid/editorial/kodetic-gt-shoot-19-of-24-final-edit.webp",
-    "fullSrc": "/images/editorial/kodetic-gt-shoot-19-of-24-final-edit.webp",
-    "name": "GT SHOOT",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-cosplay-photos-6",
+    "src": "/images/grid/creative/cosplay-photos-6.webp",
+    "fullSrc": "/images/creative/cosplay-photos-6.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-gt-shoot-8-of-24-final-edit",
-    "src": "/images/grid/editorial/kodetic-gt-shoot-8-of-24-final-edit.webp",
-    "fullSrc": "/images/editorial/kodetic-gt-shoot-8-of-24-final-edit.webp",
-    "name": "GT SHOOT",
-    "description": "Editorial",
-    "category": "editorial"
+    "id": "creative-cosplay-photos-16",
+    "src": "/images/grid/creative/cosplay-photos-16.webp",
+    "fullSrc": "/images/creative/cosplay-photos-16.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
   },
   {
-    "id": "editorial-kodetic-izzie-8",
-    "src": "/images/grid/editorial/kodetic-izzie-8.webp",
-    "fullSrc": "/images/editorial/kodetic-izzie-8.webp",
-    "name": "IZZIE",
-    "description": "Editorial",
-    "category": "editorial"
-  },
-  {
-    "id": "editorial-kodetic-izzie-9",
-    "src": "/images/grid/editorial/kodetic-izzie-9.webp",
-    "fullSrc": "/images/editorial/kodetic-izzie-9.webp",
-    "name": "IZZIE",
-    "description": "Editorial",
-    "category": "editorial"
-  },
-  {
-    "id": "editorial-kodetic-jarrel-and-michaela-12-of-93",
-    "src": "/images/grid/editorial/kodetic-jarrel-and-michaela-12-of-93.webp",
-    "fullSrc": "/images/editorial/kodetic-jarrel-and-michaela-12-of-93.webp",
-    "name": "JARREL AND MICHAELA",
-    "description": "Editorial",
-    "category": "editorial"
-  },
-  {
-    "id": "editorial-kodetic-jarrel-and-michaela-14-of-93",
-    "src": "/images/grid/editorial/kodetic-jarrel-and-michaela-14-of-93.webp",
-    "fullSrc": "/images/editorial/kodetic-jarrel-and-michaela-14-of-93.webp",
-    "name": "JARREL AND MICHAELA",
-    "description": "Editorial",
-    "category": "editorial"
-  },
-  {
-    "id": "art-kodetic-mirrorball-151",
-    "src": "/images/grid/editorial/kodetic-mirrorball-151.webp",
-    "fullSrc": "/images/editorial/kodetic-mirrorball-151.webp",
-    "name": "MIRRORBALL #151",
-    "description": "Editorial",
-    "category": "art"
-  },
-  {
-    "id": "art-kodetic-pink-59",
-    "src": "/images/grid/editorial/kodetic-pink-59.webp",
-    "fullSrc": "/images/editorial/kodetic-pink-59.webp",
-    "name": "PINK #59",
-    "description": "Editorial",
-    "category": "art"
-  },
-  {
-    "id": "editorial-kodetic-rea-146-of-146",
-    "src": "/images/grid/editorial/kodetic-rea-146-of-146.webp",
-    "fullSrc": "/images/editorial/kodetic-rea-146-of-146.webp",
-    "name": "REA",
-    "description": "Editorial",
-    "category": "editorial"
-  },
-  {
-    "id": "editorial-mac-angie-ramya-s-lookbook-collection-19-of-21",
-    "src": "/images/grid/editorial/mac-angie-ramya-s-lookbook-collection-19-of-21.webp",
-    "fullSrc": "/images/editorial/mac-angie-ramya-s-lookbook-collection-19-of-21.webp",
-    "name": "MAC, ANGIE, RAMYA'S LOOKBOOK COLLECTION",
-    "description": "Portrait & editorial",
-    "category": "editorial"
-  },
-  {
-    "id": "editorial-mateo-family-management-24-of-103",
-    "src": "/images/grid/editorial/mateo-family-management-24-of-103.webp",
-    "fullSrc": "/images/editorial/mateo-family-management-24-of-103.webp",
-    "name": "MATEO",
-    "description": "Talent portrait",
-    "category": "editorial"
-  },
-  {
-    "id": "editorial-mateo-family-management-44-of-103",
-    "src": "/images/grid/editorial/mateo-family-management-44-of-103.webp",
-    "fullSrc": "/images/editorial/mateo-family-management-44-of-103.webp",
-    "name": "MATEO",
-    "description": "Talent portrait",
-    "category": "editorial"
-  },
-  {
-    "id": "editorial-sohpia-s-lookbook-collection-10-of-10",
-    "src": "/images/grid/editorial/sohpia-s-lookbook-collection-10-of-10.webp",
-    "fullSrc": "/images/editorial/sohpia-s-lookbook-collection-10-of-10.webp",
-    "name": "SOPHIA / LOOKBOOK",
-    "description": "Fashion lookbook",
-    "category": "editorial"
-  },
-  {
-    "id": "editorial-sohpia-s-lookbook-collection-4-of-10",
-    "src": "/images/grid/editorial/sohpia-s-lookbook-collection-4-of-10.webp",
-    "fullSrc": "/images/editorial/sohpia-s-lookbook-collection-4-of-10.webp",
-    "name": "SOPHIA / LOOKBOOK",
-    "description": "Fashion lookbook",
-    "category": "editorial"
-  },
-  {
-    "id": "editorial-sohpia-s-lookbook-collection-5-of-10",
-    "src": "/images/grid/editorial/sohpia-s-lookbook-collection-5-of-10.webp",
-    "fullSrc": "/images/editorial/sohpia-s-lookbook-collection-5-of-10.webp",
-    "name": "SOPHIA / LOOKBOOK",
-    "description": "Fashion lookbook",
-    "category": "editorial"
+    "id": "creative-cosplay-photos-17",
+    "src": "/images/grid/creative/cosplay-photos-17.webp",
+    "fullSrc": "/images/creative/cosplay-photos-17.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "creative-cosplay-photos-12",
+    "src": "/images/grid/creative/cosplay-photos-12.webp",
+    "fullSrc": "/images/creative/cosplay-photos-12.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "creative-cosplay-photos-10",
+    "src": "/images/grid/creative/cosplay-photos-10.webp",
+    "fullSrc": "/images/creative/cosplay-photos-10.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "creative-cosplay-photos-9",
+    "src": "/images/grid/creative/cosplay-photos-9.webp",
+    "fullSrc": "/images/creative/cosplay-photos-9.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "creative-cosplay-photos-4",
+    "src": "/images/grid/creative/cosplay-photos-4.webp",
+    "fullSrc": "/images/creative/cosplay-photos-4.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "creative-cosplay-photos-5",
+    "src": "/images/grid/creative/cosplay-photos-5.webp",
+    "fullSrc": "/images/creative/cosplay-photos-5.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "creative-cosplay-photos-14",
+    "src": "/images/grid/creative/cosplay-photos-14.webp",
+    "fullSrc": "/images/creative/cosplay-photos-14.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "creative-cosplay-photos-3",
+    "src": "/images/grid/creative/cosplay-photos-3.webp",
+    "fullSrc": "/images/creative/cosplay-photos-3.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "creative-cosplay-photos-11",
+    "src": "/images/grid/creative/cosplay-photos-11.webp",
+    "fullSrc": "/images/creative/cosplay-photos-11.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "creative-cosplay-photos-8",
+    "src": "/images/grid/creative/cosplay-photos-8.webp",
+    "fullSrc": "/images/creative/cosplay-photos-8.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "creative-cosplay-photos-7",
+    "src": "/images/grid/creative/cosplay-photos-7.webp",
+    "fullSrc": "/images/creative/cosplay-photos-7.webp",
+    "name": "COSPLAY",
+    "description": "Cosplay",
+    "category": "creative"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-6",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-6.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-6.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-14",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-14.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-14.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-15",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-15.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-15.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-3",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-3.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-3.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-4",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-4.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-4.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-2",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-2.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-2.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-5",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-5.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-5.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-1",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-1.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-1.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-11",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-11.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-11.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-8",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-8.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-8.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-10",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-10.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-10.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-9",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-9.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-9.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-7",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-7.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-7.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-12",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-12.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-12.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
+  },
+  {
+    "id": "miscellaneous-miscellaneous-photos-13",
+    "src": "/images/grid/miscellaneous/miscellaneous-photos-13.webp",
+    "fullSrc": "/images/miscellaneous/miscellaneous-photos-13.webp",
+    "name": "MISCELLANEOUS",
+    "description": "Miscellaneous",
+    "category": "miscellaneous"
   }
 ];
 
 export const mixedMediaImages: GalleryImage[] = [
   {
-    "id": "mixed-media-cam-s-grid-1",
-    "src": "/images/grid/mixed-media/cam-s-grid-1.webp",
-    "fullSrc": "/images/mixed-media/cam-s-grid-1.webp",
-    "name": "CAM'S GRID",
-    "description": "Grid composition",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-cam-s-grid-2",
-    "src": "/images/grid/mixed-media/cam-s-grid-2.webp",
-    "fullSrc": "/images/mixed-media/cam-s-grid-2.webp",
-    "name": "CAM'S GRID",
-    "description": "Grid composition",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-cam-s-grid-3",
-    "src": "/images/grid/mixed-media/cam-s-grid-3.webp",
-    "fullSrc": "/images/mixed-media/cam-s-grid-3.webp",
-    "name": "CAM'S GRID",
-    "description": "Grid composition",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-kodetic-jarrel-and-michaela-52-of-93-final",
-    "src": "/images/grid/mixed-media/kodetic-jarrel-and-michaela-52-of-93-final.webp",
-    "fullSrc": "/images/mixed-media/kodetic-jarrel-and-michaela-52-of-93-final.webp",
-    "name": "JARREL & MICHAELA",
-    "description": "Mixed media portrait",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-10",
-    "src": "/images/grid/mixed-media/nana-final-edit-10.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-10.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-11",
-    "src": "/images/grid/mixed-media/nana-final-edit-11.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-11.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-12",
-    "src": "/images/grid/mixed-media/nana-final-edit-12.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-12.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-13",
-    "src": "/images/grid/mixed-media/nana-final-edit-13.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-13.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-14",
-    "src": "/images/grid/mixed-media/nana-final-edit-14.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-14.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-18",
-    "src": "/images/grid/mixed-media/nana-final-edit-18.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-18.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-19",
-    "src": "/images/grid/mixed-media/nana-final-edit-19.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-19.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-2",
-    "src": "/images/grid/mixed-media/nana-final-edit-2.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-2.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-20",
-    "src": "/images/grid/mixed-media/nana-final-edit-20.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-20.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-21",
-    "src": "/images/grid/mixed-media/nana-final-edit-21.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-21.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-22",
-    "src": "/images/grid/mixed-media/nana-final-edit-22.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-22.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-23",
-    "src": "/images/grid/mixed-media/nana-final-edit-23.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-23.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-24",
-    "src": "/images/grid/mixed-media/nana-final-edit-24.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-24.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-3",
-    "src": "/images/grid/mixed-media/nana-final-edit-3.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-3.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-4",
-    "src": "/images/grid/mixed-media/nana-final-edit-4.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-4.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-5",
-    "src": "/images/grid/mixed-media/nana-final-edit-5.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-5.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-6",
-    "src": "/images/grid/mixed-media/nana-final-edit-6.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-6.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-7",
-    "src": "/images/grid/mixed-media/nana-final-edit-7.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-7.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-8",
-    "src": "/images/grid/mixed-media/nana-final-edit-8.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-8.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit-9",
-    "src": "/images/grid/mixed-media/nana-final-edit-9.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit-9.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-nana-final-edit",
-    "src": "/images/grid/mixed-media/nana-final-edit.webp",
-    "fullSrc": "/images/mixed-media/nana-final-edit.webp",
-    "name": "NANA / MIXED MEDIA",
-    "description": "Collage series",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-rea-crt-angel",
-    "src": "/images/grid/mixed-media/rea-crt-angel.webp",
-    "fullSrc": "/images/mixed-media/rea-crt-angel.webp",
-    "name": "REA / LIMINAL",
-    "description": "CRT & digital collage",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-rea-limianl-funy",
-    "src": "/images/grid/mixed-media/rea-limianl-funy.webp",
-    "fullSrc": "/images/mixed-media/rea-limianl-funy.webp",
-    "name": "REA / LIMINAL",
-    "description": "CRT & digital collage",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-rea-liminal-edit-vversion-2",
-    "src": "/images/grid/mixed-media/rea-liminal-edit-vversion-2.webp",
-    "fullSrc": "/images/mixed-media/rea-liminal-edit-vversion-2.webp",
-    "name": "REA / LIMINAL",
-    "description": "CRT & digital collage",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-stiussy-ufnny-5",
-    "src": "/images/grid/mixed-media/stiussy-ufnny-5.webp",
-    "fullSrc": "/images/mixed-media/stiussy-ufnny-5.webp",
-    "name": "STUSSY STUDIES",
-    "description": "Mixed media edit",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-stussy-funny-1",
-    "src": "/images/grid/mixed-media/stussy-funny-1.webp",
-    "fullSrc": "/images/mixed-media/stussy-funny-1.webp",
-    "name": "STUSSY STUDIES",
-    "description": "Mixed media edit",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-stussy-funny-6",
-    "src": "/images/grid/mixed-media/stussy-funny-6.webp",
-    "fullSrc": "/images/mixed-media/stussy-funny-6.webp",
-    "name": "STUSSY STUDIES",
-    "description": "Mixed media edit",
-    "category": "mixed-media"
-  },
-  {
-    "id": "mixed-media-stusys-noys-136",
-    "src": "/images/grid/mixed-media/stusys-noys-136.webp",
-    "fullSrc": "/images/mixed-media/stusys-noys-136.webp",
+    "id": "mixed-media-mixed-media-photos-4",
+    "src": "/images/mixed-media/mixed-media-photos-4.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-4.webp",
     "name": "MIXED MEDIA",
-    "description": "sTUSYS NOYS (136)",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": "full"
   },
   {
-    "id": "mixed-media-stusys-noys-57",
-    "src": "/images/grid/mixed-media/stusys-noys-57.webp",
-    "fullSrc": "/images/mixed-media/stusys-noys-57.webp",
+    "id": "mixed-media-mixed-media-photos-5",
+    "src": "/images/mixed-media/mixed-media-photos-5.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-5.webp",
     "name": "MIXED MEDIA",
-    "description": "sTUSYS NOYS (57)",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": "full"
   },
   {
-    "id": "mixed-media-stusys-noys-67",
-    "src": "/images/grid/mixed-media/stusys-noys-67.webp",
-    "fullSrc": "/images/mixed-media/stusys-noys-67.webp",
+    "id": "mixed-media-mixed-media-photos-6",
+    "src": "/images/mixed-media/mixed-media-photos-6.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-6.webp",
     "name": "MIXED MEDIA",
-    "description": "sTUSYS NOYS (67)",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": "full"
   },
   {
-    "id": "mixed-media-stusys-noys-71",
-    "src": "/images/grid/mixed-media/stusys-noys-71.webp",
-    "fullSrc": "/images/mixed-media/stusys-noys-71.webp",
-    "name": "MIXED MEDIA",
-    "description": "sTUSYS NOYS (71)",
-    "category": "mixed-media"
+    "id": "mixed-media-mixed-media-margiela-spread",
+    "src": "/images/mixed-media/mixed-media-margiela-spread.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-margiela-spread.webp",
+    "name": "MAISON MARGIELA",
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": "full"
   },
   {
-    "id": "mixed-media-untitled-122-01",
-    "src": "/images/grid/mixed-media/untitled-122-01.webp",
-    "fullSrc": "/images/mixed-media/untitled-122-01.webp",
-    "name": "MIXED MEDIA",
-    "description": "Untitled-122_01",
-    "category": "mixed-media"
+    "id": "mixed-media-mixed-media-margiela-trio",
+    "src": "/images/mixed-media/mixed-media-margiela-trio.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-margiela-trio.webp",
+    "name": "MAISON MARGIELA",
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": "full"
   },
   {
-    "id": "mixed-media-untitled-122-02",
-    "src": "/images/grid/mixed-media/untitled-122-02.webp",
-    "fullSrc": "/images/mixed-media/untitled-122-02.webp",
-    "name": "MIXED MEDIA",
-    "description": "Untitled-122_02",
-    "category": "mixed-media"
+    "id": "mixed-media-mixed-media-margiela-quad",
+    "src": "/images/mixed-media/mixed-media-margiela-quad.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-margiela-quad.webp",
+    "name": "MAISON MARGIELA",
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": "full"
   },
   {
-    "id": "mixed-media-untitled-122-03",
-    "src": "/images/grid/mixed-media/untitled-122-03.webp",
-    "fullSrc": "/images/mixed-media/untitled-122-03.webp",
+    "id": "mixed-media-mixed-media-photos-13",
+    "src": "/images/mixed-media/mixed-media-photos-13.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-13.webp",
     "name": "MIXED MEDIA",
-    "description": "Untitled-122_03",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": 3
   },
   {
-    "id": "mixed-media-untitled-122-04",
-    "src": "/images/grid/mixed-media/untitled-122-04.webp",
-    "fullSrc": "/images/mixed-media/untitled-122-04.webp",
+    "id": "mixed-media-mixed-media-photos-12",
+    "src": "/images/mixed-media/mixed-media-photos-12.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-12.webp",
     "name": "MIXED MEDIA",
-    "description": "Untitled-122_04",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": 3
   },
   {
-    "id": "mixed-media-untitled-2-01",
-    "src": "/images/grid/mixed-media/untitled-2-01.webp",
-    "fullSrc": "/images/mixed-media/untitled-2-01.webp",
+    "id": "mixed-media-mixed-media-photos-14",
+    "src": "/images/mixed-media/mixed-media-photos-14.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-14.webp",
     "name": "MIXED MEDIA",
-    "description": "Untitled-2_01",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": 3
   },
   {
-    "id": "mixed-media-untitled-2-02",
-    "src": "/images/grid/mixed-media/untitled-2-02.webp",
-    "fullSrc": "/images/mixed-media/untitled-2-02.webp",
+    "id": "mixed-media-mixed-media-collage-trio",
+    "src": "/images/mixed-media/mixed-media-collage-trio.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-collage-trio.webp",
     "name": "MIXED MEDIA",
-    "description": "Untitled-2_02",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": "full"
   },
   {
-    "id": "mixed-media-untitled-2-03",
-    "src": "/images/grid/mixed-media/untitled-2-03.webp",
-    "fullSrc": "/images/mixed-media/untitled-2-03.webp",
+    "id": "mixed-media-mixed-media-photos-10",
+    "src": "/images/mixed-media/mixed-media-photos-10.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-10.webp",
     "name": "MIXED MEDIA",
-    "description": "Untitled-2_03",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": 3,
+    "rowStart": true
   },
   {
-    "id": "mixed-media-untitled-4-01",
-    "src": "/images/grid/mixed-media/untitled-4-01.webp",
-    "fullSrc": "/images/mixed-media/untitled-4-01.webp",
+    "id": "mixed-media-mixed-media-photos-star",
+    "src": "/images/mixed-media/mixed-media-photos-star.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-star.webp",
     "name": "MIXED MEDIA",
-    "description": "Untitled-4_01",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": 3
   },
   {
-    "id": "mixed-media-untitled-4-02",
-    "src": "/images/grid/mixed-media/untitled-4-02.webp",
-    "fullSrc": "/images/mixed-media/untitled-4-02.webp",
+    "id": "mixed-media-mixed-media-photos-11",
+    "src": "/images/mixed-media/mixed-media-photos-11.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-11.webp",
     "name": "MIXED MEDIA",
-    "description": "Untitled-4_02",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": 3
   },
   {
-    "id": "mixed-media-untitled-4-03",
-    "src": "/images/grid/mixed-media/untitled-4-03.webp",
-    "fullSrc": "/images/mixed-media/untitled-4-03.webp",
+    "id": "mixed-media-mixed-media-photos-8",
+    "src": "/images/mixed-media/mixed-media-photos-8.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-8.webp",
     "name": "MIXED MEDIA",
-    "description": "Untitled-4_03",
-    "category": "mixed-media"
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": 3
+  },
+  {
+    "id": "mixed-media-mixed-media-photos-7",
+    "src": "/images/mixed-media/mixed-media-photos-7.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-7.webp",
+    "name": "MIXED MEDIA",
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": 3
+  },
+  {
+    "id": "mixed-media-mixed-media-photos-9",
+    "src": "/images/mixed-media/mixed-media-photos-9.webp",
+    "fullSrc": "/images/mixed-media/mixed-media-photos-9.webp",
+    "name": "MIXED MEDIA",
+    "description": "Mixed media",
+    "category": "mixed-media",
+    "row": 3
   }
 ];

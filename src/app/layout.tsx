@@ -1,36 +1,31 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Source_Sans_3 } from "next/font/google";
+import { Red_Hat_Display } from "next/font/google";
 import SiteChrome from "@/components/SiteChrome";
 import { withBasePath } from "@/lib/base-path";
 import "./globals.css";
 
-/** Ufficio trial — typographic family name is "Ufficio" */
-const ufficio = localFont({
+/** Zodiak — from the Fontshare shortlist in the revision notes */
+const zodiak = localFont({
   src: [
-    { path: "../../public/fonts/Ufficio-300.ttf", weight: "300", style: "normal" },
-    { path: "../../public/fonts/Ufficio-400.ttf", weight: "400", style: "normal" },
-    { path: "../../public/fonts/Ufficio-500.ttf", weight: "500", style: "normal" },
-    { path: "../../public/fonts/Ufficio-600.ttf", weight: "600", style: "normal" },
-    { path: "../../public/fonts/Ufficio-700.ttf", weight: "700", style: "normal" },
-    { path: "../../public/fonts/Ufficio-800.ttf", weight: "800", style: "normal" },
-    { path: "../../public/fonts/Ufficio-900.ttf", weight: "900", style: "normal" },
+    { path: "../../public/fonts/Zodiak-400.woff2", weight: "400", style: "normal" },
+    { path: "../../public/fonts/Zodiak-700.woff2", weight: "700", style: "normal" },
   ],
   variable: "--font-display",
   display: "swap",
 });
 
-/** Simple body / description font */
-const sourceSans = Source_Sans_3({
+/** Red Hat Display — UI / body from the notes list */
+const redHat = Red_Hat_Display({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
   title: "Kodetic",
-  description: "Ezra Gillera — editorial photography and mixed media.",
+  description: "Ezra Gillera — photography and mixed media.",
   icons: {
     icon: [{ url: withBasePath("/logo.png"), type: "image/png" }],
     apple: [{ url: withBasePath("/logo.png"), type: "image/png" }],
@@ -43,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${ufficio.variable} ${sourceSans.variable}`}>
+    <html lang="en" className={`${zodiak.variable} ${redHat.variable}`}>
       <body className="canvas-surface">
         <SiteChrome />
         {children}
