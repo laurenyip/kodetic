@@ -14,7 +14,7 @@ type GalleryGridProps = {
 
 const SECTION_ORDER: Partial<Record<PhotoRiverCategory, string[]>> = {
   commercial: ["MEC", "GET THRIFTY FASHION SHOW 2026"],
-  creative: ["CREATIVE WORK", "COSPLAY"],
+  creative: ["CREATIVE WORK"],
 };
 
 /** PDF page layouts: most boards are 5 across; MEC is 3-up; Creative Work is 6-up. */

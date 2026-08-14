@@ -2,6 +2,7 @@ export type GalleryCategory =
   | "home"
   | "commercial"
   | "creative"
+  | "cosplay"
   | "miscellaneous"
   | "mixed-media";
 
@@ -677,7 +678,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-15.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-13",
@@ -685,7 +686,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-13.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-2",
@@ -693,7 +694,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-2.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-1",
@@ -701,7 +702,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-1.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-6",
@@ -709,7 +710,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-6.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-16",
@@ -717,7 +718,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-16.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-17",
@@ -725,7 +726,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-17.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-12",
@@ -733,7 +734,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-12.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-10",
@@ -741,7 +742,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-10.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-9",
@@ -749,7 +750,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-9.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-4",
@@ -757,7 +758,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-4.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-5",
@@ -765,7 +766,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-5.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-14",
@@ -773,7 +774,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-14.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-3",
@@ -781,7 +782,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-3.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-11",
@@ -789,7 +790,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-11.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-8",
@@ -797,7 +798,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-8.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "creative-cosplay-photos-7",
@@ -805,7 +806,7 @@ export const galleryImages: GalleryImage[] = [
     "fullSrc": "/images/creative/cosplay-photos-7.webp",
     "name": "COSPLAY",
     "description": "Cosplay",
-    "category": "creative"
+    "category": "cosplay"
   },
   {
     "id": "miscellaneous-miscellaneous-photos-6",

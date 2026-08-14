@@ -3,6 +3,7 @@ export type PhotoRiverCategory =
   | "home"
   | "commercial"
   | "creative"
+  | "cosplay"
   | "miscellaneous"
   | "mixed-media";
 

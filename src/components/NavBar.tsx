@@ -12,6 +12,7 @@ const TOP_CATEGORIES = [
   { label: "MIXED MEDIA", href: "/mixed-media/" },
   { label: "CLIENT WORK", href: "/client-work/" },
   { label: "CREATIVE", href: "/creative/" },
+  { label: "COSPLAY", href: "/cosplay/" },
   { label: "MISCELLANEOUS", href: "/miscellaneous/" },
 ] as const;
 
@@ -37,17 +38,17 @@ function NavLink({
       href={href}
       data-interactive="true"
       aria-current={isActive ? "page" : undefined}
-      className="tap-target-sm group relative bg-transparent px-2 py-1.5 md:px-3 md:py-2"
+      className="tap-target-sm group relative bg-transparent px-1 py-1 md:px-1.5 md:py-1.5"
     >
       <span
         aria-hidden
-        className={`pointer-events-none absolute inset-x-1 bottom-0.5 h-px bg-purple transition-opacity duration-hover ease-editorial ${
+        className={`pointer-events-none absolute inset-x-0.5 bottom-0.5 h-px bg-purple transition-opacity duration-hover ease-editorial ${
           isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60"
         }`}
       />
       <InteractiveText
         as="span"
-        className={`relative z-[1] font-display text-xs font-semibold uppercase tracking-[0.14em] text-black md:text-sm md:tracking-[0.16em] ${
+        className={`relative z-[1] font-display text-[10px] font-semibold uppercase tracking-[0.1em] text-black md:text-[11px] md:tracking-[0.12em] ${
           isActive ? "opacity-100" : "opacity-70"
         }`}
       >
@@ -83,9 +84,33 @@ export default function NavBar() {
     >
       <LinenSheen />
 
-      <div className="relative z-[1] flex items-center gap-3 px-4 py-4 md:gap-4 md:px-6 md:py-5 lg:px-8">
+      <div className="relative z-[1] flex items-center gap-2 px-3 py-3 md:gap-3 md:px-5 md:py-3.5 lg:px-8">
+        <div className="flex shrink-0 items-center gap-2 md:gap-3">
+          <button
+            type="button"
+            data-interactive="true"
+            onClick={() => setAboutOpen((open) => !open)}
+            className="tap-target-sm shrink-0 border border-purple bg-white/55 px-2 py-1 font-display text-[10px] font-bold uppercase tracking-[0.12em] text-black transition-colors duration-hover ease-editorial hover:bg-purple/15 md:px-2.5 md:py-1 md:text-[11px]"
+            aria-expanded={aboutOpen}
+          >
+            {aboutOpen ? "X" : "ABOUT"}
+          </button>
+
+          <Link
+            href="/"
+            data-interactive="true"
+            className="tap-target-sm inline-flex shrink-0 items-center"
+            aria-label="Kodetic home"
+            aria-current={isHome ? "page" : undefined}
+          >
+            <span className="font-display text-xs font-bold uppercase tracking-[0.14em] text-black md:text-sm md:tracking-[0.16em]">
+              KODETIC
+            </span>
+          </Link>
+        </div>
+
         <nav
-          className="flex min-w-0 flex-1 flex-wrap items-center justify-start gap-x-0.5 gap-y-1"
+          className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-x-0 gap-y-0.5"
           aria-label="Primary"
         >
           {TOP_CATEGORIES.map((item) => (
@@ -98,28 +123,6 @@ export default function NavBar() {
             </NavLink>
           ))}
         </nav>
-
-        <button
-          type="button"
-          data-interactive="true"
-          onClick={() => setAboutOpen((open) => !open)}
-          className="tap-target-sm shrink-0 border border-purple bg-white/55 px-3 py-1.5 font-display text-xs font-bold uppercase tracking-[0.16em] text-black transition-colors duration-hover ease-editorial hover:bg-purple/15 md:px-4 md:py-2 md:text-sm"
-          aria-expanded={aboutOpen}
-        >
-          {aboutOpen ? "X" : "ABOUT"}
-        </button>
-
-        <Link
-          href="/"
-          data-interactive="true"
-          className="tap-target-sm inline-flex shrink-0 items-center"
-          aria-label="Kodetic home"
-          aria-current={isHome ? "page" : undefined}
-        >
-          <span className="font-display text-sm font-bold uppercase tracking-[0.18em] text-black md:text-base md:tracking-[0.2em]">
-            KODETIC
-          </span>
-        </Link>
       </div>
 
       <AnimatePresence>
