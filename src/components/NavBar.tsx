@@ -42,11 +42,11 @@ function NavLink({
       href={href}
       data-interactive="true"
       aria-current={isActive ? "page" : undefined}
-      className="tap-target-sm group relative bg-transparent px-1 py-1 md:px-1.5 md:py-1.5"
+      className="tap-target-sm group relative justify-start bg-transparent px-0 py-1 md:px-1.5 md:py-1.5"
     >
       <span
         aria-hidden
-        className={`pointer-events-none absolute inset-x-0.5 bottom-0.5 h-px bg-purple transition-opacity duration-hover ease-editorial ${
+        className={`pointer-events-none absolute inset-x-0 bottom-0.5 h-px bg-purple transition-opacity duration-hover ease-editorial md:inset-x-0.5 ${
           isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60"
         }`}
       />
@@ -88,12 +88,12 @@ export default function NavBar() {
     >
       <LinenSheen />
 
-      <div className="relative z-[1] flex flex-col gap-2 px-3 py-3 md:flex-row md:items-center md:gap-3 md:px-5 md:py-3.5 lg:px-8">
-        <div className="flex shrink-0 items-center gap-2 md:gap-3">
+      <div className="relative z-[1] flex flex-col items-stretch gap-2 px-3 py-3 md:flex-row md:items-center md:gap-3 md:px-5 md:py-3.5 lg:px-8">
+        <div className="flex w-full shrink-0 items-center justify-start gap-2 md:w-auto md:gap-3">
           <Link
             href="/"
             data-interactive="true"
-            className="tap-target-sm inline-flex shrink-0 items-center"
+            className="tap-target-sm inline-flex shrink-0 items-center justify-start"
             aria-label="Kodetic home"
             aria-current={isHome ? "page" : undefined}
           >
@@ -114,7 +114,7 @@ export default function NavBar() {
         </div>
 
         <nav
-          className="flex w-full min-w-0 flex-wrap items-center justify-start gap-x-2 gap-y-0.5 md:flex-1 md:justify-end md:gap-x-3"
+          className="flex w-full min-w-0 flex-wrap items-center justify-start gap-x-3 gap-y-0.5 md:flex-1 md:justify-end md:gap-x-3"
           aria-label="Primary"
         >
           {TOP_CATEGORIES.map((item) => (
