@@ -193,7 +193,7 @@ export default function GalleryExpandableCell({
   const shouldLoadImage = inView || isExpanded || isHovered;
   const aspect = natural
     ? natural.w / natural.h
-    : (image.aspect ?? 4 / 5);
+    : (image.aspect ?? (fullRow ? 2.2 : 4 / 5));
 
   const riverStyles = hasRiverFocus
     ? GALLERY_HIGHLIGHT_STYLES[highlight]
@@ -289,7 +289,9 @@ export default function GalleryExpandableCell({
         style={
           matchRowHeight
             ? { ["--row-flex" as string]: aspect }
-            : { aspectRatio: `${aspect}` }
+            : spanFull
+              ? undefined
+              : { aspectRatio: `${aspect}` }
         }
         className={`group relative w-full scroll-mt-32 cursor-crosshair bg-transparent ${
           isExpanded ? "pointer-events-none" : ""
@@ -305,39 +307,107 @@ export default function GalleryExpandableCell({
           highlight === "primary" && hasRiverFocus && !isExpanded ? "z-10" : ""
         }`}
       >
-        <div
-          className={`relative overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.55),0_0_40px_rgba(40,24,60,0.18)] ${
-            matchRowHeight ? "w-full" : "h-full w-full"
-          }`}
-          style={matchRowHeight ? { aspectRatio: `${aspect}` } : undefined}
-        >
-          {shouldLoadImage ? (
-            <Image
-              src={withBasePath(image.src)}
-              alt={image.name}
-              fill
-              loading="lazy"
-              sizes={
-                spanFull
-                  ? "(max-width: 1400px) 94vw, 1400px"
-                  : matchRowHeight
+        {spanFull ? (
+          <>
+            <div className="flex flex-col gap-3 sm:hidden">
+              {(["left", "right"] as const).map((side) => (
+                <div
+                  key={side}
+                  className="relative w-full overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.55),0_0_40px_rgba(40,24,60,0.18)]"
+                  style={{ aspectRatio: `${Math.max(aspect / 2, 0.55)}` }}
+                >
+                  {shouldLoadImage ? (
+                    <div
+                      className={`absolute inset-y-0 w-[200%] ${
+                        side === "left" ? "left-0" : "right-0"
+                      }`}
+                    >
+                      <Image
+                        src={withBasePath(image.src)}
+                        alt={image.name}
+                        fill
+                        loading="lazy"
+                        sizes="200vw"
+                        onLoad={(event) => {
+                          const img = event.currentTarget;
+                          if (img.naturalWidth && img.naturalHeight) {
+                            setNatural({
+                              w: img.naturalWidth,
+                              h: img.naturalHeight,
+                            });
+                          }
+                        }}
+                        className={`object-cover ${
+                          side === "left" ? "object-left" : "object-right"
+                        }`}
+                      />
+                    </div>
+                  ) : (
+                    <div className="absolute inset-0 bg-white/[0.03]" />
+                  )}
+                </div>
+              ))}
+            </div>
+            <div
+              className="relative hidden w-full overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.55),0_0_40px_rgba(40,24,60,0.18)] sm:block"
+              style={{ aspectRatio: `${aspect}` }}
+            >
+              {shouldLoadImage ? (
+                <Image
+                  src={withBasePath(image.src)}
+                  alt={image.name}
+                  fill
+                  loading="lazy"
+                  sizes="(max-width: 1400px) 94vw, 1400px"
+                  onLoad={(event) => {
+                    const img = event.currentTarget;
+                    if (img.naturalWidth && img.naturalHeight) {
+                      setNatural({
+                        w: img.naturalWidth,
+                        h: img.naturalHeight,
+                      });
+                    }
+                  }}
+                  className="object-contain object-center"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-white/[0.03]" />
+              )}
+            </div>
+          </>
+        ) : (
+          <div
+            className={`relative overflow-hidden shadow-[0_18px_50px_rgba(0,0,0,0.55),0_0_40px_rgba(40,24,60,0.18)] ${
+              matchRowHeight ? "w-full" : "h-full w-full"
+            }`}
+            style={matchRowHeight ? { aspectRatio: `${aspect}` } : undefined}
+          >
+            {shouldLoadImage ? (
+              <Image
+                src={withBasePath(image.src)}
+                alt={image.name}
+                fill
+                loading="lazy"
+                sizes={
+                  matchRowHeight
                     ? "(max-width: 640px) 94vw, 42vw"
                     : fillGrid
                       ? "(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 18vw"
                       : "(max-width: 640px) 90vw, (max-width: 1024px) 40vw, 22rem"
-              }
-              onLoad={(event) => {
-                const img = event.currentTarget;
-                if (img.naturalWidth && img.naturalHeight) {
-                  setNatural({ w: img.naturalWidth, h: img.naturalHeight });
                 }
-              }}
-              className="object-contain object-center"
-            />
-          ) : (
-            <div className="absolute inset-0 bg-white/[0.03]" />
-          )}
-        </div>
+                onLoad={(event) => {
+                  const img = event.currentTarget;
+                  if (img.naturalWidth && img.naturalHeight) {
+                    setNatural({ w: img.naturalWidth, h: img.naturalHeight });
+                  }
+                }}
+                className="object-contain object-center"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-white/[0.03]" />
+            )}
+          </div>
+        )}
 
         <figcaption
           className={`mt-2 w-full transition-opacity duration-hover ease-editorial ${

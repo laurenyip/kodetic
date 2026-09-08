@@ -88,7 +88,7 @@ export default function NavBar() {
     >
       <LinenSheen />
 
-      <div className="relative z-[1] flex items-center gap-2 px-3 py-3 md:gap-3 md:px-5 md:py-3.5 lg:px-8">
+      <div className="relative z-[1] flex flex-col gap-2 px-3 py-3 md:flex-row md:items-center md:gap-3 md:px-5 md:py-3.5 lg:px-8">
         <div className="flex shrink-0 items-center gap-2 md:gap-3">
           <Link
             href="/"
@@ -114,7 +114,7 @@ export default function NavBar() {
         </div>
 
         <nav
-          className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-x-2 gap-y-0.5 md:gap-x-3"
+          className="flex w-full min-w-0 flex-wrap items-center justify-start gap-x-2 gap-y-0.5 md:flex-1 md:justify-end md:gap-x-3"
           aria-label="Primary"
         >
           {TOP_CATEGORIES.map((item) => (
