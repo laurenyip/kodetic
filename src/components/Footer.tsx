@@ -28,8 +28,8 @@ export default function Footer() {
           HUMANS ARE BORN TO CREATE
         </p>
 
-        <div className="flex w-full flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
-          <div className="max-w-xl space-y-3 font-sans text-sm font-normal leading-relaxed tracking-[0.02em] text-black md:text-base">
+        <div className="flex w-full flex-col items-start gap-8 md:flex-row md:items-end md:justify-between md:gap-12">
+          <div className="max-w-xl space-y-3 text-left font-sans text-sm font-normal leading-relaxed tracking-[0.02em] text-black md:text-base">
             <p>© 2026 Ezra Gillera. All rights reserved.</p>
             <p className="text-black/90">
               All artwork and photography on this site is original work. Do not
@@ -44,11 +44,11 @@ export default function Footer() {
             </a>
           </div>
 
-          <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8 md:items-end md:flex-col md:gap-6 lg:flex-row lg:items-center">
+          <div className="flex items-center justify-start gap-3 md:gap-4">
             <a
               href="mailto:kodeticmedia@gmail.com"
               data-interactive="true"
-              className="tap-target relative px-1 font-sans text-sm font-medium uppercase tracking-[0.16em] text-black transition-all duration-hover ease-editorial after:absolute after:bottom-1 after:left-1 after:right-1 after:h-px after:origin-left after:scale-x-0 after:bg-purple after:transition-transform after:duration-hover after:ease-editorial hover:tracking-[0.2em] hover:after:scale-x-100 md:text-base"
+              className="relative font-sans text-sm font-medium uppercase tracking-[0.16em] text-black transition-all duration-hover ease-editorial after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:origin-left after:scale-x-0 after:bg-purple after:transition-transform after:duration-hover after:ease-editorial hover:tracking-[0.2em] hover:after:scale-x-100 md:text-base"
             >
               kodeticmedia@gmail.com
             </a>
@@ -59,7 +59,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="Instagram"
               data-interactive="true"
-              className="tap-target group inline-flex text-black transition-transform duration-hover ease-editorial hover:scale-110"
+              className="group inline-flex shrink-0 items-center justify-center text-black transition-transform duration-hover ease-editorial hover:scale-110"
             >
               <InstagramIcon className="h-5 w-5 transition-colors duration-hover ease-editorial group-hover:text-purple md:h-6 md:w-6" />
             </a>
