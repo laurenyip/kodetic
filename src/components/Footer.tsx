@@ -1,24 +1,5 @@
 import LinenSheen from "@/components/LinenSheen";
-import { Globe } from "lucide-react";
 import type { SVGProps } from "react";
-
-const SOCIAL_LINKS = [
-  {
-    label: "Instagram",
-    href: "https://instagram.com",
-    icon: "instagram",
-  },
-  {
-    label: "X (Twitter)",
-    href: "https://x.com",
-    icon: "x",
-  },
-  {
-    label: "Website",
-    href: "https://ezragillera.com",
-    icon: "globe",
-  },
-] as const;
 
 function InstagramIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -35,49 +16,6 @@ function InstagramIcon(props: SVGProps<SVGSVGElement>) {
       <circle cx="12" cy="12" r="4.25" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
     </svg>
-  );
-}
-
-function XIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden {...props}>
-      <path
-        d="M5 5L19 19M19 5L5 19"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="square"
-      />
-    </svg>
-  );
-}
-
-function SocialIcon({
-  href,
-  label,
-  icon,
-}: {
-  href: string;
-  label: string;
-  icon: (typeof SOCIAL_LINKS)[number]["icon"];
-}) {
-  const iconClassName =
-    "h-5 w-5 transition-colors duration-hover ease-editorial group-hover:text-purple md:h-6 md:w-6";
-
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      data-interactive="true"
-      className="tap-target group inline-flex text-black transition-transform duration-hover ease-editorial hover:scale-110"
-    >
-      {icon === "instagram" && <InstagramIcon className={iconClassName} />}
-      {icon === "x" && <XIcon className={iconClassName} />}
-      {icon === "globe" && (
-        <Globe className={`${iconClassName} stroke-[1.5]`} />
-      )}
-    </a>
   );
 }
 
@@ -115,16 +53,16 @@ export default function Footer() {
               kodeticmedia@gmail.com
             </a>
 
-            <div className="flex items-center gap-2 md:gap-3">
-              {SOCIAL_LINKS.map((link) => (
-                <SocialIcon
-                  key={link.label}
-                  href={link.href}
-                  label={link.label}
-                  icon={link.icon}
-                />
-              ))}
-            </div>
+            <a
+              href="https://www.instagram.com/kodetic/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              data-interactive="true"
+              className="tap-target group inline-flex text-black transition-transform duration-hover ease-editorial hover:scale-110"
+            >
+              <InstagramIcon className="h-5 w-5 transition-colors duration-hover ease-editorial group-hover:text-purple md:h-6 md:w-6" />
+            </a>
           </div>
         </div>
       </div>

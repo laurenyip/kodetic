@@ -16,8 +16,12 @@ const TOP_CATEGORIES = [
   { label: "MISCELLANEOUS", href: "/miscellaneous/" },
 ] as const;
 
-const ABOUT_BIO =
-  "Ezra Gillera is a photographer and mixed-media artist working across client work, creative portraiture, and experimental collage — blending precision lighting with techwear-inflected urban landscapes. Based between Tokyo and Los Angeles, his practice treats every frame as a study in contrast: structure and chaos, garment and body, analog grain and digital finish.";
+const ABOUT_PARAGRAPHS = [
+  "Kodetic, also known as Ezra, is a multidisciplinary artist primarily based in Vancouver, BC, Canada. Over the past several years, he has developed a creative practice rooted in photography, film, design, and digital media. His work moves across disciplines, blending different creative mediums to explore people, culture, ideas, and the world around him.",
+  "Through his work, he has created a space for experimentation and collaboration, working with artists, brands, organizations, and communities to bring ideas to life through visual storytelling. His practice sits at the intersection of art and communication, combining creative direction with an understanding of digital media and contemporary culture.",
+  "Whether through photography, film, design, or collaborative projects, his work is driven by curiosity, authenticity, and a desire to create meaningful connections.",
+  "At its core, Kodetic is an evolving creative practice built around the belief that creativity is a fundamental way of understanding, connecting, and experiencing the world.",
+];
 
 function pathMatches(pathname: string, href: string) {
   const normalized = pathname.endsWith("/") ? pathname : `${pathname}/`;
@@ -86,16 +90,6 @@ export default function NavBar() {
 
       <div className="relative z-[1] flex items-center gap-2 px-3 py-3 md:gap-3 md:px-5 md:py-3.5 lg:px-8">
         <div className="flex shrink-0 items-center gap-2 md:gap-3">
-          <button
-            type="button"
-            data-interactive="true"
-            onClick={() => setAboutOpen((open) => !open)}
-            className="tap-target-sm shrink-0 border border-purple bg-white/55 px-2 py-1 font-display text-[10px] font-bold uppercase tracking-[0.12em] text-black transition-colors duration-hover ease-editorial hover:bg-purple/15 md:px-2.5 md:py-1 md:text-[11px]"
-            aria-expanded={aboutOpen}
-          >
-            {aboutOpen ? "X" : "ABOUT"}
-          </button>
-
           <Link
             href="/"
             data-interactive="true"
@@ -107,10 +101,20 @@ export default function NavBar() {
               KODETIC
             </span>
           </Link>
+
+          <button
+            type="button"
+            data-interactive="true"
+            onClick={() => setAboutOpen((open) => !open)}
+            className="tap-target-sm shrink-0 border border-purple bg-white/55 px-2 py-1 font-display text-[10px] font-bold uppercase tracking-[0.12em] text-black transition-colors duration-hover ease-editorial hover:bg-purple/15 md:px-2.5 md:py-1 md:text-[11px]"
+            aria-expanded={aboutOpen}
+          >
+            {aboutOpen ? "X" : "ABOUT"}
+          </button>
         </div>
 
         <nav
-          className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-x-0 gap-y-0.5"
+          className="flex min-w-0 flex-1 flex-wrap items-center justify-end gap-x-2 gap-y-0.5 md:gap-x-3"
           aria-label="Primary"
         >
           {TOP_CATEGORIES.map((item) => (
@@ -134,13 +138,15 @@ export default function NavBar() {
             transition={panelTransition}
             className="relative z-[1] overflow-hidden border-t border-black/10"
           >
-            <div className="relative px-4 py-6 md:px-8 md:py-8">
-              <p className="font-display text-xs uppercase tracking-[0.22em] text-purple md:text-sm">
+            <div className="relative px-4 pt-6 pb-12 md:px-8 md:pt-8 md:pb-16">
+              <p className="font-display text-[10px] uppercase tracking-[0.22em] text-purple md:text-xs">
                 About
               </p>
-              <p className="mt-3 max-w-2xl font-sans text-sm font-normal leading-relaxed tracking-[0.02em] text-black/85 md:text-base">
-                {ABOUT_BIO}
-              </p>
+              <div className="mt-3 max-w-2xl space-y-3.5 font-sans text-xs font-normal leading-relaxed tracking-[0.02em] text-black/85 md:text-sm">
+                {ABOUT_PARAGRAPHS.map((paragraph) => (
+                  <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
