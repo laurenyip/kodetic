@@ -23,7 +23,7 @@ export default function Footer() {
   return (
     <footer className="footer-canvas relative z-10 w-full text-black">
       <LinenSheen />
-      <div className="relative z-[1] flex min-h-[14rem] flex-col justify-between gap-10 px-5 py-12 sm:gap-12 md:min-h-[22vh] md:gap-14 md:px-8 md:py-16 lg:px-12">
+      <div className="relative z-[1] flex min-h-[14rem] flex-col justify-between gap-10 px-5 pt-12 pb-28 sm:gap-12 md:min-h-[22vh] md:gap-14 md:px-8 md:pt-16 md:pb-16 lg:px-12">
         <p className="max-w-[16ch] text-left font-display text-xl font-semibold uppercase leading-tight tracking-[0.08em] text-black sm:text-2xl md:max-w-none md:text-3xl md:tracking-[0.1em] lg:text-[2rem]">
           HUMANS ARE BORN TO CREATE
         </p>
