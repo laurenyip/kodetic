@@ -6,14 +6,14 @@
     "wrangler": "vendor/wrangler/cli.cjs"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
-    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+    "dev": "node ./node_modules/next/dist/bin/next dev",
+    "build": "node ./node_modules/next/dist/bin/next build",
+    "start": "node ./node_modules/next/dist/bin/next start",
+    "lint": "node ./node_modules/next/dist/bin/next lint",
+    "preview": "node ./node_modules/@opennextjs/cloudflare/dist/cli/index.js build && node ./node_modules/@opennextjs/cloudflare/dist/cli/index.js preview",
+    "deploy": "node ./node_modules/@opennextjs/cloudflare/dist/cli/index.js build && node ./node_modules/@opennextjs/cloudflare/dist/cli/index.js deploy",
+    "upload": "node ./node_modules/@opennextjs/cloudflare/dist/cli/index.js build && node ./node_modules/@opennextjs/cloudflare/dist/cli/index.js upload",
+    "cf-typegen": "node ./vendor/wrangler/cli.cjs types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "import-media": "node scripts/import-media-kit.mjs",
     "river-thumbs": "node scripts/generate-river-thumbnails.mjs",
     "compress-images": "node scripts/compress-images.mjs",
@@ -43,7 +43,11 @@
   },
   "allowScripts": {
     "esbuild": true,
+    "esbuild@0.25.4": true,
+    "esbuild@0.28.1": true,
     "unrs-resolver": true,
-    "workerd": true
+    "unrs-resolver@1.12.2": true,
+    "workerd": true,
+    "workerd@1.20260921.1": true
   }
 }
