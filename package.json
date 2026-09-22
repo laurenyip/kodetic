@@ -2,12 +2,14 @@
   "name": "kodetic",
   "version": "0.1.0",
   "private": true,
+  "bin": {
+    "wrangler": "vendor/wrangler/cli.cjs"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "node scripts/install-wrangler-wrapper.mjs",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
@@ -37,6 +39,11 @@
     "sharp": "^0.35.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
-    "wrangler": "^4.125.0"
+    "wrangler": "file:vendor/wrangler"
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "unrs-resolver": true,
+    "workerd": true
   }
 }

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict";
 
 const { spawnSync } = require("node:child_process");
@@ -5,6 +6,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const args = process.argv.slice(2);
+if (process.env.OPEN_NEXT_DEPLOY !== "true") {
+  console.log("kodetic: wrangler wrapper", args[0] || "");
+}
 const cwd = process.cwd();
 const compiledConfig = path.join(
   cwd,
@@ -39,7 +43,11 @@ if (needsBuild) {
   }
 }
 
-require(path.join(
-  __dirname,
-  "../node_modules/wrangler/bin/wrangler.original.js",
-));
+const realPkg = path.dirname(require.resolve("wrangler-real/package.json"));
+const wranglerBin = path.join(realPkg, "bin/wrangler.js");
+const result = spawnSync(process.execPath, [wranglerBin, ...args], {
+  stdio: "inherit",
+  cwd,
+  env: process.env,
+});
+process.exit(result.status ?? 1);
