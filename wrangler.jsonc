@@ -1,5 +1,5 @@
 {
-  "$schema": "node_modules/wrangler-real/config-schema.json",
+  "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
   "name": "kodetic",
   "compatibility_date": "2025-09-23",
