@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
 
+  const [footerInView, setFooterInView] = useState(false);
+
   useEffect(() => {
     const onScroll = () => {
       setVisible(window.scrollY > 320);
@@ -18,13 +20,25 @@ export default function BackToTop() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Step aside once the footer arrives so the button never covers its headline.
+  useEffect(() => {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterInView(entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
     <AnimatePresence>
-      {visible && (
+      {visible && !footerInView && (
         <motion.button
           type="button"
           initial={{ opacity: 0, y: 8 }}

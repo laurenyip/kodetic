@@ -1,6 +1,5 @@
 "use client";
 
-import GalleryExpandBackdrop from "@/components/GalleryExpandBackdrop";
 import GalleryExpandableCell from "@/components/GalleryExpandableCell";
 import type { GalleryImage } from "@/data/gallery";
 import type { PhotoRiverCategory } from "@/data/images";
@@ -114,7 +113,6 @@ export default function GalleryGrid({ images, category }: GalleryGridProps) {
     expandedId,
     expand,
     collapse,
-    isExpanded,
   } = useGalleryExpand();
 
   const visibleImages = useMemo(
@@ -142,11 +140,10 @@ export default function GalleryGrid({ images, category }: GalleryGridProps) {
 
   return (
     <section className="relative w-full">
-      <GalleryExpandBackdrop open={isExpanded} onClose={collapse} />
-
       <div key={category} className="pt-6 pb-16 md:pt-8 md:pb-24">
         {homeLayout ? (
           <div className="flex flex-col gap-8 md:gap-10">
+            <h1 className="sr-only">Kodetic: selected photography</h1>
             <PhotoGrid
               images={homeLayout.portraits}
               columns={5}

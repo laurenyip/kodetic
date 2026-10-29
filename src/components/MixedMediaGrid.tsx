@@ -1,6 +1,5 @@
 "use client";
 
-import GalleryExpandBackdrop from "@/components/GalleryExpandBackdrop";
 import GalleryExpandableCell from "@/components/GalleryExpandableCell";
 import type { GalleryImage } from "@/data/gallery";
 import { useGalleryExpand } from "@/lib/use-gallery-expand";
@@ -56,7 +55,6 @@ export default function MixedMediaGrid({ images }: MixedMediaGridProps) {
     expandedId,
     expand,
     collapse,
-    isExpanded,
   } = useGalleryExpand();
 
   const rows = toRows(images);
@@ -64,7 +62,6 @@ export default function MixedMediaGrid({ images }: MixedMediaGridProps) {
 
   return (
     <section className="relative w-full">
-      <GalleryExpandBackdrop open={isExpanded} onClose={collapse} />
 
       <div className="mx-auto w-full max-w-[1500px] px-5 md:px-8">
         <div className="flex flex-col gap-6 pt-6 pb-16 sm:gap-8 md:gap-10 md:pt-8 md:pb-24">

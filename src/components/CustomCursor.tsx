@@ -72,7 +72,7 @@ export default function CustomCursor() {
   return (
     <motion.div
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[10000] mix-blend-difference"
+      className={`pointer-events-none fixed left-0 top-0 z-[10000] ${isInteractive ? "" : "mix-blend-difference"}`}
       style={{
         x: cursorX,
         y: cursorY,
@@ -83,24 +83,24 @@ export default function CustomCursor() {
       <div className="relative -translate-x-1/2 -translate-y-1/2">
         <span
           className={`absolute left-1/2 top-1/2 block h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border transition-colors duration-hover ease-editorial ${
-            isInteractive ? "border-purple" : "border-white"
+            isInteractive ? "border-purple-light" : "border-white"
           }`}
         />
         <span
           className={`absolute left-1/2 top-1/2 block h-px w-3 transition-colors duration-hover ease-editorial ${
-            isInteractive ? "bg-purple" : "bg-white"
+            isInteractive ? "bg-purple-light" : "bg-white"
           }`}
           style={{ transform: "translate(-50%, -50%)" }}
         />
         <span
           className={`absolute left-1/2 top-1/2 block h-3 w-px transition-colors duration-hover ease-editorial ${
-            isInteractive ? "bg-purple" : "bg-white"
+            isInteractive ? "bg-purple-light" : "bg-white"
           }`}
           style={{ transform: "translate(-50%, -50%)" }}
         />
         <span
           className={`absolute left-1/2 top-1/2 block h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full transition-colors duration-hover ease-editorial ${
-            isInteractive ? "bg-purple" : "bg-white"
+            isInteractive ? "bg-purple-light" : "bg-white"
           }`}
         />
       </div>

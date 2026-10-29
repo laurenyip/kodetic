@@ -2,11 +2,11 @@
 
 import InteractiveText from "@/components/InteractiveText";
 import LinenSheen from "@/components/LinenSheen";
-import { panelTransition, revealTransition } from "@/lib/motion";
+import { panelTransition } from "@/lib/motion";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const TOP_CATEGORIES = [
   { label: "MIXED MEDIA", href: "/mixed-media/" },
@@ -42,18 +42,18 @@ function NavLink({
       href={href}
       data-interactive="true"
       aria-current={isActive ? "page" : undefined}
-      className="tap-target-sm group relative justify-start bg-transparent px-0 py-1 md:px-1.5 md:py-1.5"
+      className="group relative inline-flex min-h-11 shrink-0 items-center justify-start bg-transparent px-1 md:min-h-8 md:px-1.5"
     >
       <span
         aria-hidden
-        className={`pointer-events-none absolute inset-x-0 bottom-0.5 h-px bg-purple transition-opacity duration-hover ease-editorial md:inset-x-0.5 ${
+        className={`pointer-events-none absolute inset-x-1 bottom-2 h-[2px] bg-purple transition-opacity duration-hover ease-editorial md:inset-x-1.5 md:bottom-1 ${
           isActive ? "opacity-100" : "opacity-0 group-hover:opacity-60"
         }`}
       />
       <InteractiveText
         as="span"
-        className={`relative z-[1] font-display text-[10px] font-semibold uppercase tracking-[0.1em] text-black md:text-[11px] md:tracking-[0.12em] ${
-          isActive ? "opacity-100" : "opacity-70"
+        className={`relative z-[1] whitespace-nowrap font-display text-[11px] font-semibold uppercase tracking-[0.1em] md:text-xs md:tracking-[0.12em] ${
+          isActive ? "text-purple" : "text-black opacity-80"
         }`}
       >
         {children}
@@ -65,39 +65,48 @@ function NavLink({
 export default function NavBar() {
   const pathname = usePathname() ?? "/";
   const [aboutOpen, setAboutOpen] = useState(false);
+  const headerRef = useRef<HTMLElement | null>(null);
   const isHome =
     pathname === "/" ||
     pathname === "" ||
     pathname.replace(/\/$/, "") === "";
 
   useEffect(() => {
+    setAboutOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
     if (!aboutOpen) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setAboutOpen(false);
     };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) {
+        setAboutOpen(false);
+      }
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
   }, [aboutOpen]);
 
   return (
-    <motion.header
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ ...revealTransition, delay: 0.2 }}
-      className="nav-canvas relative z-30 w-full text-black"
-    >
+    <header ref={headerRef} className="nav-canvas relative z-30 w-full text-black">
       <LinenSheen />
 
-      <div className="relative z-[1] flex flex-col items-stretch gap-2 px-3 py-3 md:flex-row md:items-center md:gap-3 md:px-5 md:py-3.5 lg:px-8">
-        <div className="flex w-full shrink-0 items-center justify-start gap-2 md:w-auto md:gap-3">
+      <div className="relative z-[1] flex flex-col items-stretch px-3 py-1.5 md:flex-row md:items-center md:gap-4 md:px-5 md:py-2.5 lg:px-8">
+        <div className="flex w-full shrink-0 items-center justify-start gap-3 md:w-auto">
           <Link
             href="/"
             data-interactive="true"
-            className="tap-target-sm inline-flex shrink-0 items-center justify-start"
+            className="inline-flex min-h-11 shrink-0 items-center justify-start md:min-h-8"
             aria-label="Kodetic home"
             aria-current={isHome ? "page" : undefined}
           >
-            <span className="font-display text-xs font-bold uppercase tracking-[0.14em] text-black md:text-sm md:tracking-[0.16em]">
+            <span className="font-display text-sm font-bold uppercase tracking-[0.14em] text-black md:tracking-[0.16em]">
               KODETIC
             </span>
           </Link>
@@ -106,15 +115,25 @@ export default function NavBar() {
             type="button"
             data-interactive="true"
             onClick={() => setAboutOpen((open) => !open)}
-            className="tap-target-sm shrink-0 border border-purple bg-white/55 px-2 py-1 font-display text-[10px] font-bold uppercase tracking-[0.12em] text-black transition-colors duration-hover ease-editorial hover:bg-purple/15 md:px-2.5 md:py-1 md:text-[11px]"
+            className={`group relative inline-flex min-h-11 min-w-[3.75rem] shrink-0 items-center justify-center px-1 font-display text-[11px] font-bold uppercase tracking-[0.12em] transition-colors duration-hover ease-editorial hover:text-purple md:min-h-8 md:text-xs ${
+              aboutOpen ? "text-purple" : "text-black"
+            }`}
             aria-expanded={aboutOpen}
+            aria-controls="about-panel"
           >
-            {aboutOpen ? "X" : "ABOUT"}
+            <span
+              aria-hidden
+              className={`pointer-events-none absolute inset-x-1 bottom-2 h-[2px] bg-purple transition-opacity duration-hover ease-editorial md:bottom-1 ${
+                aboutOpen ? "opacity-100" : "opacity-0 group-hover:opacity-60"
+              }`}
+            />
+            {aboutOpen ? "CLOSE" : "ABOUT"}
           </button>
         </div>
 
+        {/* One row on every width; on phones it scrolls sideways instead of wrapping onto three lines. */}
         <nav
-          className="flex w-full min-w-0 flex-wrap items-center justify-start gap-x-3 gap-y-0.5 md:flex-1 md:justify-end md:gap-x-3"
+          className="-mx-3 flex min-w-0 items-center gap-x-3 overflow-x-auto px-3 [mask-image:linear-gradient(to_right,#000_calc(100%-1.5rem),transparent)] [scrollbar-width:none] md:mx-0 md:flex-1 md:justify-end md:overflow-visible md:px-0 md:[mask-image:none] [&::-webkit-scrollbar]:hidden"
           aria-label="Primary"
         >
           {TOP_CATEGORIES.map((item) => (
@@ -129,20 +148,22 @@ export default function NavBar() {
         </nav>
       </div>
 
+      {/* Drops over the page instead of growing the sticky header. */}
       <AnimatePresence>
         {aboutOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            id="about-panel"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
             transition={panelTransition}
-            className="relative z-[1] overflow-hidden border-t border-black/10"
+            className="nav-canvas absolute inset-x-0 top-full z-[2] max-h-[min(70vh,34rem)] overflow-y-auto border-t border-black/10 shadow-[0_18px_40px_rgba(0,0,0,0.45)]"
           >
-            <div className="relative px-4 pt-6 pb-12 md:px-8 md:pt-8 md:pb-16">
-              <p className="font-display text-[10px] uppercase tracking-[0.22em] text-purple md:text-xs">
+            <div className="relative px-4 pt-6 pb-10 md:px-8 md:pt-8 md:pb-12">
+              <h2 className="font-display text-xs uppercase tracking-[0.22em] text-purple">
                 About
-              </p>
-              <div className="mt-3 max-w-2xl space-y-3.5 font-sans text-xs font-normal leading-relaxed tracking-[0.02em] text-black/85 md:text-sm">
+              </h2>
+              <div className="mt-3 max-w-2xl space-y-3.5 font-sans text-sm font-normal leading-relaxed tracking-[0.02em] text-black/85">
                 {ABOUT_PARAGRAPHS.map((paragraph) => (
                   <p key={paragraph.slice(0, 32)}>{paragraph}</p>
                 ))}
@@ -151,6 +172,6 @@ export default function NavBar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }

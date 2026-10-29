@@ -23,6 +23,8 @@ export type GalleryImage = {
   rowStart?: boolean;
   /** Width / height — used for equal-height rows */
   aspect?: number;
+  /** Describes what is in the photo, for screen readers */
+  alt?: string;
 };
 
 export const landingImages: GalleryImage[] = [
@@ -32,7 +34,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-1.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model in a sheer black lace top and lace flared trousers against a white studio backdrop"
   },
   {
     "id": "home-landing-page-photos-2",
@@ -40,7 +43,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-2.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model mid-jump in an oversized black blazer, shorts and black boots against a white backdrop"
   },
   {
     "id": "home-landing-page-photos-3",
@@ -48,7 +52,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-3.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model leaping in a black tulle dress and long black gloves against a white backdrop"
   },
   {
     "id": "home-landing-page-photos-5",
@@ -56,7 +61,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-5.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model in a black corset, tulle skirt and lace gloves posing against a white backdrop"
   },
   {
     "id": "home-landing-page-photos-4",
@@ -64,7 +70,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-4.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model with platinum hair in a black crop top and wide black trousers, hand on hip, against white"
   },
   {
     "id": "home-landing-page-photos-11",
@@ -72,7 +79,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-11.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model in a red lace cut-out dress and red tights before a red velvet curtain"
   },
   {
     "id": "home-landing-page-photos-12",
@@ -80,7 +88,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-12.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model in a backless red lace gown, looking back over the shoulder, before a red curtain"
   },
   {
     "id": "home-landing-page-photos-8",
@@ -88,7 +97,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-8.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model in a sheer black veil and tiered black lace dress against a white backdrop"
   },
   {
     "id": "home-landing-page-photos-10",
@@ -96,7 +106,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-10.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model with a halo prop in a black corset-collar top and long blue skirt before a red curtain"
   },
   {
     "id": "home-landing-page-photos-9",
@@ -104,7 +115,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-9.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model with a halo prop in a black crop top and red satin skirt before a red curtain"
   },
   {
     "id": "home-landing-page-photos-14",
@@ -112,7 +124,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-14.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Musician mid-strum on a white guitar, hair flying, in a black tutu on a dark backdrop"
   },
   {
     "id": "home-landing-page-photos-star",
@@ -120,7 +133,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-star.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Portrait in a sequined blue top framed by a glowing halo and star graphics"
   },
   {
     "id": "home-landing-page-photos-6",
@@ -128,7 +142,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-6.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model in a black tank and grey flared jeans beneath a pink NANA title graphic"
   },
   {
     "id": "home-landing-page-photos-7",
@@ -136,7 +151,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-7.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model in a black Stüssy tee in front of a graffiti-style Stüssy logo collage"
   },
   {
     "id": "home-landing-page-photos-13",
@@ -144,7 +160,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-page-photos-13.webp",
     "name": "LANDING",
     "description": "Home selection",
-    "category": "home"
+    "category": "home",
+    "alt": "Model with a halo prop in a black tutu and white socks on a dark backdrop"
   },
   {
     "id": "home-landing-margiela-spread",
@@ -152,7 +169,8 @@ export const landingImages: GalleryImage[] = [
     "fullSrc": "/images/landing/landing-margiela-spread.webp",
     "name": "MAISON MARGIELA",
     "description": "Landing spread",
-    "category": "home"
+    "category": "home",
+    "alt": "Two-page Maison Martin Margiela collage: models in beige trench coats, white shirts and black skirts posed around yellow chairs and the house's number-grid label"
   }
 ];
 

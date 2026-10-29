@@ -12,7 +12,11 @@ const config: Config = {
         black: "#000000",
         white: "#FFFFFF",
         red: "#E8281A",
-        purple: "#6B3FA0",
+        /** DEFAULT on the light linen nav/footer; `light` on the black canvas, where the deep tone disappears */
+        purple: {
+          DEFAULT: "#6B3FA0",
+          light: "#B79BE0",
+        },
         ash: "#1a181c",
         mist: "#2a262e",
         violet: {
