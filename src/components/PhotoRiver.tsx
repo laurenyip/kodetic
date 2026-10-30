@@ -164,7 +164,7 @@ export default function PhotoRiver({
 
   return (
     <section className="w-full overflow-x-clip overflow-y-visible bg-transparent">
-      <div className="h-[1.05cm] w-full touch-pan-x overflow-x-clip overflow-y-visible md:h-[1.2cm]">
+      <div className="h-[1.05cm] w-full touch-pan-y overflow-x-clip overflow-y-visible md:h-[1.2cm]">
         <motion.div
           ref={trackRef}
           className="flex h-full w-max items-stretch bg-transparent"

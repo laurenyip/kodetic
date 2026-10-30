@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Red_Hat_Display } from "next/font/google";
 import SiteChrome from "@/components/SiteChrome";
@@ -30,6 +30,16 @@ export const metadata: Metadata = {
     icon: [{ url: withBasePath("/logo.png"), type: "image/png" }],
     apple: [{ url: withBasePath("/logo.png"), type: "image/png" }],
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  interactiveWidget: "resizes-content",
+  // Matches the linen header, the colour at the very top of the page.
+  themeColor: "#f7f6f3",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({

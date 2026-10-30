@@ -48,7 +48,7 @@ export default function BackToTop() {
           onClick={scrollToTop}
           data-interactive="true"
           aria-label="Back to top"
-          className="top-button tap-target group fixed bottom-5 right-5 z-30 gap-2 px-3.5 py-2 font-display text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors duration-hover ease-editorial md:bottom-6 md:right-6 md:px-4 md:py-2.5 md:text-[11px]"
+          className="top-button tap-target group fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] right-[calc(1.25rem+env(safe-area-inset-right,0px))] z-30 gap-2 px-3.5 py-2 font-display text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors duration-hover ease-editorial md:bottom-[calc(1.5rem+env(safe-area-inset-bottom,0px))] md:right-[calc(1.5rem+env(safe-area-inset-right,0px))] md:px-4 md:py-2.5 md:text-[11px]"
         >
           <ArrowUp
             aria-hidden

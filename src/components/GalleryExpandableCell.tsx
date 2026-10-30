@@ -178,13 +178,13 @@ function ExpandedOverlay({
         animate={{ opacity: 1 }}
         transition={panelTransition}
         onClick={onClose}
-        className="fixed inset-0 z-[54] bg-black/75"
+        className="fixed inset-0 z-[54] touch-none bg-black/75"
       />
       <div
         role="dialog"
         aria-modal="true"
         aria-label={alt}
-        className="fixed z-[55] overflow-hidden bg-black/90 shadow-[0_24px_60px_rgba(0,0,0,0.65)]"
+        className="fixed z-[55] touch-pinch-zoom overflow-hidden bg-black/90 shadow-[0_24px_60px_rgba(0,0,0,0.65)]"
         style={{
           left: frame.left,
           top: frame.top,
@@ -198,7 +198,7 @@ function ExpandedOverlay({
             tabIndex={0}
             role="group"
             aria-label="Wide image. Scroll or use the arrow keys to pan."
-            className="h-full w-full cursor-grab overflow-x-auto overflow-y-hidden overscroll-x-contain [scrollbar-width:thin] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-purple-light active:cursor-grabbing"
+            className="h-full w-full cursor-grab touch-pan-x overflow-x-auto overflow-y-hidden overscroll-contain [scrollbar-width:thin] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-purple-light active:cursor-grabbing"
             onWheel={(event) => {
               if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
                 event.currentTarget.scrollLeft += event.deltaY;
@@ -389,8 +389,13 @@ export default function GalleryExpandableCell({
           scale: isHovered && !isExpanded ? hoverTransition : panelTransition,
           delay: animateEntrance ? Math.min(index * 0.02, 0.2) : 0,
         }}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
+        // Pointer events, not mouse: a tap must not leave the frame stuck in its hover state.
+        onPointerEnter={(event) => {
+          if (event.pointerType === "mouse") onMouseEnter();
+        }}
+        onPointerLeave={(event) => {
+          if (event.pointerType === "mouse") onMouseLeave();
+        }}
         style={
           matchRowHeight
             ? { ["--row-flex" as string]: aspect }
@@ -416,7 +421,9 @@ export default function GalleryExpandableCell({
           ref={triggerRef}
           type="button"
           onClick={handleClick}
-          onFocus={onMouseEnter}
+          onFocus={(event) => {
+            if (event.currentTarget.matches(":focus-visible")) onMouseEnter();
+          }}
           onBlur={onMouseLeave}
           aria-haspopup="dialog"
           aria-label={`View larger: ${alt}`}
@@ -509,7 +516,7 @@ export default function GalleryExpandableCell({
 
           <span
             aria-hidden
-            className="pointer-events-none absolute right-2 top-2 flex h-7 w-7 items-center justify-center bg-black/60 text-purple-light opacity-0 transition-opacity duration-hover ease-editorial group-hover:opacity-100 group-focus-within:opacity-100"
+            className="pointer-events-none absolute right-2 top-2 flex h-7 w-7 items-center justify-center bg-black/60 text-purple-light opacity-0 transition-opacity duration-hover ease-editorial group-hover:opacity-100 group-has-[:focus-visible]:opacity-100"
           >
             <Maximize2 className="h-3.5 w-3.5 stroke-[1.8]" />
           </span>

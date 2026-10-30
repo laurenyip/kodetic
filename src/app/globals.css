@@ -24,6 +24,31 @@
   html {
     scroll-behavior: smooth;
     overflow-x: clip;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Fires taps immediately instead of waiting to see if it's a double-tap zoom. */
+  a,
+  button,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+
+  /* Controls, not content: long-press shouldn't select their labels. */
+  button,
+  [role="button"],
+  nav a {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* The tap highlight is gone, so every tappable answers the instant a finger lands. */
+  a:active,
+  button:active,
+  [role="button"]:active {
+    opacity: 0.7;
   }
 
   body {
@@ -638,8 +663,10 @@
     animation: logo-marquee 42s linear infinite;
   }
 
-  .logo-marquee:hover {
-    animation-play-state: paused;
+  @media (hover: hover) and (pointer: fine) {
+    .logo-marquee:hover {
+      animation-play-state: paused;
+    }
   }
 
   .top-button {
@@ -667,13 +694,15 @@
     opacity: 0.75;
   }
 
-  .top-button:hover {
-    border-color: #6b3fa0;
-    color: #6b3fa0;
-  }
+  @media (hover: hover) and (pointer: fine) {
+    .top-button:hover {
+      border-color: #6b3fa0;
+      color: #6b3fa0;
+    }
 
-  .top-button:hover::before {
-    opacity: 1;
+    .top-button:hover::before {
+      opacity: 1;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

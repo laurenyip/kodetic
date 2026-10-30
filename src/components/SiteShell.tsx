@@ -11,7 +11,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
       {/* data-site-shell: the gallery dialog marks this inert while it is open */}
       <div
         data-site-shell
-        className="relative z-10 flex min-h-screen w-full flex-col overflow-x-clip"
+        className="relative z-10 flex min-h-svh w-full flex-col overflow-x-clip"
       >
         <div
           data-site-header
@@ -20,7 +20,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
           <NavBar />
         </div>
 
-        <main className="relative z-0 w-full min-h-[100vh] flex-1">{children}</main>
+        <main className="relative z-0 w-full min-h-svh flex-1 pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]">{children}</main>
 
         <Footer />
         <BackToTop />
