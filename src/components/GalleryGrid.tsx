@@ -3,6 +3,10 @@
 import GalleryExpandableCell from "@/components/GalleryExpandableCell";
 import type { GalleryImage } from "@/data/gallery";
 import type { PhotoRiverCategory } from "@/data/images";
+import { useDevDataMode } from "@/dev/DataToggle";
+import { photoLabel } from "@/lib/utils";
+import Link from "next/link";
+import { devImages } from "@/dev/worstCase";
 import { useGalleryExpand } from "@/lib/use-gallery-expand";
 import { useMemo } from "react";
 
@@ -90,6 +94,7 @@ function PhotoGrid({
         <GalleryExpandableCell
           key={image.id}
           image={image}
+          label={photoLabel(image.name, index + 1, images.length)}
           index={startIndex + index}
           isHovered={hoveredId === image.id}
           isExpanded={expandedId === image.id}
@@ -106,7 +111,15 @@ function PhotoGrid({
   );
 }
 
-export default function GalleryGrid({ images, category }: GalleryGridProps) {
+export default function GalleryGrid({
+  images: sourceImages,
+  category,
+}: GalleryGridProps) {
+  const devMode = useDevDataMode();
+  const images = useMemo(
+    () => devImages(sourceImages, devMode),
+    [sourceImages, devMode],
+  );
   const {
     hoveredId,
     setHoveredId,
@@ -141,7 +154,22 @@ export default function GalleryGrid({ images, category }: GalleryGridProps) {
   return (
     <section className="relative w-full">
       <div key={category} className="pt-6 pb-16 md:pt-8 md:pb-24">
-        {homeLayout ? (
+        {visibleImages.length === 0 ? (
+          <div className="flex min-h-[50svh] flex-col items-center justify-center gap-4 px-5 text-center">
+            <p className="font-display text-sm uppercase tracking-[0.16em] text-white/75">
+              Nothing here yet
+            </p>
+            {category !== "home" && (
+              <Link
+                href="/"
+                data-interactive="true"
+                className="inline-flex min-h-11 items-center font-sans text-sm text-white/75 underline underline-offset-4 transition-colors duration-hover ease-editorial hover:text-purple-light"
+              >
+                See all work
+              </Link>
+            )}
+          </div>
+        ) : homeLayout ? (
           <div className="flex flex-col gap-8 md:gap-10">
             <h1 className="sr-only">Kodetic: selected photography</h1>
             <PhotoGrid

@@ -1,6 +1,7 @@
 "use client";
 
 import BackToTop from "@/components/BackToTop";
+import DataToggle from "@/dev/DataToggle";
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
 import { MotionConfig } from "framer-motion";
@@ -24,6 +25,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
 
         <Footer />
         <BackToTop />
+        <DataToggle />
       </div>
     </MotionConfig>
   );

@@ -3,6 +3,7 @@
 import GalleryExpandableCell from "@/components/GalleryExpandableCell";
 import type { GalleryImage } from "@/data/gallery";
 import { useGalleryExpand } from "@/lib/use-gallery-expand";
+import { photoLabel } from "@/lib/utils";
 
 type MixedMediaGridProps = {
   images: GalleryImage[];
@@ -77,6 +78,11 @@ export default function MixedMediaGrid({ images }: MixedMediaGridProps) {
                   <GalleryExpandableCell
                     key={image.id}
                     image={image}
+                    label={photoLabel(
+                      image.name,
+                      startIndex + index + 1,
+                      images.length,
+                    )}
                     index={startIndex + index}
                     isHovered={hoveredId === image.id}
                     isExpanded={expandedId === image.id}

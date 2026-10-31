@@ -705,6 +705,23 @@
     }
   }
 
+  /*
+   * Phones: blended, full-screen layers make the GPU re-composite the whole
+   * viewport every frame. Keep the texture, stop the drift.
+   */
+  @media (pointer: coarse) {
+    .canvas-sand,
+    .canvas-flow,
+    .canvas-weave,
+    .linen-drift-sand,
+    .nav-canvas::before,
+    .nav-canvas::after,
+    .footer-canvas::before,
+    .footer-canvas::after {
+      animation: none;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .black-canvas-world::before,
     .black-canvas-world::after,

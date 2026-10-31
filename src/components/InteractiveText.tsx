@@ -19,7 +19,7 @@ export default function InteractiveText({
   ...aria
 }: InteractiveTextProps) {
   const classes = cn(
-    "inline-block uppercase transition-all duration-hover ease-editorial",
+    "inline-block uppercase transition-colors duration-hover ease-editorial",
     "hover:text-purple",
     as === "button" && "border-0 bg-transparent p-0",
     className,

@@ -16,6 +16,8 @@ import { createPortal } from "react-dom";
 
 type GalleryExpandableCellProps = {
   image: GalleryImage;
+  /** Screen-reader name when the photo has no alt text of its own */
+  label?: string;
   index: number;
   isHovered: boolean;
   isExpanded: boolean;
@@ -98,6 +100,14 @@ function fitExpandedFrame(aspect: number): ExpandedFrame {
   };
 }
 
+function PhotoUnavailable() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-white/[0.04] p-3 text-center font-sans text-xs text-white/60">
+      Photo unavailable
+    </div>
+  );
+}
+
 function ExpandedOverlay({
   image,
   alt,
@@ -116,6 +126,8 @@ function ExpandedOverlay({
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const panRef = useRef<HTMLDivElement | null>(null);
   const drag = useRef<{ x: number; scroll: number } | null>(null);
+  const [failed, setFailed] = useState(false);
+  const note = image.note?.trim() ?? "";
 
   useLayoutEffect(() => {
     setFrame(fitExpandedFrame(aspect));
@@ -192,7 +204,9 @@ function ExpandedOverlay({
           height: frame.height,
         }}
       >
-        {pans ? (
+        {failed ? (
+          <PhotoUnavailable />
+        ) : pans ? (
           <div
             ref={panRef}
             tabIndex={0}
@@ -234,6 +248,7 @@ function ExpandedOverlay({
                 priority
                 draggable={false}
                 sizes={`${Math.round(frame.contentWidth)}px`}
+                onError={() => setFailed(true)}
                 className="select-none object-cover"
               />
             </div>
@@ -245,23 +260,18 @@ function ExpandedOverlay({
             fill
             priority
             sizes={`${Math.round(frame.width)}px`}
+            onError={() => setFailed(true)}
             className="object-contain object-center"
           />
         )}
       </div>
-      {pans && (
-        <p
-          className="pointer-events-none fixed z-[56] -translate-x-1/2 font-display text-[11px] uppercase tracking-[0.16em] text-white/75"
-          style={{
-            left: "50%",
-            top: Math.min(
-              window.innerHeight - 28,
-              frame.top + frame.height + 12,
-            ),
-          }}
-        >
-          Drag or scroll sideways to see the full spread
-        </p>
+      {(pans || note) && (
+        <div className="pointer-events-none fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom,0px))] z-[56] flex flex-col items-center gap-1 text-center font-display text-[11px] uppercase tracking-[0.16em] text-white/75">
+          {note && (
+            <p className="max-w-2xl bg-black/75 px-3 py-2 text-white/85">{note}</p>
+          )}
+          {pans && <p>Drag or scroll sideways to see the full spread</p>}
+        </div>
       )}
       <button
         ref={closeRef}
@@ -282,6 +292,7 @@ function ExpandedOverlay({
 
 export default function GalleryExpandableCell({
   image,
+  label,
   index,
   isHovered,
   isExpanded,
@@ -305,6 +316,7 @@ export default function GalleryExpandableCell({
     null,
   );
   const [portalReady, setPortalReady] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => setPortalReady(true), []);
 
@@ -322,16 +334,13 @@ export default function GalleryExpandableCell({
   const aspect = natural
     ? natural.w / natural.h
     : (image.aspect ?? (fullRow ? 2.2 : 4 / 5));
-  const alt = image.alt?.trim() || image.name;
+  // Letterbox panoramas in a grid slot; a 4:1 image would otherwise be a thin strip.
+  const slotAspect = fullRow || matchRowHeight ? aspect : Math.min(aspect, 2);
+  const alt = image.alt?.trim() || label || image.name.trim() || "Photo";
 
   const riverStyles = hasRiverFocus
     ? GALLERY_HIGHLIGHT_STYLES[highlight]
     : GALLERY_HIGHLIGHT_STYLES.primary;
-
-  const fadeWhileSiblingExpanded =
-    hasExpandedSibling && !isExpanded
-      ? { opacity: 0.08, filter: "brightness(0.35) saturate(0.15)", scale: 0.98 }
-      : null;
 
   const subtleHover =
     isHovered && !isExpanded && !hasExpandedSibling
@@ -339,7 +348,7 @@ export default function GalleryExpandableCell({
       : null;
 
   const handleClick = () => {
-    if (image.placeholder || isExpanded) return;
+    if (image.placeholder || isExpanded || failed) return;
     onExpand();
   };
 
@@ -359,8 +368,7 @@ export default function GalleryExpandableCell({
     );
   }
 
-  const motionState =
-    fadeWhileSiblingExpanded ?? subtleHover ?? riverStyles;
+  const motionState = subtleHover ?? riverStyles;
 
   const animateEntrance = index < 18 && !hasRiverFocus && !hasExpandedSibling;
   const note = image.note?.trim() ?? "";
@@ -401,7 +409,7 @@ export default function GalleryExpandableCell({
             ? { ["--row-flex" as string]: aspect }
             : spanFull || caption
               ? undefined
-              : { aspectRatio: `${aspect}` }
+              : { aspectRatio: `${slotAspect}` }
         }
         className={`group relative w-full scroll-mt-32 bg-transparent ${
           isExpanded ? "pointer-events-none" : ""
@@ -425,8 +433,9 @@ export default function GalleryExpandableCell({
             if (event.currentTarget.matches(":focus-visible")) onMouseEnter();
           }}
           onBlur={onMouseLeave}
+          disabled={failed}
           aria-haspopup="dialog"
-          aria-label={`View larger: ${alt}`}
+          aria-label={failed ? `${alt}, unavailable` : `View larger: ${alt}`}
           className="relative block h-full w-full cursor-crosshair text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple-light"
         >
           {spanFull ? (
@@ -438,7 +447,9 @@ export default function GalleryExpandableCell({
                     className={`relative w-full overflow-hidden ${frameShadow}`}
                     style={{ aspectRatio: `${Math.max(aspect / 2, 0.55)}` }}
                   >
-                    {shouldLoadImage ? (
+                    {failed ? (
+                <PhotoUnavailable />
+              ) : shouldLoadImage ? (
                       <div
                         className={`absolute inset-y-0 w-[200%] ${
                           side === "left" ? "left-0" : "right-0"
@@ -451,6 +462,7 @@ export default function GalleryExpandableCell({
                           loading="lazy"
                           sizes="200vw"
                           onLoad={(event) => handleNaturalSize(event.currentTarget)}
+                  onError={() => setFailed(true)}
                           className={`object-cover ${
                             side === "left" ? "object-left" : "object-right"
                           }`}
@@ -466,7 +478,9 @@ export default function GalleryExpandableCell({
                 className={`relative hidden w-full overflow-hidden sm:block ${frameShadow}`}
                 style={{ aspectRatio: `${aspect}` }}
               >
-                {shouldLoadImage ? (
+                {failed ? (
+                <PhotoUnavailable />
+              ) : shouldLoadImage ? (
                   <Image
                     src={withBasePath(image.src)}
                     alt={alt}
@@ -474,6 +488,7 @@ export default function GalleryExpandableCell({
                     loading="lazy"
                     sizes="(max-width: 1400px) 94vw, 1400px"
                     onLoad={(event) => handleNaturalSize(event.currentTarget)}
+                  onError={() => setFailed(true)}
                     className="object-contain object-center"
                   />
                 ) : (
@@ -488,11 +503,13 @@ export default function GalleryExpandableCell({
               }`}
               style={
                 matchRowHeight || caption
-                  ? { aspectRatio: `${aspect}` }
+                  ? { aspectRatio: `${slotAspect}` }
                   : undefined
               }
             >
-              {shouldLoadImage ? (
+              {failed ? (
+                <PhotoUnavailable />
+              ) : shouldLoadImage ? (
                 <Image
                   src={withBasePath(image.src)}
                   alt={alt}
@@ -506,6 +523,7 @@ export default function GalleryExpandableCell({
                         : "(max-width: 640px) 90vw, (max-width: 1024px) 40vw, 22rem"
                   }
                   onLoad={(event) => handleNaturalSize(event.currentTarget)}
+                  onError={() => setFailed(true)}
                   className="object-contain object-center"
                 />
               ) : (
@@ -516,7 +534,9 @@ export default function GalleryExpandableCell({
 
           <span
             aria-hidden
-            className="pointer-events-none absolute right-2 top-2 flex h-7 w-7 items-center justify-center bg-black/60 text-purple-light opacity-0 transition-opacity duration-hover ease-editorial group-hover:opacity-100 group-has-[:focus-visible]:opacity-100"
+            className={`pointer-events-none absolute right-2 top-2 h-7 w-7 items-center justify-center bg-black/60 text-purple-light opacity-0 transition-opacity duration-hover ease-editorial group-hover:opacity-100 group-has-[:focus-visible]:opacity-100 ${
+              failed ? "hidden" : "flex"
+            }`}
           >
             <Maximize2 className="h-3.5 w-3.5 stroke-[1.8]" />
           </span>
@@ -524,7 +544,10 @@ export default function GalleryExpandableCell({
 
         {caption && (
           <figcaption className="mt-3 w-full">
-            <p className="font-display text-xs uppercase tracking-[0.16em] text-white/70 md:text-sm">
+            <p
+              title={caption}
+              className="line-clamp-2 font-display text-xs uppercase tracking-[0.16em] text-white/70 md:text-sm"
+            >
               {caption}
             </p>
           </figcaption>

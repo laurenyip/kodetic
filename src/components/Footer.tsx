@@ -44,11 +44,11 @@ export default function Footer() {
             </a>
           </div>
 
-          <div className="flex items-center justify-start gap-3 md:gap-4">
+          <div className="flex min-w-0 max-w-full items-center justify-start gap-3 md:gap-4">
             <a
               href="mailto:kodeticmedia@gmail.com"
               data-interactive="true"
-              className="relative font-sans text-sm font-medium uppercase tracking-[0.16em] text-black transition-all duration-hover ease-editorial after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:origin-left after:scale-x-0 after:bg-purple after:transition-transform after:duration-hover after:ease-editorial hover:tracking-[0.2em] hover:after:scale-x-100 md:text-base"
+              className="relative min-w-0 font-sans text-sm font-medium uppercase tracking-[0.16em] text-black [overflow-wrap:anywhere] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-px after:origin-left after:scale-x-0 after:bg-purple after:transition-transform after:duration-hover after:ease-editorial hover:after:scale-x-100 md:text-base"
             >
               kodeticmedia@gmail.com
             </a>
