@@ -11,7 +11,7 @@ import { hoverTransition, panelTransition } from "@/lib/motion";
 import { motion } from "framer-motion";
 import { Maximize2, X } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
 type GalleryExpandableCellProps = {
@@ -56,9 +56,9 @@ const PAN_ASPECT = 1.6;
 
 const FOCUSABLE = 'button, [href], [tabindex]:not([tabindex="-1"])';
 
-function fitExpandedFrame(aspect: number): ExpandedFrame {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
+const subscribeToNothing = () => () => {};
+
+function fitExpandedFrame(aspect: number, vw: number, vh: number): ExpandedFrame {
   const closeInside = vw < 768;
   const availableWidth =
     vw - PAD * 2 - (closeInside ? 0 : (CLOSE_SIZE + CLOSE_GAP) * 2);
@@ -119,9 +119,11 @@ function ExpandedOverlay({
   aspect: number;
   onClose: () => void;
 }) {
-  const [frame, setFrame] = useState<ExpandedFrame>(() =>
-    fitExpandedFrame(aspect),
-  );
+  const [viewport, setViewport] = useState(() => ({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  }));
+  const frame = fitExpandedFrame(aspect, viewport.width, viewport.height);
   const rootRef = useRef<HTMLDivElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const panRef = useRef<HTMLDivElement | null>(null);
@@ -129,15 +131,12 @@ function ExpandedOverlay({
   const [failed, setFailed] = useState(false);
   const note = image.note?.trim() ?? "";
 
-  useLayoutEffect(() => {
-    setFrame(fitExpandedFrame(aspect));
-  }, [aspect]);
-
   useEffect(() => {
-    const onResize = () => setFrame(fitExpandedFrame(aspect));
+    const onResize = () =>
+      setViewport({ width: window.innerWidth, height: window.innerHeight });
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [aspect]);
+  }, []);
 
   // Modal: everything behind the dialog is inert, focus starts on Close and stays inside.
   useEffect(() => {
@@ -315,10 +314,13 @@ export default function GalleryExpandableCell({
   const [natural, setNatural] = useState<{ w: number; h: number } | null>(
     null,
   );
-  const [portalReady, setPortalReady] = useState(false);
+  // False during server render, true once on the client, where document.body exists.
+  const portalReady = useSyncExternalStore(
+    subscribeToNothing,
+    () => true,
+    () => false,
+  );
   const [failed, setFailed] = useState(false);
-
-  useEffect(() => setPortalReady(true), []);
 
   // Return focus to the photo that opened the dialog.
   useEffect(() => {

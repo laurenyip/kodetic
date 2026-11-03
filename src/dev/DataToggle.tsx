@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 const MODES = [
   ["demo", "Demo data"],
@@ -10,15 +10,16 @@ const MODES = [
   ["huge", "300 photos"],
 ] as const;
 
+const subscribeToNothing = () => () => {};
+
+function readMode() {
+  if (process.env.NODE_ENV !== "development") return "demo";
+  return new URLSearchParams(window.location.search).get("data") ?? "demo";
+}
+
+/** The ?data= mode; always "demo" on the server and in production. */
 export function useDevDataMode() {
-  const [mode, setMode] = useState("demo");
-
-  useEffect(() => {
-    if (process.env.NODE_ENV !== "development") return;
-    setMode(new URLSearchParams(window.location.search).get("data") ?? "demo");
-  }, []);
-
-  return mode;
+  return useSyncExternalStore(subscribeToNothing, readMode, () => "demo");
 }
 
 /** Dev-only switch for the worst-case fixtures. Plain chrome, not part of the design. */

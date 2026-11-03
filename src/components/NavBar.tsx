@@ -64,7 +64,9 @@ function NavLink({
 
 export default function NavBar() {
   const pathname = usePathname() ?? "/";
-  const [aboutOpen, setAboutOpen] = useState(false);
+  // Remembers which page About was opened on, so navigating away closes it.
+  const [aboutPath, setAboutPath] = useState<string | null>(null);
+  const aboutOpen = aboutPath === pathname;
   const headerRef = useRef<HTMLDivElement | null>(null);
   const isHome =
     pathname === "/" ||
@@ -72,17 +74,13 @@ export default function NavBar() {
     pathname.replace(/\/$/, "") === "";
 
   useEffect(() => {
-    setAboutOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
     if (!aboutOpen) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setAboutOpen(false);
+      if (event.key === "Escape") setAboutPath(null);
     };
     const onPointerDown = (event: PointerEvent) => {
       if (!headerRef.current?.contains(event.target as Node)) {
-        setAboutOpen(false);
+        setAboutPath(null);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -115,7 +113,7 @@ export default function NavBar() {
             <button
               type="button"
               data-interactive="true"
-              onClick={() => setAboutOpen((open) => !open)}
+              onClick={() => setAboutPath(aboutOpen ? null : pathname)}
               className={`group relative inline-flex min-h-11 min-w-[3.75rem] shrink-0 items-center justify-center px-1 font-display text-[11px] font-bold uppercase tracking-[0.12em] transition-colors duration-hover ease-editorial hover:text-purple md:min-h-8 md:text-xs ${
                 aboutOpen ? "text-purple" : "text-black"
               }`}

@@ -59,7 +59,10 @@ export default function MixedMediaGrid({ images }: MixedMediaGridProps) {
   } = useGalleryExpand();
 
   const rows = toRows(images);
-  let indexOffset = 0;
+  // Index of each row's first image across the whole board.
+  const rowStarts = rows.map((_, i) =>
+    rows.slice(0, i).reduce((count, row) => count + row.images.length, 0),
+  );
 
   return (
     <section className="relative w-full">
@@ -67,8 +70,7 @@ export default function MixedMediaGrid({ images }: MixedMediaGridProps) {
       <div className="mx-auto w-full max-w-[1500px] px-5 md:px-8">
         <div className="flex flex-col gap-6 pt-6 pb-16 sm:gap-8 md:gap-10 md:pt-8 md:pb-24">
           {rows.map((row, rowIndex) => {
-            const startIndex = indexOffset;
-            indexOffset += row.images.length;
+            const startIndex = rowStarts[rowIndex];
             return (
               <div
                 key={`row-${rowIndex}`}
