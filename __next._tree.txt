@@ -4,4 +4,4 @@
 :HL["/kodetic/_next/static/media/b4bcbef9f06f9735-s.p.37az_hml-lcqo.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"(site)","h":96,"c":"$Q2"}]]
-0:{"b":"wbeyzETgjEGesCVICC_IF","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"oAwG-nre3eLXM-W3pTAxM","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
