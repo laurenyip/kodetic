@@ -1,0 +1,8 @@
+:HL["/kodetic/_next/static/chunks/33f6vay02r2bh.css","style"]
+:HL["/kodetic/_next/static/media/Zodiak_400-s.p.2-nv9tq1lis0n.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/kodetic/_next/static/media/Zodiak_700-s.p.38q5hkq7af0fa.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/kodetic/_next/static/media/b4bcbef9f06f9735-s.p.37az_hml-lcqo.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+3:[["children",{"s":"__PAGE__","h":160}]]
+2:[["children",{"s":"cosplay","h":96,"c":"$Q3"}]]
+1:[["children",{"s":"(site)","h":96,"c":"$Q2"}]]
+0:{"b":"wbeyzETgjEGesCVICC_IF","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
